@@ -1,12 +1,12 @@
-package jayray.net;
+package applets.etsmtl.ca;
 
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
 import javax.xml.bind.JAXBContext;
 
-import jayray.net.orders.Address;
-import jayray.net.orders.Customer;
-import jayray.net.orders.CustomerResource;
+import applets.etsmtl.ca.orders.Address;
+import applets.etsmtl.ca.orders.Customer;
+import applets.etsmtl.ca.orders.CustomerResource;
 
 import com.sun.jersey.api.json.JSONConfiguration;
 import com.sun.jersey.api.json.JSONJAXBContext;

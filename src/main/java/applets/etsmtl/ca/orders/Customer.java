@@ -1,4 +1,4 @@
-package jayray.net.orders;
+package applets.etsmtl.ca.orders;
 
 import java.util.ArrayList;
 import java.util.List;

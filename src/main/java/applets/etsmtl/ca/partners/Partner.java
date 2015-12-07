@@ -1,4 +1,4 @@
-package jayray.net.partners;
+package applets.etsmtl.ca.partners;
 
 import javax.xml.bind.annotation.XmlRootElement;
 

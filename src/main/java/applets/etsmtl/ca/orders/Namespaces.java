@@ -1,4 +1,4 @@
-package jayray.net.orders;
+package applets.etsmtl.ca.orders;
 
 public class Namespaces {
 	private Namespaces() {

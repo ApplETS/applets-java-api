@@ -1,4 +1,4 @@
-package jayray.net.orders;
+package applets.etsmtl.ca.orders;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

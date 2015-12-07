@@ -1,4 +1,4 @@
-package jayray.net.hello;
+package applets.etsmtl.ca.hello;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
