@@ -3,6 +3,10 @@ package applets.etsmtl.ca.partners;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Ehcache;
+import org.codehaus.jackson.map.annotate.JsonCachable;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -13,6 +17,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,9 +31,18 @@ public class PartnersResource {
     String PARTNERS_URL = "http://www.clubapplets.ca/partenaires";
     String COL_MD_REGEX = "^col-sm-([0-9])$";
 
+
     @GET
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public ArrayList<Partner> getPartners() {
+
+        CacheManager cacheManager = CacheManager.getInstance();
+        Cache cache = cacheManager.getCache("partners");
+
+        net.sf.ehcache.Element element = cache.get("partners");
+        if (element != null) {
+            return (ArrayList<Partner>) element.getObjectValue();
+        }
 
         OkHttpClient client = new OkHttpClient();
 
@@ -48,11 +62,10 @@ public class PartnersResource {
 
             Pattern p = Pattern.compile(COL_MD_REGEX);
 
-
             for (Element div : partnersDivs) {
                 Matcher matcher = p.matcher(div.attr("class"));
                 int index = 0;
-                if(matcher.find()) {
+                if (matcher.find()) {
                     index = Integer.valueOf(matcher.group(1));
                 }
 
@@ -60,13 +73,11 @@ public class PartnersResource {
                 String imageUrl = div.getElementsByTag("img").first().attr("src");
                 String name = div.getElementsByTag("h3").first().text();
 
-                partners.add(new Partner(
-                        url,
-                        index,
-                        imageUrl,
-                        name
-                        ));
+                Partner partner = new Partner(url, index, imageUrl, name);
+                partners.add(partner);
+
             }
+            cache.put(new net.sf.ehcache.Element("partners", partners));
 
             return partners;
 

@@ -23,6 +23,7 @@ dependencies {
 
 	compile 'org.jsoup:jsoup:1.7.2'
     compile 'com.squareup.okhttp:okhttp:2.6.0'
+	compile 'net.sf.ehcache:ehcache-core:2.4.6'
 
 	compile 'log4j:log4j:1.2.16'
 
