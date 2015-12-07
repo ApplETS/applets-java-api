@@ -24,6 +24,12 @@
            memoryStoreEvictionPolicy="LRU" statistics="true"/>
 
 
+    <cache name="app_version" eternal="false"
+           maxElementsInMemory="100" overflowToDisk="false" diskPersistent="false"
+           timeToIdleSeconds="0" timeToLiveSeconds="3000"
+           memoryStoreEvictionPolicy="LRU" statistics="true"/>
+
+
     <!--<cache name="partners"-->
            <!--maxEntriesLocalHeap="10000"-->
            <!--maxEntriesLocalDisk="1000"-->
