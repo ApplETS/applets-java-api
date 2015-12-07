@@ -32,7 +32,7 @@ Configuration
 ```
 * Before launch : on roule gradle en premier pour produire le fichier .war
 
-![](http://i.imgur.com/6VkXJ7Y.png?2)
+![](http://i.imgur.com/1uREKZW.png?1)
 
 Le fichier war est compilé dans : `build/libs/applets-java-api.war`
 
