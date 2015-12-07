@@ -22,7 +22,7 @@ Configuration
 
 (Onglet Run, Edit configurations)
 
-
+![](http://i.imgur.com/6VkXJ7Y.png)
 
 * Application server : ici, on renseigne le répertoire de Tomcat
 * VM Options : on rajoute un paramètre pour Java pour désactiver le [support SNI](http://stackoverflow.com/questions/7615645/ssl-handshake-alert-unrecognized-name-error-since-upgrade-to-java-1-7-0)
@@ -32,6 +32,7 @@ Configuration
 ```
 * Before launch : on roule gradle en premier pour produire le fichier .war
 
+![](http://i.imgur.com/6VkXJ7Y.png?2)
 
 Le fichier war est compilé dans : `build/libs/applets-java-api.war`
 
