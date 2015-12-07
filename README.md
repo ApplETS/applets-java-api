@@ -1,78 +1,41 @@
-Overview
+Vue d'ensemble
 ========
-This is a starter project using jax-rs / jersey.  I've created this because I often find myself wanting to expirement with something that needs a webservice, and this gives me a starting spot.  Clone or fork and use as needed.
+Nous utilisons cette API pour centraliser la distribution d'informations vers les clients mobiles.
 
-Note: if you like this version, I highly recommend checking out the sample dropwizard implemenation [https://github.com/jasonray/jersey-starterkit/tree/dropwizard], much better for quick implemenations of java based web services.  I love me some dropwizard.  Until I discovered node/express. 
+Les fonctionnalités actuellement implémentées sont :
 
-How-to run
+* Partenaires : Pour obtenir la liste à jour de nos partenaires à partir de notre [site web](clubapplets.ca/partenaires).
+
+Outils nécessaires
 ==========
-1) Compile
-The project compiles using gradle.  If you already have gradle installed, compile using:
-```
-gradle build
-```
+1) Téléchargez et installez [Tomcat 9](https://tomcat.apache.org/ )
 
-If you do not have gradle installed, you can utilize the gradle wrapper included in the source
-```
-./gradlew war
-```
+2) Téléchargez et installez [IntelliJ IDEA](https://www.jetbrains.com/idea/download/)
 
-The war file is compiled to: `build/libs/jersey-starterkit.war`
+:information_source: Vous pouvez obtenir l'Ultimate Edition d'IntelliJ avec votre adresse courriel de l'ÉTS en appliquant [ici](https://www.jetbrains.com/student/)
 
+Configuration
+==========
 
-2) Deploy the war file to web container.  I've been using apache-tomcat [http://tomcat.apache.org], and typically copy the war to the tomcat webapps directory.  On my machine:
-```
-cp build/libs/jersey-starterkit.war /Applications/apache-tomcat-6.0.33/webapps/
-```
+1) Importez le projet dans IntelliJ
+2) Configurez le projet dans IntelliJ :
 
-Shortcut: if you are using tomcat, and $CATALINA_HOME is set, you can run: `./deploy.sh`
+(Onglet Run, Edit configurations)
 
 
-3) Confirm that it is running by fetching the URL at on webcontainer + /jersey-helloworld/rest/hello.  On my machine:
-```
-curl localhost:8080/jersey-starterkit/rest/hello
-```
 
-The supported endpoints are:
+* Application server : ici, on renseigne le répertoire de Tomcat
+* VM Options : on rajoute un paramètre pour Java pour désactiver le [support SNI](http://stackoverflow.com/questions/7615645/ssl-handshake-alert-unrecognized-name-error-since-upgrade-to-java-1-7-0)
+
 ```
-http://localhost:8080/jersey-starterkit/rest/customer/id/1
+-Djsse.enableSNIExtension=false
 ```
-```
-http://localhost:8080/jersey-starterkit/rest/echo?m=hello
-```
-```
-http://localhost:8080/jersey-starterkit/rest/hello
-```
+* Before launch : on roule gradle en premier pour produire le fichier .war
 
 
-Opening in Eclipse
-==================
-If you use Eclipse, the gradle scripts are nice enough to create your eclipse project and classpath files.
+Le fichier war est compilé dans : `build/libs/applets-java-api.war`
 
-First time only
----------------
-If you have gradle installed, run:
+* Exécutez le projet pour vérifier qu'il fonctionne correctement
 ```
-gradle eclipse
+curl http://localhost:8080/rest/partners
 ```
-
-Now you can import the project into eclipse.
-
-
-Updating classpath files
-------------------------
-If you update dependencies, pull the new libs into your classpath:
-```
-gradle eclipseClasspath
-```
-
-Logging
-=======
-There is a log4j configuration defined in `src/main/resources/log4j.properties`.  By default this will log to the STDOUT and to a series of log files.  Change the logging configuration as needed.
-
-If you would like to use the default logging, create the logging folders:
-```
-> sudo mkdir /restapi
-> chmod a+wr /restapi
-````
-
