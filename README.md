@@ -1,7 +1,6 @@
 Vue d'ensemble
 ========
 Nous utilisons cette API pour centraliser la distribution d'informations vers les clients mobiles.
-
 Les fonctionnalités actuellement implémentées sont :
 
 * Partenaires : Pour obtenir la liste à jour de nos partenaires à partir de notre [site web](clubapplets.ca/partenaires).
@@ -12,12 +11,13 @@ Outils nécessaires
 
 2) Téléchargez et installez [IntelliJ IDEA](https://www.jetbrains.com/idea/download/)
 
-:information_source: Vous pouvez obtenir l'Ultimate Edition d'IntelliJ avec votre adresse courriel de l'ÉTS en appliquant [ici](https://www.jetbrains.com/student/)
+:information_source:  Vous pouvez obtenir l'Ultimate Edition d'IntelliJ avec votre adresse courriel de l'ÉTS en appliquant [ici](https://www.jetbrains.com/student/)
 
 Configuration
 ==========
 
 1) Importez le projet dans IntelliJ
+
 2) Configurez le projet dans IntelliJ :
 
 (Onglet Run, Edit configurations)
@@ -25,7 +25,7 @@ Configuration
 ![](http://i.imgur.com/6VkXJ7Y.png)
 
 * Application server : ici, on renseigne le répertoire de Tomcat
-* VM Options : on rajoute un paramètre pour Java pour désactiver le [support SNI](http://stackoverflow.com/questions/7615645/ssl-handshake-alert-unrecognized-name-error-since-upgrade-to-java-1-7-0)
+* VM Options : on rajoute un paramètre pour désactiver le [support SNI](http://stackoverflow.com/questions/7615645/ssl-handshake-alert-unrecognized-name-error-since-upgrade-to-java-1-7-0)
 
 ```
 -Djsse.enableSNIExtension=false
