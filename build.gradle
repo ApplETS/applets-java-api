@@ -6,6 +6,16 @@ repositories {
     mavenCentral()
 }
 
+//buildscript {
+//	repositories {
+//		mavenCentral()
+//	}
+//
+//	dependencies {
+//		classpath 'org.postgresql:postgresql:9.4-1206-jdbc42'
+//	}
+//}
+
 dependencies {
 	compile "javax.ws.rs:jsr311-api:1.1.1"
 
@@ -15,7 +25,7 @@ dependencies {
 	compile 'com.sun.jersey:jersey-client:1.16'
 	compile 'com.sun.jersey:jersey-servlet:1.16'
 	compile 'com.sun.jersey:jersey-json:1.16'
-	
+
 	compile 'com.yammer.metrics:metrics-core:2.2.0'
 	compile 'com.yammer.metrics:metrics-servlet:2.2.0'
 	compile 'com.yammer.metrics:metrics-jersey:2.2.0'
@@ -26,6 +36,8 @@ dependencies {
 	compile 'net.sf.ehcache:ehcache-core:2.4.6'
 
 	compile 'log4j:log4j:1.2.16'
+
+	compile 'org.postgresql:postgresql:9.4-1206-jdbc42'
 
 	testCompile "junit:junit-dep:4.10"
 }

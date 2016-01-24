@@ -3,6 +3,9 @@ package applets.etsmtl.ca.news;
 /**
  * Created by gnut3ll4 on 22/01/16.
  */
+
+import applets.etsmtl.ca.news.db.ConnectionSingleton;
+import applets.etsmtl.ca.news.db.SourceDAO;
 import applets.etsmtl.ca.news.model.Nouvelle;
 import applets.etsmtl.ca.news.model.Source;
 
@@ -11,6 +14,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,7 +24,7 @@ public class NewsResources {
 
     @GET
     @Path("list/{key}")
-    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public ArrayList<Nouvelle> getNouvelles(@PathParam("key") String key) {
 
         Nouvelle nouvelle = new Nouvelle();
@@ -36,8 +40,17 @@ public class NewsResources {
     }
 
     @GET
+    @Path("db")
+    public Source testDB() {
+
+        SourceDAO sourceDAO = new SourceDAO();
+        Source source = sourceDAO.find("ets");
+        return source;
+    }
+
+    @GET
     @Path("sources")
-    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public ArrayList<Source> getSources() {
 
         Source source = new Source();
