@@ -4,7 +4,6 @@ package applets.etsmtl.ca.news;
  * Created by gnut3ll4 on 22/01/16.
  */
 
-import applets.etsmtl.ca.news.db.ConnectionSingleton;
 import applets.etsmtl.ca.news.db.SourceDAO;
 import applets.etsmtl.ca.news.model.Nouvelle;
 import applets.etsmtl.ca.news.model.Source;
@@ -14,10 +13,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Path("news")
 public class NewsResources {

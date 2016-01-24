@@ -4,6 +4,7 @@ import applets.etsmtl.ca.news.model.Source;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Created by gnut3ll4 on 24/01/16.
@@ -34,17 +35,8 @@ public class SourceDAO extends DAO<Source> {
     }
 
     @Override
-    public Source create(Source obj) {
+    public List<Source> findAll() {
+        //TODO
         return null;
-    }
-
-    @Override
-    public Source update(Source obj) {
-        return null;
-    }
-
-    @Override
-    public void delete(Source obj) {
-
     }
 }

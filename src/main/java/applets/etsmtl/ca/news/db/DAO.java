@@ -1,6 +1,8 @@
 package applets.etsmtl.ca.news.db;
 
 import java.sql.Connection;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by gnut3ll4 on 24/01/16.
@@ -17,22 +19,9 @@ public abstract class DAO<T> {
     public abstract T find(String id);
 
     /**
-     * Permet de créer une entrée dans la base de données
-     * par rapport à un objet
-     * @param obj
+     * Récupère tous les objets
+     * @return
      */
-    public abstract T create(T obj);
-
-    /**
-     * Permet de mettre à jour les données d'une entrée dans la base
-     * @param obj
-     */
-    public abstract T update(T obj);
-
-    /**
-     * Permet la suppression d'une entrée de la base
-     * @param obj
-     */
-    public abstract void delete(T obj);
+    public abstract List<T> findAll();
 
 }
