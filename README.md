@@ -48,4 +48,5 @@ Les variables d'environnement à définir sont :
 * POSTGRESQL_PASS
 * POSTGRESQL_DB_NAME
 * POSTGRESQL_HOST
+* POSTGRESQL_PORT
 
