@@ -40,3 +40,12 @@ Le fichier war est compilé dans : `build/libs/applets-java-api.war`
 ```
 curl http://localhost:8080/rest/partners
 ```
+
+Pour configurer les accès à la base de données postgresql, on utilise les variables d'environnement.
+Elles peuvent être renseignées dans les Run Configurations de IntelliJ, onglet Startup/Connection.
+Les variables d'environnement à définir sont : 
+* POSTGRESQL_USER
+* POSTGRESQL_PASS
+* POSTGRESQL_DB_NAME
+* POSTGRESQL_HOST
+
