@@ -35,8 +35,29 @@ public class SourceDAO extends DAO<Source> {
     }
 
     @Override
+    public boolean isExisting(String key) {
+        try {
+            ResultSet result = this.connection
+                    .createStatement(
+                            ResultSet.TYPE_SCROLL_INSENSITIVE,
+                            ResultSet.CONCUR_READ_ONLY
+                    ).executeQuery(
+                            "SELECT key FROM sources WHERE key = '" +key+"'"
+                    );
+            if(result.first())
+                return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    @Override
     public List<Source> findAll() {
         //TODO
         return null;
     }
+
+
 }

@@ -1,7 +1,6 @@
 package applets.etsmtl.ca.news.db;
 
 import java.sql.Connection;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,6 +16,13 @@ public abstract class DAO<T> {
      * @return
      */
     public abstract T find(String id);
+
+    /**
+     * Permet de savoir un objet est présent en base de données via son ID
+     * @param key
+     * @return boolean
+     */
+    public abstract boolean isExisting(String key);
 
     /**
      * Récupère tous les objets

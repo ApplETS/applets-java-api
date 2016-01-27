@@ -7,7 +7,7 @@ import org.quartz.JobExecutionException;
 /**
  * Created by gnut3ll4 on 24/01/16.
  */
-public class HelloJob implements Job {
+public class NewsJob implements Job {
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
         System.out.println("Executing Hello Job");

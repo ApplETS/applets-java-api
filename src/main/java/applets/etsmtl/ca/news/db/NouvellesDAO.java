@@ -16,6 +16,11 @@ public class NouvellesDAO extends DAO<Nouvelle> {
     }
 
     @Override
+    public boolean isExisting(String key) {
+        return false;
+    }
+
+    @Override
     public List<Nouvelle> findAll() {
         //TODO (Prévoir de récupérer, mettons, les 10 dernières nouvelles)
         return null;

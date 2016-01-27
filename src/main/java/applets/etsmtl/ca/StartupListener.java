@@ -1,15 +1,13 @@
 package applets.etsmtl.ca;
 
 
-import applets.etsmtl.ca.news.jobs.HelloJob;
-import com.sun.jersey.api.core.ResourceConfig;
+import applets.etsmtl.ca.news.jobs.SourcesJob;
 import com.sun.jersey.api.model.AbstractResourceModelContext;
 import com.sun.jersey.api.model.AbstractResourceModelListener;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
 import javax.ws.rs.ext.Provider;
-import java.util.Map;
 
 /**
  * Created by gnut3ll4 on 24/01/16.
@@ -21,8 +19,7 @@ public class StartupListener implements AbstractResourceModelListener {
     public void onLoaded(AbstractResourceModelContext modelContext) {
         System.out.println("STARTUP");
 
-
-        JobDetail job = JobBuilder.newJob(HelloJob.class)
+        JobDetail job = JobBuilder.newJob(SourcesJob.class)
                 .withIdentity("dummyJobName", "group1").build();
 
         Trigger trigger = TriggerBuilder
@@ -30,7 +27,7 @@ public class StartupListener implements AbstractResourceModelListener {
                 .withIdentity("dummyTriggerName", "group1")
                 .withSchedule(
                         SimpleScheduleBuilder.simpleSchedule()
-                                .withIntervalInSeconds(5).repeatForever())
+                                .withIntervalInSeconds(15).repeatForever())
                 .build();
 
 
