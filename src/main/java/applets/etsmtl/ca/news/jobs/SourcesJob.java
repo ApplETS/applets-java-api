@@ -45,7 +45,6 @@ public class SourcesJob implements Job {
             stmt.executeUpdate(sql);*/
 
             stmt.close();
-            connection.close();
         } catch (Exception e) {
             System.err.println( e.getClass().getName()+": "+ e.getMessage() );
             exit(1);

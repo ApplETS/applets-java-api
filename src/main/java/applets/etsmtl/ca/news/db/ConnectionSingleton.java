@@ -35,19 +35,22 @@ public class ConnectionSingleton {
 
     /**
      * Méthode qui va nous retourner notre instance
-     * et la créer si elle n'existe pas...
+     * et la créer si elle n'existe pas ou bien réouvrir la connexion si elle existe et a été fermée
      *
      * @return
      */
     public static Connection getInstance() {
-        if (connect == null) {
-            try {
+
+        try {
+            if (connect == null || (connect != null && connect.isClosed())) {
                 Class.forName("org.postgresql.Driver");
                 connect = DriverManager.getConnection(url, user, passwd);
-            } catch (SQLException | ClassNotFoundException e) {
-                e.printStackTrace();
             }
         }
+        catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         return connect;
     }
 }
