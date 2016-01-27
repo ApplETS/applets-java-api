@@ -9,18 +9,25 @@ import java.sql.SQLException;
  */
 public class ConnectionSingleton {
 
+    //Environment variables
+    private static String HOST = "POSTGRESQL_HOST";
+    private static String PORT = "POSTGRESQL_PORT";
+    private static String DB_NAME = "POSTGRESQL_DB_NAME";
+    private static String USER = "POSTGRESQL_USER";
+    private static String PASS = "POSTGRESQL_PASS";
+
     /**
      * URL de connection
      */
-    private static String url = "jdbc:postgresql://[host]:[port]/[db_name]";
+    private static String url = "jdbc:postgresql://"+System.getenv().get(HOST)+":"+System.getenv().get(PORT)+"/"+System.getenv(DB_NAME);
     /**
      * Nom du user
      */
-    private static String user = "[username]";
+    private static String user = System.getenv(USER);
     /**
      * Mot de passe du user
      */
-    private static String passwd = "[password]";
+    private static String passwd = System.getenv(PASS);
     /**
      * Objet Connection
      */
