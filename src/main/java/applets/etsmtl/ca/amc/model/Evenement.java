@@ -1,6 +1,8 @@
 package applets.etsmtl.ca.amc.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -16,8 +18,18 @@ public class Evenement {
     private Date dateDebut;
     private Date dateFin;
     private String lienEventbrite;
+    private ArrayList<Equipe> equipes;
+    private ArrayList<Partenaire> partenaires;
+    private ArrayList<Intervenant> intervenants;
+    private ArrayList<TirageSort> tirageSorts;
+    private ArrayList<TirageInscrit> tirageInscrits;
 
     public Evenement() {
+        this.tirageSorts = new ArrayList<TirageSort>();
+        this.intervenants = new ArrayList<Intervenant>();
+        this.partenaires = new ArrayList<Partenaire>();
+        this.equipes = new ArrayList<Equipe>();
+        this.tirageInscrits = new ArrayList<TirageInscrit>();
     }
 
     public String getNom() {
@@ -49,7 +61,7 @@ public class Evenement {
     }
 
     public void setDateDebut(Date dateDeb) {
-        this.dateDebut = dateDeb;
+        this.dateDebut = dateDeb;//dateDeb;
     }
 
     public Date getDateFin() {
@@ -74,5 +86,45 @@ public class Evenement {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public ArrayList<Equipe> getEquipes() {
+        return equipes;
+    }
+
+    public void setEquipes(ArrayList<Equipe> equipes) {
+        this.equipes = equipes;
+    }
+
+    public ArrayList<Partenaire> getPartenaires() {
+        return partenaires;
+    }
+
+    public void setPartenaires(ArrayList<Partenaire> partenaires) {
+        this.partenaires = partenaires;
+    }
+
+    public ArrayList<Intervenant> getIntervenants() {
+        return intervenants;
+    }
+
+    public void setIntervenants(ArrayList<Intervenant> intervenants) {
+        this.intervenants = intervenants;
+    }
+
+    public ArrayList<TirageSort> getTirageSorts() {
+        return tirageSorts;
+    }
+
+    public void setTirageSorts(ArrayList<TirageSort> tirageSorts) {
+        this.tirageSorts = tirageSorts;
+    }
+
+    public ArrayList<TirageInscrit> getTirageInscrits() {
+        return tirageInscrits;
+    }
+
+    public void setTirageInscrits(ArrayList<TirageInscrit> tirageInscrits) {
+        this.tirageInscrits = tirageInscrits;
     }
 }

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 /**
  * Created by valentin-debris on 2016-02-10.
  */
-@Path("amcpartners")
+@Path("amc-partners")
 public class PartenairesResources {
 
     @GET
@@ -21,8 +21,8 @@ public class PartenairesResources {
     //Exemple : http://localhost:8080/rest/partenaires/id/1
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Partenaire getPartenaire(@PathParam("key") String key) {
-        PartenaireDAO partenanireDAO = new PartenaireDAO();
-        Partenaire partenaire = partenanireDAO.find(key);
+        PartenaireDAO partenaireDAO = new PartenaireDAO();
+        Partenaire partenaire = partenaireDAO.find(key);
 
         return partenaire;
     }
@@ -30,9 +30,20 @@ public class PartenairesResources {
     @GET
     @Path("all")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public ArrayList<Partenaire> getAllPartenainres() {
-        PartenaireDAO partenanireDAO = new PartenaireDAO();
-        ArrayList<Partenaire> allPartenaire = (ArrayList<Partenaire>)partenanireDAO.findAll();
+    public ArrayList<Partenaire> getAllPartenaires() {
+        PartenaireDAO partenaireDAO = new PartenaireDAO();
+        ArrayList<Partenaire> allPartenaire = (ArrayList<Partenaire>)partenaireDAO.findAll();
+
+        return allPartenaire;
+    }
+
+    @GET
+    @Path("all-event/{key}")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    //return all the partners for an event
+    public ArrayList<Partenaire> getAllPartenairesForEvent(@PathParam("key") String idEvent) {
+        PartenaireDAO partenaireDAO = new PartenaireDAO();
+        ArrayList<Partenaire> allPartenaire = (ArrayList<Partenaire>)partenaireDAO.findAll(idEvent);
 
         return allPartenaire;
     }

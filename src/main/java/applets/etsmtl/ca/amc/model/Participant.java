@@ -7,13 +7,14 @@ import java.util.ArrayList;
  * Created by valentin-debris on 2016-02-10.
  */
 @XmlRootElement
-public class Partenaire {
+public class Participant {
 
     private int id;
     private String nom;
     private String image;
+    private String description;
 
-    public Partenaire() {}
+    public Participant() {}
 
     public int getId() {
         return id;
@@ -37,5 +38,13 @@ public class Partenaire {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

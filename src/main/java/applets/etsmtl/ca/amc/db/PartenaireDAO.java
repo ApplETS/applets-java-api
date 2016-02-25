@@ -26,13 +26,10 @@ public class PartenaireDAO extends DAO<Partenaire> {
             if(result.first()) {
                 partenaire.setId(result.getInt("id_partenaire"));
                 partenaire.setNom(result.getString("nom"));
-                partenaire.setLogo(result.getString("logo"));
-
-                EvenementDAO eventDAO = new EvenementDAO();
-                Evenement event = eventDAO.find(result.getString("id_event"));
-
-                partenaire.setEvent(event);
+                partenaire.setImage(result.getString("image"));
             }
+//            else
+//                return null;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -51,16 +48,41 @@ public class PartenaireDAO extends DAO<Partenaire> {
                     ).executeQuery(
                             "SELECT * FROM partenaire ORDER BY id_partenaire"
                     );
-            if(result.first()) {
+            while (result.next()) {
                 Partenaire partenaire = new Partenaire();
                 partenaire.setId(result.getInt("id_partenaire"));
                 partenaire.setNom(result.getString("nom"));
-                partenaire.setLogo(result.getString("logo"));
+                partenaire.setImage(result.getString("image"));
 
-                EvenementDAO eventDAO = new EvenementDAO();
-                Evenement event = eventDAO.find(result.getString("id_event"));
+                alPartenaire.add(partenaire);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return alPartenaire;
+    }
 
-                partenaire.setEvent(event);
+    public List<Partenaire> findAll(String idEvent) {
+        ArrayList<Partenaire> alPartenaire = new ArrayList<Partenaire>();
+
+        try {
+            ResultSet result = this.connection
+                    .createStatement(
+                            ResultSet.TYPE_SCROLL_INSENSITIVE,
+                            ResultSet.CONCUR_READ_ONLY
+                    ).executeQuery(
+                            "SELECT * FROM partenaire p " +
+                                    "JOIN partenaire_evenement pe " +
+                                        "ON p.id_partenaire=pe.id_partenaire " +
+                                    "WHERE pe.id_event = '" +idEvent+"' " +
+                                    "ORDER BY p.id_partenaire"
+                    );
+            while (result.next()) {
+                Partenaire partenaire = new Partenaire();
+                partenaire.setId(result.getInt("id_partenaire"));
+                partenaire.setNom(result.getString("nom"));
+                partenaire.setImage(result.getString("image"));
+
                 alPartenaire.add(partenaire);
             }
         } catch (SQLException e) {
