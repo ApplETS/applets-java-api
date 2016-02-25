@@ -41,6 +41,8 @@ dependencies {
 
 	compile 'org.postgresql:postgresql:9.4-1206-jdbc42'
 
+	testCompile 'com.jayway.restassured:rest-assured:2.8.0'
+
 	testCompile "junit:junit-dep:4.10"
 }
 
