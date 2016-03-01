@@ -13,7 +13,7 @@ import java.util.ArrayList;
 /**
  * Created by valentin-debris on 2016-02-10.
  */
-@Path("amc-events")
+@Path("amc-streamings")
 public class StreamingsResources {
 
     @GET
