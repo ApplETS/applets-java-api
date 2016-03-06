@@ -61,11 +61,14 @@ public class SourcesJob implements Job {
             String[] array_type_sources = new String[]{"rss", "facebook", "twitter"};
             upgradeListTypeSources(array_type_sources);
 
-
+            // Read sources.json file containing all the sources with their value to be accessed
             final String filePath = getClass().getResource("/news/sources.json").getPath();
             String sources_content = readFile(filePath, StandardCharsets.UTF_8);
 
             JSONObject typeSourceNews = new JSONObject(sources_content);
+
+            // ADD parse token facebook
+            String accesstoken_facebook = "";
 
             // Load RSS sources key value in the map
             JSONArray rss_list_sources = (JSONArray) typeSourceNews.getJSONArray("rss");
@@ -80,8 +83,9 @@ public class SourcesJob implements Job {
             JSONArray facebook_list_sources = (JSONArray) typeSourceNews.getJSONArray("facebook");
             for(int i=0; i < facebook_list_sources.length(); i++) {
                 String key = facebook_list_sources.getJSONObject(i).get("key").toString();
+                String value = facebook_list_sources.getJSONObject(i).get("value").toString();
 
-                mapFetchers.put(key, new FacebookNewsFetcher(key));
+                mapFetchers.put(key, new FacebookNewsFetcher(key, value, accesstoken_facebook));
             }
 
             // Load Twitter sources key in the map
