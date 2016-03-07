@@ -2,6 +2,9 @@ package applets.etsmtl.ca.news.db;
 
 import applets.etsmtl.ca.news.model.Nouvelle;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,7 +14,28 @@ public class NouvellesDAO extends DAO<Nouvelle> {
 
     @Override
     public Nouvelle find(String id) {
-        //TODO
+        Nouvelle nouvelle = new Nouvelle();
+        try {
+                ResultSet result = this.connection
+                                .createStatement(
+                                        ResultSet.TYPE_SCROLL_INSENSITIVE,
+                                        ResultSet.CONCUR_READ_ONLY
+                                        ).executeQuery(
+                                            "SELECT * FROM nouvelles WHERE id = '" +id+"'"
+                                        );
+                if(result.first()) {
+                        nouvelle.setDate(result.getDate("date"));
+                        nouvelle.setMessage(result.getString("message"));
+                        nouvelle.setLink(result.getString("link"));
+                        nouvelle.setUrlPicture(result.getString("url_picture"));
+                        nouvelle.setTitre(result.getString("titre"));
+                        nouvelle.setId(id);
+                        return nouvelle;
+                    }
+            } catch (SQLException e) {
+                e.printStackTrace();
+        }
+
         return null;
     }
 
@@ -22,8 +46,30 @@ public class NouvellesDAO extends DAO<Nouvelle> {
 
     @Override
     public List<Nouvelle> findAll() {
-        //TODO (Prévoir de récupérer, mettons, les 10 dernières nouvelles)
-        return null;
+        List<Nouvelle> nouvelles = new ArrayList<Nouvelle>();
+        try {
+            ResultSet result = this.connection
+                    .createStatement(
+                            ResultSet.TYPE_SCROLL_INSENSITIVE,
+                            ResultSet.CONCUR_READ_ONLY
+                    ).executeQuery(
+                            "SELECT * FROM nouvelles ORDER BY date DESC LIMIT 10;"
+                    );
+            while(result.next()) {
+                Nouvelle nouvelle = new Nouvelle();
+                nouvelle.setDate(result.getDate("date"));
+                nouvelle.setMessage(result.getString("message"));
+                nouvelle.setLink(result.getString("link"));
+                nouvelle.setUrlPicture(result.getString("url_picture"));
+                nouvelle.setTitre(result.getString("titre"));
+                nouvelle.setId(result.getString("id"));
+                nouvelles.add(nouvelle);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return nouvelles;
     }
 
 

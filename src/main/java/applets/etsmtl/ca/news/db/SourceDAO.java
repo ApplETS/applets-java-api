@@ -5,6 +5,7 @@ import applets.etsmtl.ca.news.model.Source;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,11 +23,13 @@ public class SourceDAO extends DAO<Source> {
                     ).executeQuery(
                             "SELECT * FROM sources WHERE key = '" +key+"'"
                     );
-            if(result.first())
+            if(result.first()) {
                 source.setUrlImage(result.getString("url_image"));
                 source.setType(result.getString("type"));
                 source.setName(result.getString("name"));
+                source.setValue(result.getString("value"));
                 source.setKey(key);
+            }
 
 
         } catch (SQLException e) {
@@ -56,8 +59,29 @@ public class SourceDAO extends DAO<Source> {
 
     @Override
     public List<Source> findAll() {
-        //TODO
-        return null;
+        List<Source> sources = new ArrayList<Source>();
+        try {
+            ResultSet result = this.connection
+                    .createStatement(
+                            ResultSet.TYPE_SCROLL_INSENSITIVE,
+                            ResultSet.CONCUR_READ_ONLY
+                    ).executeQuery(
+                            "SELECT * FROM sources"
+                    );
+            while(result.next()) {
+                Source source = new Source();
+                source.setUrlImage(result.getString("url_image"));
+                source.setType(result.getString("type"));
+                source.setName(result.getString("name"));
+                source.setKey(result.getString("key"));
+                source.setValue(result.getString("value"));
+                sources.add(source);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return sources;
     }
 
     public void add(Source source) {
