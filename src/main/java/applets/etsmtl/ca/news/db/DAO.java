@@ -1,6 +1,8 @@
 package applets.etsmtl.ca.news.db;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -29,5 +31,11 @@ public abstract class DAO<T> {
      * @return
      */
     public abstract List<T> findAll();
+
+    /**
+     * Crée un objet a partir du Result
+     * @return
+     */
+    protected abstract T getDataFromResult(ResultSet result) throws SQLException;
 
 }

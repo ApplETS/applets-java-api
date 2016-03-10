@@ -14,7 +14,6 @@ public class NouvellesDAO extends DAO<Nouvelle> {
 
     @Override
     public Nouvelle find(String id) {
-        Nouvelle nouvelle = new Nouvelle();
         try {
                 ResultSet result = this.connection
                                 .createStatement(
@@ -24,13 +23,7 @@ public class NouvellesDAO extends DAO<Nouvelle> {
                                             "SELECT * FROM nouvelles WHERE id = '" +id+"'"
                                         );
                 if(result.first()) {
-                        nouvelle.setDate(result.getDate("date"));
-                        nouvelle.setMessage(result.getString("message"));
-                        nouvelle.setLink(result.getString("link"));
-                        nouvelle.setUrlPicture(result.getString("url_picture"));
-                        nouvelle.setTitre(result.getString("titre"));
-                        nouvelle.setId(id);
-                        return nouvelle;
+                        return getDataFromResult(result);
                     }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -40,7 +33,21 @@ public class NouvellesDAO extends DAO<Nouvelle> {
     }
 
     @Override
-    public boolean isExisting(String key) {
+    public boolean isExisting(String id) {
+        try {
+            ResultSet result = this.connection
+                    .createStatement(
+                            ResultSet.TYPE_SCROLL_INSENSITIVE,
+                            ResultSet.CONCUR_READ_ONLY
+                    ).executeQuery(
+                            "SELECT id FROM nouvelles WHERE id = '" +id+"'"
+                    );
+            if(result.first())
+                return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return false;
     }
 
@@ -56,20 +63,25 @@ public class NouvellesDAO extends DAO<Nouvelle> {
                             "SELECT * FROM nouvelles ORDER BY date DESC LIMIT 10;"
                     );
             while(result.next()) {
-                Nouvelle nouvelle = new Nouvelle();
-                nouvelle.setDate(result.getDate("date"));
-                nouvelle.setMessage(result.getString("message"));
-                nouvelle.setLink(result.getString("link"));
-                nouvelle.setUrlPicture(result.getString("url_picture"));
-                nouvelle.setTitre(result.getString("titre"));
-                nouvelle.setId(result.getString("id"));
-                nouvelles.add(nouvelle);
+                nouvelles.add(getDataFromResult(result));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return nouvelles;
+    }
+
+    @Override
+    protected Nouvelle getDataFromResult(ResultSet result) throws SQLException {
+        Nouvelle nouvelle = new Nouvelle();
+        nouvelle.setDate(result.getDate("date"));
+        nouvelle.setMessage(result.getString("message"));
+        nouvelle.setLink(result.getString("link"));
+        nouvelle.setUrlPicture(result.getString("url_picture"));
+        nouvelle.setTitre(result.getString("titre"));
+        nouvelle.setId(result.getString("id"));
+        return nouvelle;
     }
 
 

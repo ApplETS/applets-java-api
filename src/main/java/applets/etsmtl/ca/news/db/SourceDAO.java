@@ -24,11 +24,7 @@ public class SourceDAO extends DAO<Source> {
                             "SELECT * FROM sources WHERE key = '" +key+"'"
                     );
             if(result.first()) {
-                source.setUrlImage(result.getString("url_image"));
-                source.setType(result.getString("type"));
-                source.setName(result.getString("name"));
-                source.setValue(result.getString("value"));
-                source.setKey(key);
+                source = getDataFromResult(result);
             }
 
 
@@ -69,13 +65,7 @@ public class SourceDAO extends DAO<Source> {
                             "SELECT * FROM sources"
                     );
             while(result.next()) {
-                Source source = new Source();
-                source.setUrlImage(result.getString("url_image"));
-                source.setType(result.getString("type"));
-                source.setName(result.getString("name"));
-                source.setKey(result.getString("key"));
-                source.setValue(result.getString("value"));
-                sources.add(source);
+                sources.add(getDataFromResult(result));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -100,6 +90,38 @@ public class SourceDAO extends DAO<Source> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Source> findByType(String type){
+        List<Source> sources = new ArrayList<Source>();
+        try {
+            ResultSet result = this.connection
+                    .createStatement(
+                            ResultSet.TYPE_SCROLL_INSENSITIVE,
+                            ResultSet.CONCUR_READ_ONLY
+                    ).executeQuery(
+                            "SELECT * FROM sources where type = '"+type+"'"
+                    );
+            while(result.next()) {
+                sources.add(getDataFromResult(result));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return sources;
+    }
+
+
+    @Override
+    protected Source getDataFromResult(ResultSet result) throws SQLException {
+        Source source = new Source();
+        source.setUrlImage(result.getString("url_image"));
+        source.setType(result.getString("type"));
+        source.setName(result.getString("name"));
+        source.setKey(result.getString("key"));
+        source.setValue(result.getString("value"));
+        return source;
     }
 
 

@@ -1,10 +1,7 @@
 package applets.etsmtl.ca.news;
 
-/**
- * Created by gnut3ll4 on 22/01/16.
- */
 import applets.etsmtl.ca.news.db.SourceDAO;
-import applets.etsmtl.ca.news.model.Nouvelle;
+import applets.etsmtl.ca.news.model.Event;
 import applets.etsmtl.ca.news.model.Source;
 
 import javax.ws.rs.GET;
@@ -13,26 +10,22 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
-import java.util.Date;
 
-@Path("news")
-public class NewsResources {
+/**
+ * Created by club on 09/03/16.
+ */
+@Path("events")
+public class EventsResources {
 
     @GET
-    @Path("list/{key}")
+    @Path("list/{id}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public ArrayList<Nouvelle> getNouvelles(@PathParam("key") String key) {
-
-        Nouvelle nouvelle = new Nouvelle();
-        nouvelle.setDate(new Date());
-        nouvelle.setId("id");
-        nouvelle.setLink("link");
-        nouvelle.setMessage("message");
-        nouvelle.setTitre("titre");
-        nouvelle.setUrlPicture("picture url");
-        ArrayList<Nouvelle> nouvelles = new ArrayList<>();
-        nouvelles.add(nouvelle);
-        return nouvelles;
+    public ArrayList<Event> getEvents(@PathParam("id") String id) {
+        Event event = new Event();
+        event.setId("id");
+        ArrayList<Event> events = new ArrayList<>();
+        events.add(event);
+        return events;
     }
 
     @GET
@@ -58,5 +51,4 @@ public class NewsResources {
         sources.add(source);
         return sources;
     }
-
 }
