@@ -1,5 +1,6 @@
 package applets.etsmtl.ca.news.jobs.strategy;
 
+import applets.etsmtl.ca.news.db.NouvellesDAO;
 import applets.etsmtl.ca.news.db.SourceDAO;
 import applets.etsmtl.ca.news.model.Source;
 import com.squareup.okhttp.OkHttpClient;
@@ -21,6 +22,7 @@ public class FacebookNewsFetcher implements IFetchNewsStrategy {
     private String token;
 
     private SourceDAO sourceDao;
+    private NouvellesDAO nouvelleDao;
     private OkHttpClient okhttpcli;
 
     public FacebookNewsFetcher(String key, String value, String token) {
@@ -30,6 +32,7 @@ public class FacebookNewsFetcher implements IFetchNewsStrategy {
         this.token = token;
 
         this.sourceDao = new SourceDAO();
+        this.nouvelleDao = new NouvellesDAO();
         this.okhttpcli = new OkHttpClient();
     }
 
@@ -86,5 +89,11 @@ public class FacebookNewsFetcher implements IFetchNewsStrategy {
     @Override
     public void fetchNouvelles() {
         // https://graph.facebook.com/v2.5/" + this.value + "feed?access_token=
+    }
+
+    public void fetchEvenements() {
+        String url_event = "https://graph.facebook.com/v2.5/" + this.value + "/events?access_token=" + this.token;
+
+
     }
 }
