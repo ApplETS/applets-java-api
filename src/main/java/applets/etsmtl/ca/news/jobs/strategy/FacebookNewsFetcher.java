@@ -92,8 +92,6 @@ public class FacebookNewsFetcher implements IFetchNewsStrategy {
     }
 
     public void fetchEvenements() {
-        String url_event = "https://graph.facebook.com/v2.5/" + this.value + "/events?access_token=" + this.token;
-
-
+        String url_event = "https://graph.facebook.com/v2.5/" + this.value + "/events?fields=cover{source},name,place,description,start_time,end_time,id&access_token=" + this.token;
     }
 }
