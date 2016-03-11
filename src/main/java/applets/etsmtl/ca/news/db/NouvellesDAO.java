@@ -5,6 +5,7 @@ import applets.etsmtl.ca.news.model.Nouvelle;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -24,7 +25,7 @@ public class NouvellesDAO extends DAO<Nouvelle> {
                                         );
                 if(result.first()) {
                         return getDataFromResult(result);
-                    }
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
         }
@@ -68,7 +69,32 @@ public class NouvellesDAO extends DAO<Nouvelle> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        Collections.sort(nouvelles);
+        return nouvelles;
+    }
 
+    /**
+     * Cherche les nouvelles pour une source donnée.
+     * @param sourceID le ID de la source.
+     * @return La liste des 10 dernières nouvelles pour cette source
+     */
+    public List<Nouvelle> findAllForSource(String sourceID) {
+        List<Nouvelle> nouvelles = new ArrayList<Nouvelle>();
+        try {
+            ResultSet result = this.connection
+                    .createStatement(
+                            ResultSet.TYPE_SCROLL_INSENSITIVE,
+                            ResultSet.CONCUR_READ_ONLY
+                    ).executeQuery(
+                            "SELECT * FROM nouvelles WHERE id_source = '"+sourceID+"'ORDER BY date DESC LIMIT 10;"
+                    );
+            while(result.next()) {
+                nouvelles.add(getDataFromResult(result));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(nouvelles);
         return nouvelles;
     }
 
@@ -81,6 +107,7 @@ public class NouvellesDAO extends DAO<Nouvelle> {
         nouvelle.setUrlPicture(result.getString("url_picture"));
         nouvelle.setTitre(result.getString("titre"));
         nouvelle.setId(result.getString("id"));
+        nouvelle.setId_source(result.getString("id_source"));
         return nouvelle;
     }
 
