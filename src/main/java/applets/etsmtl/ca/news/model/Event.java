@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * Created by Marcantvez on 09/03/16.
  */
-public class Event {
+public class Event implements Comparable{
     private String id;
     private String nom;
     private Date debut; // TODO test for better class
@@ -143,5 +143,10 @@ public class Event {
 
     public void setId_source(String id_source) {
         this.id_source = id_source;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return this.debut.compareTo(((Event)o).getDebut());
     }
 }

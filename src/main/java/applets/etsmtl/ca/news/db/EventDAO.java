@@ -1,11 +1,11 @@
 package applets.etsmtl.ca.news.db;
 
 import applets.etsmtl.ca.news.model.Event;
-import applets.etsmtl.ca.news.model.Nouvelle;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -57,7 +57,6 @@ public class EventDAO extends DAO<Event> {
     public List<Event> findAll() {
         // TODO review limit
         // TODO check if date must be checked on find() to filter passed events
-
         List<Event> events = new ArrayList<Event>();
         try {
             ResultSet result = this.connection
@@ -73,7 +72,34 @@ public class EventDAO extends DAO<Event> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        Collections.sort(events);
+        return events;
+    }
 
+    /**
+     * Cherche les événements pour une source donnée.
+     * @param sourceID le ID de la source.
+     * @return La liste des événements pour cette source
+     */
+    public List<Event> findAllForSource(String sourceID) {
+        // TODO review limit
+        // TODO check if date must be checked on find() to filter passed events
+        List<Event> events = new ArrayList<Event>();
+        try {
+            ResultSet result = this.connection
+                    .createStatement(
+                            ResultSet.TYPE_SCROLL_INSENSITIVE,
+                            ResultSet.CONCUR_READ_ONLY
+                    ).executeQuery(
+                            "SELECT * FROM evenements WHERE id_source = '"+sourceID+"' ORDER BY debut DESC LIMIT 10"
+                    );
+            while(result.next()) {
+                events.add(getDataFromResult(result));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(events);
         return events;
     }
 
