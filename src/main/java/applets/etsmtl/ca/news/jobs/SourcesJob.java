@@ -1,6 +1,5 @@
 package applets.etsmtl.ca.news.jobs;
 
-import applets.etsmtl.ca.news.db.ConnectionSingleton;
 import applets.etsmtl.ca.news.jobs.strategy.FacebookNewsFetcher;
 import applets.etsmtl.ca.news.jobs.strategy.IFetchNewsStrategy;
 import applets.etsmtl.ca.news.jobs.strategy.RssNewsFetcher;
@@ -17,12 +16,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.sql.Connection;
-import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
-
-import static java.lang.System.exit;
 
 /**
  * Created by nicolas on 24/01/16.
@@ -36,30 +31,12 @@ public class SourcesJob implements Job {
         return new String(encoded, encoding);
     }
 
-    public void upgradeListTypeSources(String[] array_type_sources) {
-
-        try {
-            Connection connection = ConnectionSingleton.getInstance();
-            Statement stmt = connection.createStatement();
-            /*TO DO : String sql = "La requête modifiant les types de sources, faire un implode pour le tableau en paramètre";
-            stmt.executeUpdate(sql);*/
-
-            stmt.close();
-        } catch (Exception e) {
-            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-            exit(1);
-        }
-    }
-
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
         Map<String, IFetchNewsStrategy> mapFetchers = new HashMap<>();
 
         try {
-
-            String[] array_type_sources = new String[]{"rss", "facebook", "twitter"};
-            upgradeListTypeSources(array_type_sources);
 
             // Read sources.json file containing all the sources with their value to be accessed
             final String filePath = getClass().getResource("/news/sources.json").getPath();

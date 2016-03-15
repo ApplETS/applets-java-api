@@ -25,9 +25,9 @@ public class NewsJob implements Job {
         try {
             SourceDAO sourceDao = new SourceDAO();
 
-            List<Source> list_sources_facebook = sourceDao.findAll();
-            List<Source> list_sources_rss = sourceDao.findAll();
-            List<Source> list_sources_twitter = sourceDao.findAll();
+            List<Source> list_sources_facebook = sourceDao.findByType("facebook");
+            List<Source> list_sources_rss = sourceDao.findByType("rss");
+            List<Source> list_sources_twitter = sourceDao.findByType("twitter");
 
             // ADD parse token facebook
             String accesstoken_facebook = "";
