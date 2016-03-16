@@ -115,14 +115,14 @@ public class EventDAO extends DAO<Event> {
             preparedStatement.setString(2, event.getNom());
 
             if(event.getDebut() != null)
-                preparedStatement.setDate(3, new java.sql.Date(event.getDebut().getTime()));
+                preparedStatement.setTimestamp(3, new java.sql.Timestamp(event.getDebut().getTime()));
             else
-                preparedStatement.setDate(3, null);
+                preparedStatement.setTimestamp(3, null);
 
             if(event.getFin() != null)
-                preparedStatement.setDate(4, new java.sql.Date(event.getFin().getTime()));
+                preparedStatement.setTimestamp(4, new java.sql.Timestamp(event.getFin().getTime()));
             else
-                preparedStatement.setDate(4, null);
+                preparedStatement.setTimestamp(4, null);
 
             preparedStatement.setString(5, event.getNom_lieu());
             preparedStatement.setString(6, event.getVille());
