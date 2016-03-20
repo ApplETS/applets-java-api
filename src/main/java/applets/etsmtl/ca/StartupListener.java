@@ -1,6 +1,8 @@
 package applets.etsmtl.ca;
 
 
+import applets.etsmtl.ca.amc.jobs.PushNotificationsJob;
+import applets.etsmtl.ca.amc.jobs.SongsJob;
 import applets.etsmtl.ca.news.jobs.HelloJob;
 import com.sun.jersey.api.core.ResourceConfig;
 import com.sun.jersey.api.model.AbstractResourceModelContext;
@@ -25,6 +27,28 @@ public class StartupListener implements AbstractResourceModelListener {
         JobDetail job = JobBuilder.newJob(HelloJob.class)
                 .withIdentity("dummyJobName", "group1").build();
 
+        JobDetail jobPushNotifs = JobBuilder.newJob(PushNotificationsJob.class)
+                .withIdentity("jobPushNotif", "groupAMC").build();
+
+        JobDetail jobSongs = JobBuilder.newJob(SongsJob.class)
+                .withIdentity("jobSongs", "groupAMC").build();
+
+        Trigger triggerAMC = TriggerBuilder
+                .newTrigger()
+                .withIdentity("dummyTriggerName", "groupAMC")
+                .withSchedule(
+                        SimpleScheduleBuilder.simpleSchedule()
+                                .withIntervalInSeconds(10).repeatForever())
+                .build(); //put 5min later
+
+        Trigger triggerHoursAMC = TriggerBuilder
+                .newTrigger()
+                .withIdentity("dummyHoursTriggerName", "groupAMC")
+                .withSchedule(
+                        SimpleScheduleBuilder.simpleSchedule()
+                                .withIntervalInSeconds(20).repeatForever())
+                .build(); //put 1 hour later
+
         Trigger trigger = TriggerBuilder
                 .newTrigger()
                 .withIdentity("dummyTriggerName", "group1")
@@ -32,7 +56,6 @@ public class StartupListener implements AbstractResourceModelListener {
                         SimpleScheduleBuilder.simpleSchedule()
                                 .withIntervalInSeconds(5).repeatForever())
                 .build();
-
 
         /*
         //For a more cron-like syntax
@@ -48,7 +71,9 @@ public class StartupListener implements AbstractResourceModelListener {
             // schedule it
             Scheduler scheduler = new StdSchedulerFactory().getScheduler();
             scheduler.start();
-            scheduler.scheduleJob(job, trigger);
+            //scheduler.scheduleJob(job, trigger);
+            scheduler.scheduleJob(jobPushNotifs, triggerAMC);
+            scheduler.scheduleJob(jobSongs, triggerHoursAMC);
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
