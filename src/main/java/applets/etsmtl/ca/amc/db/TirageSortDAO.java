@@ -5,6 +5,7 @@ import applets.etsmtl.ca.amc.model.TirageInscrit;
 import applets.etsmtl.ca.amc.model.TiragePrix;
 import applets.etsmtl.ca.amc.model.TirageSort;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -20,14 +21,12 @@ public class TirageSortDAO extends DAO<TirageSort> {
     public TirageSort find(String idTirage) {
         TirageSort tirage = new TirageSort();
         try {
-            ResultSet result = this.connection
-                    .createStatement(
-                            ResultSet.TYPE_SCROLL_INSENSITIVE,
-                            ResultSet.CONCUR_READ_ONLY
-                    ).executeQuery(
-                            "SELECT * FROM tirage_sort " +
-                                "WHERE id_tirage = '" +idTirage+"'"
-                    );
+            String selectStatement = "SELECT * FROM tirage_sort WHERE id_tirage = ?";
+            PreparedStatement prepStmt = this.connection.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+            prepStmt.setInt(1,Integer.parseInt(idTirage));
+            ResultSet result = prepStmt.executeQuery();
+
             if(result.first()) {
                 tirage.setId(result.getInt("id_tirage"));
                 tirage.setTitre(result.getString("titre"));
@@ -47,8 +46,6 @@ public class TirageSortDAO extends DAO<TirageSort> {
                 ArrayList<TiragePrix> alTiragePrix = (ArrayList<TiragePrix>)tiragePrixDAO.findAll(idTirage);
                 tirage.setPrix(alTiragePrix);
             }
-//            else
-//                return null;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -99,15 +96,14 @@ public class TirageSortDAO extends DAO<TirageSort> {
         ArrayList<TirageSort> alTirage = new ArrayList<TirageSort>();
 
         try {
-            ResultSet result = this.connection
-                    .createStatement(
-                            ResultSet.TYPE_SCROLL_INSENSITIVE,
-                            ResultSet.CONCUR_READ_ONLY
-                    ).executeQuery(
-                            "SELECT * FROM tirage_sort ts " +
-                                    "WHERE ts.id_event = '" +idEvent+"' " +
-                                    "ORDER BY ts.date_debut"
-                    );
+            String selectStatement = "SELECT * FROM tirage_sort ts " +
+                                    "WHERE ts.id_event = ? " +
+                                    "ORDER BY ts.date_debut";
+            PreparedStatement prepStmt = this.connection.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+            prepStmt.setInt(1,Integer.parseInt(idEvent));
+            ResultSet result = prepStmt.executeQuery();
+
             while (result.next()) {
                 TirageSort tirage = new TirageSort();
                 tirage.setId(result.getInt("id_tirage"));

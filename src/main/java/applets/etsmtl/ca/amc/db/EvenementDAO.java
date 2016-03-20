@@ -2,6 +2,7 @@ package applets.etsmtl.ca.amc.db;
 
 import applets.etsmtl.ca.amc.model.*;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -15,13 +16,12 @@ public class EvenementDAO extends DAO<Evenement> {
     public Evenement find(String key) {
         Evenement event = new Evenement();
         try {
-            ResultSet result = this.connection
-                    .createStatement(
-                            ResultSet.TYPE_SCROLL_INSENSITIVE,
-                            ResultSet.CONCUR_READ_ONLY
-                    ).executeQuery(
-                            "SELECT * FROM evenement WHERE id_event = '" +key+"'"
-                    );
+            String selectStatement = "SELECT * FROM evenement WHERE id_event = ?";
+            PreparedStatement prepStmt = this.connection.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+            prepStmt.setInt(1,Integer.parseInt(key));
+            ResultSet result = prepStmt.executeQuery();
+
             if(result.first()) {
                 event.setId(result.getInt("id_event"));
                 event.setNom(result.getString("nom"));
@@ -53,8 +53,6 @@ public class EvenementDAO extends DAO<Evenement> {
                 TirageInscritDAO tirageInscritDAO = new TirageInscritDAO();
                 event.setTirageInscrits((ArrayList<TirageInscrit>) tirageInscritDAO.findAll(idEvent));
             }
-//            else
-//                return null;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -71,7 +69,7 @@ public class EvenementDAO extends DAO<Evenement> {
                             ResultSet.TYPE_SCROLL_INSENSITIVE,
                             ResultSet.CONCUR_READ_ONLY
                     ).executeQuery(
-                            "SELECT * FROM evenement ORDER BY date_debut"
+                            "SELECT * FROM evenement ORDER BY date_debut DESC"
                     );
             while (result.next()) {
                 Evenement event = new Evenement();

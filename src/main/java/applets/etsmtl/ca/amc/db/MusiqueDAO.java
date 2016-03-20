@@ -1,8 +1,8 @@
 package applets.etsmtl.ca.amc.db;
 
 import applets.etsmtl.ca.amc.model.Musique;
-import applets.etsmtl.ca.amc.model.Participant;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -17,16 +17,17 @@ public class MusiqueDAO extends DAO<Musique> {
     public Musique find(String key) {
         Musique musique = new Musique();
         try {
-            ResultSet result = this.connection
-                    .createStatement(
-                            ResultSet.TYPE_SCROLL_INSENSITIVE,
-                            ResultSet.CONCUR_READ_ONLY
-                    ).executeQuery(
-                            "SELECT * FROM musique WHERE id_musique = '" +key+"'"
-                    );
+            String selectStatement = "SELECT * FROM musique WHERE id_musique = ? ";
+            PreparedStatement prepStmt = this.connection.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+            prepStmt.setInt(1,Integer.parseInt(key));
+            ResultSet result = prepStmt.executeQuery();
+
             if(result.first()) {
                 musique.setId(result.getInt("id_musique"));
-                musique.setNom(result.getString("nom"));
+                musique.setTitre(result.getString("titre"));
+                musique.setAuteur(result.getString("auteur"));
+                musique.setImage(result.getString("image"));
                 musique.setLien(result.getString("lien"));
                 musique.setNbVote(result.getInt("nombre_vote"));
                 musique.setDejaJoue(result.getInt("deja_joue"));
@@ -49,12 +50,14 @@ public class MusiqueDAO extends DAO<Musique> {
                             ResultSet.TYPE_SCROLL_INSENSITIVE,
                             ResultSet.CONCUR_READ_ONLY
                     ).executeQuery(
-                            "SELECT * FROM musique ORDER BY nom"
+                            "SELECT * FROM musique ORDER BY titre"
                     );
             while (result.next()) {
                 Musique musique = new Musique();
                 musique.setId(result.getInt("id_musique"));
-                musique.setNom(result.getString("nom"));
+                musique.setTitre(result.getString("titre"));
+                musique.setAuteur(result.getString("auteur"));
+                musique.setImage(result.getString("image"));
                 musique.setLien(result.getString("lien"));
                 musique.setNbVote(result.getInt("nombre_vote"));
                 musique.setDejaJoue(result.getInt("deja_joue"));
@@ -79,19 +82,20 @@ public class MusiqueDAO extends DAO<Musique> {
         ArrayList<Musique> alMusique = new ArrayList<Musique>();
 
         try {
-            ResultSet result = this.connection
-                    .createStatement(
-                            ResultSet.TYPE_SCROLL_INSENSITIVE,
-                            ResultSet.CONCUR_READ_ONLY
-                    ).executeQuery(
-                            "SELECT * FROM musique " +
-                                    "WHERE deja_joue =  '" +type+"' " +
-                                    "ORDER BY nom"
-                    );
+            String selectStatement = "SELECT * FROM musique " +
+                                        "WHERE deja_joue =  ? " +
+                                        "ORDER BY titre";
+            PreparedStatement prepStmt = this.connection.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+            prepStmt.setInt(1,type);
+            ResultSet result = prepStmt.executeQuery();
+
             while (result.next()) {
                 Musique musique = new Musique();
                 musique.setId(result.getInt("id_musique"));
-                musique.setNom(result.getString("nom"));
+                musique.setTitre(result.getString("titre"));
+                musique.setAuteur(result.getString("auteur"));
+                musique.setImage(result.getString("image"));
                 musique.setLien(result.getString("lien"));
                 musique.setNbVote(result.getInt("nombre_vote"));
                 musique.setDejaJoue(result.getInt("deja_joue"));
@@ -117,19 +121,20 @@ public class MusiqueDAO extends DAO<Musique> {
         ArrayList<Musique> alMusique = new ArrayList<Musique>();
 
         try {
-            ResultSet result = this.connection
-                    .createStatement(
-                            ResultSet.TYPE_SCROLL_INSENSITIVE,
-                            ResultSet.CONCUR_READ_ONLY
-                    ).executeQuery(
-                            "SELECT * FROM musique " +
-                                    "WHERE deja_joue =  '" +type+"' " +
-                                    "ORDER BY nom"
-                    );
+            String selectStatement = "SELECT * FROM musique " +
+                    "WHERE deja_joue =  ? " +
+                    "ORDER BY titre";
+            PreparedStatement prepStmt = this.connection.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+            prepStmt.setInt(1,type);
+            ResultSet result = prepStmt.executeQuery();
+
             while (result.next()) {
                 Musique musique = new Musique();
                 musique.setId(result.getInt("id_musique"));
-                musique.setNom(result.getString("nom"));
+                musique.setTitre(result.getString("titre"));
+                musique.setAuteur(result.getString("auteur"));
+                musique.setImage(result.getString("image"));
                 musique.setLien(result.getString("lien"));
                 musique.setNbVote(result.getInt("nombre_vote"));
                 musique.setDejaJoue(result.getInt("deja_joue"));
@@ -148,15 +153,14 @@ public class MusiqueDAO extends DAO<Musique> {
         boolean votedFor = false;
 
         try {
-            ResultSet result = this.connection
-                    .createStatement(
-                            ResultSet.TYPE_SCROLL_INSENSITIVE,
-                            ResultSet.CONCUR_READ_ONLY
-                    ).executeQuery(
-                            "SELECT * FROM musique_vote " +
-                                    "WHERE id_musique =  '" +idMusique+"'" +
-                                    "AND adresse_ip =  '" +adresseIP+"'"
-                    );
+            String selectStatement = "SELECT * FROM musique_vote " +
+                                        "WHERE id_musique =  ? " +
+                                        "AND adresse_ip =  ?";
+            PreparedStatement prepStmt = this.connection.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+            prepStmt.setInt(1,idMusique);
+            prepStmt.setString(2,adresseIP);
+            ResultSet result = prepStmt.executeQuery();
             if(result.first()) {
                 votedFor = true;
                 System.out.println("Has voted for id: "+idMusique);
@@ -175,14 +179,12 @@ public class MusiqueDAO extends DAO<Musique> {
         boolean alreadyVoted = hasVotedFor(idMusique, adresseIP);
 
         try {
-            ResultSet result = this.connection
-                    .createStatement(
-                            ResultSet.TYPE_SCROLL_INSENSITIVE,
-                            ResultSet.CONCUR_READ_ONLY
-                    ).executeQuery(
-                            "SELECT COUNT(*) as nbVote FROM musique_vote " +
-                                    "WHERE adresse_ip =  '" +adresseIP+"'"
-                    );
+            String selectStatement = "SELECT COUNT(*) as nbVote FROM musique_vote " +
+                                        "WHERE adresse_ip = ?";
+            PreparedStatement prepStmt = this.connection.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+            prepStmt.setString(1,adresseIP);
+            ResultSet result = prepStmt.executeQuery();
             if(result.first()) {
                 nbVote = result.getInt("nbVote");
             }
@@ -192,22 +194,34 @@ public class MusiqueDAO extends DAO<Musique> {
 
         if(nbVote < 5 && !alreadyVoted) {
             try {
-                Statement st = this.connection
-                        .createStatement(
-                                ResultSet.TYPE_SCROLL_INSENSITIVE,
-                                ResultSet.CONCUR_READ_ONLY);
-                int nbInsert = st.executeUpdate(
-                                "INSERT INTO musique_vote (id_musique, adresse_ip) VALUES ('" +idMusique+"', '" +adresseIP+"')");
+                String selectStatement = "INSERT INTO musique_vote (id_musique, adresse_ip) VALUES (?,?)";
+                PreparedStatement prepStmt = this.connection.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_INSENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY);
+                prepStmt.setInt(1,idMusique);
+                prepStmt.setString(2,adresseIP);
+
+                int nbInsert = prepStmt.executeUpdate();
                 if(nbInsert == 1) {
                     System.out.println("1:Musique_vote inserted");
-                    int nbUpdate = st.executeUpdate("UPDATE musique SET nombre_vote=nombre_vote+1 WHERE id_musique = '" + idMusique + "'");
+
+                    selectStatement = "UPDATE musique SET nombre_vote=nombre_vote+1 WHERE id_musique =?";
+                    prepStmt = this.connection.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_INSENSITIVE,
+                            ResultSet.CONCUR_READ_ONLY);
+                    prepStmt.setInt(1,idMusique);
+
+                    int nbUpdate = prepStmt.executeUpdate();
                     if(nbUpdate == 1) {
                         System.out.println("2:Musique count updated");
                         votedWorks = true;
                     } else {
                         System.out.println("2:ERROR:Musique count not updated");
-                        st.executeUpdate(
-                                "DELETE FROM musique_vote WHERE id_musique='" +idMusique+"' AND  adresse_ip='" +adresseIP+"')");
+
+                        selectStatement = "DELETE FROM musique_vote WHERE id_musique=? AND  adresse_ip=?";
+                        prepStmt = this.connection.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_INSENSITIVE,
+                                ResultSet.CONCUR_READ_ONLY);
+                        prepStmt.setInt(1,idMusique);
+                        prepStmt.setString(2,adresseIP);
+                        prepStmt.executeUpdate();
                     }
                 } else
                     System.out.println("1:ERROR:Musique_vote not inserted");

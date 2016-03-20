@@ -5,8 +5,10 @@ import applets.etsmtl.ca.amc.model.TirageInscrit;
 import applets.etsmtl.ca.amc.model.TirageInscrit;
 import applets.etsmtl.ca.amc.model.TiragePrix;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,16 +31,10 @@ public class TirageInscritDAO extends DAO<TirageInscrit> {
             if(result.first()) {
                 tirageInscrit.setId(result.getInt("id_tirage_inscrit"));
 
-//                TiragePrixDAO tiragePrixDAO = new TiragePrixDAO();
-//                ArrayList<TiragePrix> alTiragePrix = (ArrayList<TiragePrix>)tiragePrixDAO.findAll(result.getString("id_tirage_inscrit"));
-//                tirageInscrit.setPrix(alTiragePrix);
-
                 ParticipantDAO participantDAO = new ParticipantDAO();
                 Participant participantGagnant = participantDAO.find(result.getString("id_participant"));
                 tirageInscrit.setParticipant(participantGagnant);
             }
-//            else
-//                return null;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -62,10 +58,6 @@ public class TirageInscritDAO extends DAO<TirageInscrit> {
                 TirageInscrit tirageInscrit = new TirageInscrit();
 
                 tirageInscrit.setId(result.getInt("id_tirage_inscrit"));
-
-//                TiragePrixDAO tiragePrixDAO = new TiragePrixDAO();
-//                ArrayList<TiragePrix> alTiragePrix = (ArrayList<TiragePrix>)tiragePrixDAO.findAll(result.getString("id_tirage_inscrit"));
-//                tirageInscrit.setPrix(alTiragePrix);
 
                 ParticipantDAO participantDAO = new ParticipantDAO();
                 Participant participantGagnant = participantDAO.find(result.getString("id_participant"));
@@ -96,10 +88,6 @@ public class TirageInscritDAO extends DAO<TirageInscrit> {
                 TirageInscrit tirageInscrit = new TirageInscrit();
                 tirageInscrit.setId(result.getInt("id_tirage_inscrit"));
 
-//                TiragePrixDAO tiragePrixDAO = new TiragePrixDAO();
-//                ArrayList<TiragePrix> alTiragePrix = (ArrayList<TiragePrix>)tiragePrixDAO.findAll(result.getString("id_tirage_inscrit"));
-//                tirageInscrit.setPrix(alTiragePrix);
-
                 ParticipantDAO participantDAO = new ParticipantDAO();
                 Participant participantGagnant = participantDAO.find(result.getString("id_participant"));
                 tirageInscrit.setParticipant(participantGagnant);
@@ -110,5 +98,29 @@ public class TirageInscritDAO extends DAO<TirageInscrit> {
             e.printStackTrace();
         }
         return alTirageInscrits;
+    }
+
+
+    public boolean addTirageInscrit(int idEvent, int idParticipant) {
+        boolean inscritWorks = false;
+        try {
+            String selectStatement = "INSERT INTO tirage_inscrit (id_event, id_participant) VALUES ( ?, ?)";
+            PreparedStatement prepStmt = this.connection.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+            prepStmt.setInt(1,idEvent);
+            prepStmt.setInt(2,idParticipant);
+
+            int nbInsert = prepStmt.executeUpdate();
+            if(nbInsert == 1)
+                inscritWorks = true;
+            else
+                System.out.println("2:ERROR:TirageInscrit not inserted");
+
+        } catch (SQLException e) {
+            System.out.println("1:ERROR:TirageInscrit not inserted-duplicate");
+            //e.printStackTrace();
+        }
+
+        return inscritWorks;
     }
 }

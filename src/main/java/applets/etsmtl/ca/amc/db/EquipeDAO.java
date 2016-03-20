@@ -28,8 +28,6 @@ public class EquipeDAO extends DAO<Equipe> {
                 equipe.setId(result.getInt("id_equipe"));
                 equipe.setNom(result.getString("nom"));
             }
-//            else
-//                return null;
         } catch (SQLException e) {
             e.printStackTrace();
         }

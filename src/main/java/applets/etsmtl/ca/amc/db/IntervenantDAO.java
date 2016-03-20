@@ -2,6 +2,7 @@ package applets.etsmtl.ca.amc.db;
 
 import applets.etsmtl.ca.amc.model.Intervenant;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -17,21 +18,18 @@ public class IntervenantDAO extends DAO<Intervenant> {
     public Intervenant find(String key) {
         Intervenant intervenant = new Intervenant();
         try {
-            ResultSet result = this.connection
-                    .createStatement(
-                            ResultSet.TYPE_SCROLL_INSENSITIVE,
-                            ResultSet.CONCUR_READ_ONLY
-                    ).executeQuery(
-                            "SELECT * FROM intervenant WHERE id_intervenant = '" +key+"'"
-                    );
+            String selectStatement = "SELECT * FROM intervenant WHERE id_intervenant = ? ";
+            PreparedStatement prepStmt = this.connection.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+            prepStmt.setInt(1,Integer.parseInt(key));
+            ResultSet result = prepStmt.executeQuery();
+
             if(result.first()) {
                 intervenant.setId(result.getInt("id_intervenant"));
                 intervenant.setNom(result.getString("nom"));
                 intervenant.setImage(result.getString("image"));
                 intervenant.setBiographie(result.getString("biographie"));
             }
-//            else
-//                return null;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -69,17 +67,16 @@ public class IntervenantDAO extends DAO<Intervenant> {
         ArrayList<Intervenant> alIntervenant = new ArrayList<Intervenant>();
 
         try {
-            ResultSet result = this.connection
-                    .createStatement(
-                            ResultSet.TYPE_SCROLL_INSENSITIVE,
-                            ResultSet.CONCUR_READ_ONLY
-                    ).executeQuery(
-                            "SELECT * FROM intervenant i " +
-                                    "JOIN intervenant_evenement pe " +
+            String selectStatement = "SELECT * FROM intervenant i " +
+                                        "JOIN intervenant_evenement pe " +
                                         "ON i.id_intervenant=pe.id_intervenant " +
-                                    "WHERE pe.id_event = '" +idEvent+"' " +
-                                    "ORDER BY date_debut"
-                    );
+                                        "WHERE pe.id_event = ? " +
+                                        "ORDER BY date_debut";
+            PreparedStatement prepStmt = this.connection.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+            prepStmt.setInt(1,Integer.parseInt(idEvent));
+            ResultSet result = prepStmt.executeQuery();
+
             while (result.next()) {
                 Intervenant intervenant = new Intervenant();
                 intervenant.setId(result.getInt("id_intervenant"));

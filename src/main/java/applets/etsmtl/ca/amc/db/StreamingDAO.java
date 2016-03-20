@@ -2,6 +2,7 @@ package applets.etsmtl.ca.amc.db;
 
 import applets.etsmtl.ca.amc.model.Streaming;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -16,13 +17,12 @@ public class StreamingDAO extends DAO<Streaming> {
     public Streaming find(String key) {
         Streaming streaming = new Streaming();
         try {
-            ResultSet result = this.connection
-                    .createStatement(
-                            ResultSet.TYPE_SCROLL_INSENSITIVE,
-                            ResultSet.CONCUR_READ_ONLY
-                    ).executeQuery(
-                            "SELECT * FROM streaming WHERE id_streaming = '" +key+"'"
-                    );
+            String selectStatement = "SELECT * FROM streaming WHERE id_streaming = ?";
+            PreparedStatement prepStmt = this.connection.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+            prepStmt.setInt(1,Integer.parseInt(key));
+            ResultSet result = prepStmt.executeQuery();
+
             if(result.first()) {
                 streaming.setId(result.getInt("id_streaming"));
                 streaming.setNom(result.getString("nom"));
