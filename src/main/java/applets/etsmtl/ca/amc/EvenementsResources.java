@@ -19,7 +19,7 @@ public class EvenementsResources {
     @GET
     @Path("id/{key}")
     //Exemple : http://localhost:8080/rest/events/list/sgjstgstg
-    @Produces({MediaType.APPLICATION_JSON+";charset=utf-8", MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public Evenement getEvenement(@PathParam("key") String key) {
         EvenementDAO eventDAO = new EvenementDAO();
         Evenement evenement = eventDAO.find(key);
@@ -28,7 +28,7 @@ public class EvenementsResources {
 
     @GET
     @Path("all")
-    @Produces({MediaType.APPLICATION_JSON+";charset=utf-8", MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public ArrayList<Evenement> getAllEvenements() {
         EvenementDAO eventDAO = new EvenementDAO();
         ArrayList<Evenement> allEvent = (ArrayList<Evenement>)eventDAO.findAll();

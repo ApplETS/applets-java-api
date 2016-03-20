@@ -12,8 +12,8 @@ import static org.hamcrest.Matchers.*;
  */
 public class TestEquipes {
 
-    private String id_event = "28";
-    private String id_equipe = "30";
+    private String id_event = ConstantsTest.EVENT_ID;
+    private String id_equipe = ConstantsTest.EQUIPE_ID;
    /* @Before
     public void setUp(){
         RestAssured.basePath = "http://localhost:8080";
@@ -47,7 +47,7 @@ public class TestEquipes {
         expect().statusCode(200)
                 .body(
                         "nom", hasItems("Equipe1 Test", "Equipe2 Test"),
-                        "prix", hasItems("Prix cégép"),
+                        "prix", hasItems("Prix du cégep"),
                         "participants.nom", hasItems(alParticipants1, alParticipants2)
                 ).when().get("/rest/amc-equipes/all-event/"+id_event);
     }

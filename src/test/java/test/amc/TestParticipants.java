@@ -12,9 +12,9 @@ import static org.hamcrest.Matchers.*;
  */
 public class TestParticipants {
 
-    private String id_event = "28";
-    private String id_equipe = "30";
-    private String id_participant = "27";
+    private String id_event = ConstantsTest.EVENT_ID;
+    private String id_equipe = ConstantsTest.EQUIPE_ID;
+    private String id_participant = ConstantsTest.PARTIC_ID;
    /* @Before
     public void setUp(){
         RestAssured.basePath = "http://localhost:8080";

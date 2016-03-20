@@ -12,8 +12,8 @@ import static org.hamcrest.Matchers.*;
  */
 public class TestMusiques {
 
-    private String id_musique = "36";
-    private String adresse_ip = "192.187.155.1";
+    private String id_musique = ConstantsTest.MUSIQUE_ID;
+    private String adresse_ip = ConstantsTest.ADRESSE_IP;
    /* @Before
     public void setUp(){
         RestAssured.basePath = "http://localhost:8080";
@@ -23,7 +23,7 @@ public class TestMusiques {
     public void testGetSingleMusique() {
         expect().statusCode(200)
                 .body(
-                        "nom", equalTo("Musique1 Test"),
+                        "titre", equalTo("Musique1 Test"),
                         "dejaJoue", equalTo(0),
                         "lien", equalTo("urlMsq1"),
                         "nbVote", equalTo(10)
@@ -49,8 +49,8 @@ public class TestMusiques {
 
         expect().statusCode(200)
                 .body(
-                        "nom", hasItems("Musique1 Test", "Musique2 Test", "Musique3 Test", "Musique4 Test", "Musique5 Test"),
-                        "nbVote", hasItems(15, 22, 2, 44, 10),
+                        "titre", hasItems("Musique1 Test", "Musique2 Test", "Musique3 Test", "Musique4 Test", "Musique5 Test"),
+                        "nbVote", hasItems(15, 22, 2, 40, 10),
                         "dejaJoue", hasItems(0, 1, 2)
                 ).when().get("/rest/amc-musiques/all");
     }
@@ -59,7 +59,7 @@ public class TestMusiques {
     public void testGetMusiquesForVote() {
         expect().statusCode(200)
                 .body(
-                        "nom", hasItems("Musique1 Test", "Musique4 Test"),
+                        "titre", hasItems("Musique1 Test", "Musique4 Test"),
                         "nbVote", hasItems(22, 10),
                         "dejaJoue", hasItems(0),
                         "votePourElle", hasItems(true, false)
@@ -70,8 +70,8 @@ public class TestMusiques {
     public void testGetMusiquesElected() {
         expect().statusCode(200)
                 .body(
-                        "nom", hasItems("Musique2 Test", "Musique3 Test"),
-                        "nbVote", hasItems(2, 44),
+                        "titre", hasItems("Musique2 Test", "Musique3 Test"),
+                        "nbVote", hasItems(2, 40),
                         "dejaJoue", hasItems(1),
                         "votePourElle", hasItems(true, false)
                 ).when().get("/rest/amc-musiques/all-elected/"+adresse_ip);
@@ -81,7 +81,7 @@ public class TestMusiques {
     public void testGetMusiquesPlayed() {
         expect().statusCode(200)
                 .body(
-                        "nom", hasItems("Musique5 Test"),
+                        "titre", hasItems("Musique5 Test"),
                         "nbVote", hasItems(15),
                         "dejaJoue", hasItems(2),
                         "votePourElle", hasItems(true)

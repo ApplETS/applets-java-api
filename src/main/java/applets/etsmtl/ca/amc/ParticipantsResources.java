@@ -19,7 +19,7 @@ public class ParticipantsResources {
     @GET
     @Path("id/{key}")
     //Exemple : http://localhost:8080/rest/participants/id/1
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public Participant getParticipant(@PathParam("key") String idParticipant) {
         ParticipantDAO participantDAO = new ParticipantDAO();
         Participant participant = participantDAO.find(idParticipant);
@@ -29,7 +29,7 @@ public class ParticipantsResources {
 
     @GET
     @Path("all")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public ArrayList<Participant> getAllParticipants() {
         ParticipantDAO participantDAO = new ParticipantDAO();
         ArrayList<Participant> allParticipant = (ArrayList<Participant>)participantDAO.findAll();
@@ -39,7 +39,7 @@ public class ParticipantsResources {
 
     @GET
     @Path("all-event/{key}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     //return all the participants for an event
     public ArrayList<Participant> getAllParticipantsForEvent(@PathParam("key") String idEvent) {
         ParticipantDAO participantDAO = new ParticipantDAO();
@@ -50,7 +50,7 @@ public class ParticipantsResources {
 
     @GET
     @Path("all-equipe-event/{key}") //key="12-20", 12=idEvent, 20=idEquipe
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     //return all the participants for an event
     public ArrayList<Participant> getAllParticipantsForEquipeEvent(@PathParam("key") String data) {
         String[] ids = data.split("-");

@@ -19,7 +19,7 @@ public class StreamingsResources {
     @GET
     @Path("id/{key}")
     //Exemple : http://localhost:8080/rest/events/list/sgjstgstg
-    @Produces({MediaType.APPLICATION_JSON+";charset=utf-8", MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public Streaming getStreaming(@PathParam("key") String key) {
         StreamingDAO eventDAO = new StreamingDAO();
         Streaming streaming = eventDAO.find(key);
@@ -28,7 +28,7 @@ public class StreamingsResources {
 
     @GET
     @Path("all")
-    @Produces({MediaType.APPLICATION_JSON+";charset=utf-8", MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public ArrayList<Streaming> getAllStreamings() {
         StreamingDAO eventDAO = new StreamingDAO();
         ArrayList<Streaming> allEvent = (ArrayList<Streaming>)eventDAO.findAll();

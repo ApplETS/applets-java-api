@@ -10,8 +10,8 @@ import static org.hamcrest.Matchers.*;
  */
 public class TestIntervenants {
 
-    private String id_event = "28";
-    private String id_intervenant = "30";
+    private String id_event = ConstantsTest.EVENT_ID;
+    private String id_intervenant = ConstantsTest.INTERV_ID;
 
    /* @Before
     public void setUp(){

@@ -10,8 +10,17 @@ import java.util.ArrayList;
 public class BooleanVar {
 
     private boolean valueBool;
+    private String explication;
 
     public BooleanVar() { }
+
+    public String getExplication() {
+        return explication;
+    }
+
+    public void setExplication(String explication) {
+        this.explication = explication;
+    }
 
     public BooleanVar(boolean boolVar) {
         this.valueBool = boolVar;

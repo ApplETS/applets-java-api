@@ -11,7 +11,7 @@ import static org.hamcrest.Matchers.hasItems;
  */
 public class TestStreamings {
 
-    private String id_streaming = "15";
+    private String id_streaming = ConstantsTest.STREAM_ID;
 
    /* @Before
     public void setUp(){
@@ -32,7 +32,7 @@ public class TestStreamings {
         expect().statusCode(200)
                 .body(
                         "nom", hasItems("Hall A", "Hall B"),
-                        "presentation", hasItems("urlStream1", "urlStream2")
+                        "lien", hasItems("urlStream1", "urlStream2")
                 ).when().get("/rest/amc-streamings/all");
     }
 

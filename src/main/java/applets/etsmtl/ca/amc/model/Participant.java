@@ -13,8 +13,17 @@ public class Participant {
     private String nom;
     private String image;
     private String description;
+    private String courriel;
 
     public Participant() {}
+
+    public String getCourriel() {
+        return courriel;
+    }
+
+    public void setCourriel(String courriel) {
+        this.courriel = courriel;
+    }
 
     public int getId() {
         return id;

@@ -12,8 +12,8 @@ import static org.hamcrest.Matchers.*;
  */
 public class TestTirageSorts {
 
-    private String id_event = "28";
-    private String id_tirageSort = "27";
+    private String id_event = ConstantsTest.EVENT_ID;
+    private String id_tirageSort = ConstantsTest.TIRAGE_ID;
    /* @Before
     public void setUp(){
         RestAssured.basePath = "http://localhost:8080";

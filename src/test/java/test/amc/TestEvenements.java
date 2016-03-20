@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public class TestEvenements {
 
-    private String id_event = "28";
+    private String id_event = ConstantsTest.EVENT_ID;
 
    /* @Before
     public void setUp(){
@@ -37,7 +37,7 @@ public class TestEvenements {
                         "intervenants.nom", hasItems("Interv1 Test", "Interv2 Test"),
                         "tirageInscrits.participant.nom", hasItems("Participant1 Test", "Participant2 Test"),
                         "equipes.nom", hasItems("Equipe1 Test", "Equipe2 Test"),
-                        "equipes.prix", hasItems("Prix cégép")
+                        "equipes.prix", hasItems("Prix du cégep")
                 ).when().get("/rest/amc-events/id/"+id_event);
     }
 
@@ -71,7 +71,7 @@ public class TestEvenements {
         alEquipe2.add("Equipe3 Test");
 
         ArrayList<String> alPrix = new ArrayList<>();
-        alPrix.add("Prix cégép");
+        alPrix.add("Prix du cégep");
         alPrix.add(null);
 
         ArrayList<String> alPrix2 = new ArrayList<>();

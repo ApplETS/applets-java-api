@@ -17,7 +17,7 @@ public class MusiquesResources {
     @GET
     @Path("id/{key}")
     //Exemple : http://localhost:8080/rest/musiques/id/1
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public Musique getMusique(@PathParam("key") String idMusique) {
         MusiqueDAO musiqueDAO = new MusiqueDAO();
         Musique musique = musiqueDAO.find(idMusique);
@@ -27,7 +27,7 @@ public class MusiquesResources {
 
     @GET
     @Path("all")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public ArrayList<Musique> getAllMusiques() {
         MusiqueDAO musiqueDAO = new MusiqueDAO();
         ArrayList<Musique> allMusique = (ArrayList<Musique>)musiqueDAO.findAll();
@@ -37,7 +37,7 @@ public class MusiquesResources {
 
     @GET
     @Path("all-vote/{key}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public ArrayList<Musique> getAllMusiquesForVote(@PathParam("key") String adresseIP) {
         MusiqueDAO musiqueDAO = new MusiqueDAO();
         ArrayList<Musique> allMusique = new ArrayList<Musique>();
@@ -51,7 +51,7 @@ public class MusiquesResources {
 
     @GET
     @Path("all-elected/{key}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public ArrayList<Musique> getAllMusiquesEletedToPlay(@PathParam("key") String adresseIP) {
         MusiqueDAO musiqueDAO = new MusiqueDAO();
         ArrayList<Musique> allMusique = new ArrayList<Musique>();
@@ -65,7 +65,7 @@ public class MusiquesResources {
 
     @GET
     @Path("all-played/{key}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public ArrayList<Musique> getAllMusiquesPlayed(@PathParam("key") String adresseIP) {
         MusiqueDAO musiqueDAO = new MusiqueDAO();
         ArrayList<Musique> allMusique = new ArrayList<Musique>();
@@ -88,7 +88,7 @@ public class MusiquesResources {
 
     @POST
     @Path("vote/musique/{key1}/adresseIP/{key2}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public BooleanVar voteForASong(@PathParam("key1") int idMusique, @PathParam("key2") String adresseIP) {
         MusiqueDAO musiqueDAO = new MusiqueDAO();
         Boolean hasVoted = false;

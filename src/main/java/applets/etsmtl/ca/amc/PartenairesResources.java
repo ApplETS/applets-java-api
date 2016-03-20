@@ -19,7 +19,7 @@ public class PartenairesResources {
     @GET
     @Path("id/{key}")
     //Exemple : http://localhost:8080/rest/partenaires/id/1
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public Partenaire getPartenaire(@PathParam("key") String key) {
         PartenaireDAO partenaireDAO = new PartenaireDAO();
         Partenaire partenaire = partenaireDAO.find(key);
@@ -29,7 +29,7 @@ public class PartenairesResources {
 
     @GET
     @Path("all")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public ArrayList<Partenaire> getAllPartenaires() {
         PartenaireDAO partenaireDAO = new PartenaireDAO();
         ArrayList<Partenaire> allPartenaire = (ArrayList<Partenaire>)partenaireDAO.findAll();
@@ -39,7 +39,7 @@ public class PartenairesResources {
 
     @GET
     @Path("all-event/{key}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     //return all the partners for an event
     public ArrayList<Partenaire> getAllPartenairesForEvent(@PathParam("key") String idEvent) {
         PartenaireDAO partenaireDAO = new PartenaireDAO();

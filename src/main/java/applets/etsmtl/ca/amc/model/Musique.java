@@ -1,7 +1,6 @@
 package applets.etsmtl.ca.amc.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.ArrayList;
 
 /**
  * Created by valentin-debris on 2016-02-10.
@@ -10,7 +9,9 @@ import java.util.ArrayList;
 public class Musique {
 
     private int id;
-    private String nom;
+    private String titre;
+    private String auteur;
+    private String image;
     private String lien;
     private int nbVote;
     private int dejaJoue; //0=pas élue, 1=élue et joué prochainement, 2=élue et déjà joué
@@ -26,12 +27,12 @@ public class Musique {
         this.id = id;
     }
 
-    public String getNom() {
-        return nom;
+    public String getTitre() {
+        return titre;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setTitre(String titre) {
+        this.titre = titre;
     }
 
     public String getLien() {
@@ -64,5 +65,21 @@ public class Musique {
 
     public void setVotePourElle(boolean votePourElle) {
         this.votePourElle = votePourElle;
+    }
+
+    public String getAuteur() {
+        return auteur;
+    }
+
+    public void setAuteur(String auteur) {
+        this.auteur = auteur;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

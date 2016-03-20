@@ -14,8 +14,8 @@ import static org.hamcrest.Matchers.hasItems;
  */
 public class TestPartenaires {
 
-    private String id_event = "28";
-    private String id_partenaire = "34";
+    private String id_event = ConstantsTest.EVENT_ID;
+    private String id_partenaire = ConstantsTest.PARTEN_ID;
    /* @Before
     public void setUp(){
         RestAssured.basePath = "http://localhost:8080";

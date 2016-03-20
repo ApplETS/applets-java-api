@@ -19,7 +19,7 @@ public class IntervenantsResources {
     @GET
     @Path("id/{key}")
     //Exemple : http://localhost:8080/rest/intervenants/id/1
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public Intervenant getIntervenant(@PathParam("key") String key) {
         IntervenantDAO intervenantDAO = new IntervenantDAO();
         Intervenant intervenant = intervenantDAO.find(key);
@@ -29,7 +29,7 @@ public class IntervenantsResources {
 
     @GET
     @Path("all")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public ArrayList<Intervenant> getAllIntervenants() {
         IntervenantDAO intervenantDAO = new IntervenantDAO();
         ArrayList<Intervenant> allIntervenant = (ArrayList<Intervenant>)intervenantDAO.findAll();
@@ -39,7 +39,7 @@ public class IntervenantsResources {
 
     @GET
     @Path("all-event/{key}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     //return all the intervenants for an event
     public ArrayList<Intervenant> getAllIntervenantsForEvent(@PathParam("key") String idEvent) {
         IntervenantDAO intervenantDAO = new IntervenantDAO();

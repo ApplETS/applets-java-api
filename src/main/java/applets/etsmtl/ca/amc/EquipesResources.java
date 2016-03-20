@@ -19,7 +19,7 @@ public class EquipesResources {
     @GET
     @Path("id/{key}")
     //Exemple : http://localhost:8080/rest/equipes/id/1
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public Equipe getEquipe(@PathParam("key") String idEquipe) {
         EquipeDAO equipeDAO = new EquipeDAO();
         Equipe equipe = equipeDAO.find(idEquipe);
@@ -29,7 +29,7 @@ public class EquipesResources {
 
     @GET
     @Path("all")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public ArrayList<Equipe> getAllEquipes() {
         EquipeDAO equipeDAO = new EquipeDAO();
         ArrayList<Equipe> allEquipe = (ArrayList<Equipe>)equipeDAO.findAll();
@@ -39,7 +39,7 @@ public class EquipesResources {
 
     @GET
     @Path("all-event/{key}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     //return all the equipes for an event
     public ArrayList<Equipe> getAllEquipesForEvent(@PathParam("key") String idEvent) {
         EquipeDAO equipeDAO = new EquipeDAO();
