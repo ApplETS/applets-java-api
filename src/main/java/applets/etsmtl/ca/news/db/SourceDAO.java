@@ -12,22 +12,20 @@ import java.util.List;
  * Created by gnut3ll4 on 24/01/16.
  */
 public class SourceDAO extends DAO<Source> {
+
     @Override
     public Source find(String key) {
         Source source = new Source();
         try {
-            ResultSet result = this.connection
-                    .createStatement(
-                            ResultSet.TYPE_SCROLL_INSENSITIVE,
-                            ResultSet.CONCUR_READ_ONLY
-                    ).executeQuery(
-                            "SELECT * FROM sources WHERE key = '" +key+"'"
-                    );
+            String findByKey = "SELECT * FROM sources WHERE key = ?";
+            PreparedStatement st = this.connection.prepareStatement(findByKey,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+            st.setString( 1, key );
+            ResultSet result = st.executeQuery();
             if(result.first()) {
                 source = getDataFromResult(result);
             }
-
-
+            result.close();
+            st.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -37,13 +35,10 @@ public class SourceDAO extends DAO<Source> {
     @Override
     public boolean isExisting(String key) {
         try {
-            ResultSet result = this.connection
-                    .createStatement(
-                            ResultSet.TYPE_SCROLL_INSENSITIVE,
-                            ResultSet.CONCUR_READ_ONLY
-                    ).executeQuery(
-                            "SELECT key FROM sources WHERE key = '" +key+"'"
-                    );
+            String findByKey = "SELECT key FROM sources WHERE key = ?";
+            PreparedStatement st = this.connection.prepareStatement(findByKey,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+            st.setString(1, key);
+            ResultSet result = st.executeQuery();
             if(result.first())
                 return true;
         } catch (SQLException e) {
@@ -57,12 +52,13 @@ public class SourceDAO extends DAO<Source> {
     public List<Source> findAll() {
         List<Source> sources = new ArrayList<Source>();
         try {
+            String findAll = "SELECT * FROM sources";
             ResultSet result = this.connection
                     .createStatement(
                             ResultSet.TYPE_SCROLL_INSENSITIVE,
                             ResultSet.CONCUR_READ_ONLY
                     ).executeQuery(
-                            "SELECT * FROM sources"
+                            findAll
                     );
             while(result.next()) {
                 sources.add(getDataFromResult(result));
@@ -95,13 +91,10 @@ public class SourceDAO extends DAO<Source> {
     public List<Source> findByType(String type){
         List<Source> sources = new ArrayList<Source>();
         try {
-            ResultSet result = this.connection
-                    .createStatement(
-                            ResultSet.TYPE_SCROLL_INSENSITIVE,
-                            ResultSet.CONCUR_READ_ONLY
-                    ).executeQuery(
-                            "SELECT * FROM sources where type = '"+type+"'"
-                    );
+            String findByType = "SELECT * FROM sources WHERE type = ?";
+            PreparedStatement st = this.connection.prepareStatement(findByType,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+            st.setString(1, type);
+            ResultSet result = st.executeQuery();
             while(result.next()) {
                 sources.add(getDataFromResult(result));
             }

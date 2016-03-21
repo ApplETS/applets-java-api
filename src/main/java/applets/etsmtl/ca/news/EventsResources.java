@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by club on 09/03/16.
+ * Created by Marcantvez on 09/03/16.
  */
 @Path("events")
 public class EventsResources {

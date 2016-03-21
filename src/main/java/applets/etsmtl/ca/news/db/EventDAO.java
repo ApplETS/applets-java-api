@@ -17,19 +17,19 @@ public class EventDAO extends DAO<Event> {
     @Override
     public Event find(String id) {
         try {
-                ResultSet result = this.connection
-                                .createStatement(
-                                        ResultSet.TYPE_SCROLL_INSENSITIVE,
-                                        ResultSet.CONCUR_READ_ONLY
-                                        ).executeQuery(
-                                            "SELECT * FROM evenements WHERE id = '" +id+"'"
-                                        );
-                                        // TODO add DATE param to query
-                if(result.first()) {
-                    return getDataFromResult(result);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            String findById="SELECT * FROM evenements WHERE id = ?";
+            PreparedStatement st = this.connection.prepareStatement(findById,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+            st.setString(1, id);
+            ResultSet result = st.executeQuery();
+            // TODO add DATE param to query
+            if(result.first()) {
+                Event event = getDataFromResult(result);
+                result.close();
+                st.close();
+                return event;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return null;
@@ -38,15 +38,15 @@ public class EventDAO extends DAO<Event> {
     @Override
     public boolean isExisting(String id) {
         try {
-            ResultSet result = this.connection
-                    .createStatement(
-                            ResultSet.TYPE_SCROLL_INSENSITIVE,
-                            ResultSet.CONCUR_READ_ONLY
-                    ).executeQuery(
-                            "SELECT id FROM evenements WHERE id = '" +id+"'"
-                    );
-            if(result.first())
+            String findById="SELECT id FROM evenements WHERE id = ?";
+            PreparedStatement st = this.connection.prepareStatement(findById,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+            st.setString(1, id);
+            ResultSet result = st.executeQuery();
+            if(result.first()) {
+                result.close();
+                st.close();
                 return true;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -60,16 +60,18 @@ public class EventDAO extends DAO<Event> {
         // TODO check if date must be checked on find() to filter passed events
         List<Event> events = new ArrayList<Event>();
         try {
+            String findAll = "SELECT * FROM evenements ORDER BY debut DESC LIMIT "+ FIND_ALL_EVENEMENTS_MAX_SIZE;
             ResultSet result = this.connection
                     .createStatement(
                             ResultSet.TYPE_SCROLL_INSENSITIVE,
                             ResultSet.CONCUR_READ_ONLY
                     ).executeQuery(
-                            "SELECT * FROM evenements ORDER BY debut DESC LIMIT 10"
+                            findAll
                     );
             while(result.next()) {
                 events.add(getDataFromResult(result));
             }
+            result.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -87,16 +89,15 @@ public class EventDAO extends DAO<Event> {
         // TODO check if date must be checked on find() to filter passed events
         List<Event> events = new ArrayList<Event>();
         try {
-            ResultSet result = this.connection
-                    .createStatement(
-                            ResultSet.TYPE_SCROLL_INSENSITIVE,
-                            ResultSet.CONCUR_READ_ONLY
-                    ).executeQuery(
-                            "SELECT * FROM evenements WHERE id_source = '"+sourceID+"' ORDER BY debut DESC LIMIT 10"
-                    );
+            String findAllforSource = "SELECT * FROM evenements WHERE id_source = ? ORDER BY debut DESC LIMIT " + FIND_ALL_EVENEMENTS_MAX_SIZE;
+            PreparedStatement st = this.connection.prepareStatement(findAllforSource,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+            st.setString(1, sourceID);
+            ResultSet result = st.executeQuery();
             while(result.next()) {
                 events.add(getDataFromResult(result));
             }
+            result.close();
+            st.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

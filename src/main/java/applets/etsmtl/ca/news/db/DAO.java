@@ -11,6 +11,8 @@ import java.util.List;
 public abstract class DAO<T> {
 
     public Connection connection = ConnectionSingleton.getInstance();
+    public final int FIND_ALL_EVENEMENTS_MAX_SIZE = 10;
+    public final int FIND_ALL_NOUVELLES_MAX_SIZE = 10;
 
     /**
      * Permet de récupérer un objet via son ID
