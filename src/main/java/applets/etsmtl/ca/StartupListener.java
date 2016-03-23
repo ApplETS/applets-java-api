@@ -2,6 +2,7 @@ package applets.etsmtl.ca;
 
 
 import applets.etsmtl.ca.news.jobs.EventsJob;
+import applets.etsmtl.ca.news.jobs.NewsJob;
 import applets.etsmtl.ca.news.jobs.SourcesJob;
 import com.sun.jersey.api.model.AbstractResourceModelContext;
 import com.sun.jersey.api.model.AbstractResourceModelListener;
@@ -26,12 +27,15 @@ public class StartupListener implements AbstractResourceModelListener {
         JobDetail events_job = JobBuilder.newJob(EventsJob.class)
                 .withIdentity("eventsjob", "group2").build();
 
+        JobDetail news_job = JobBuilder.newJob(NewsJob.class)
+                .withIdentity("newsjob", "group3").build();
+
         Trigger trigger_sources = TriggerBuilder
                 .newTrigger()
                 .withIdentity("triggersources", "group1")
                 .withSchedule(
                         SimpleScheduleBuilder.simpleSchedule()
-                                .withIntervalInSeconds(25).repeatForever())
+                                .withIntervalInSeconds(5000).repeatForever())
                 .build();
 
         Trigger trigger_events = TriggerBuilder
@@ -39,7 +43,15 @@ public class StartupListener implements AbstractResourceModelListener {
                 .withIdentity("triggerevents", "group2")
                 .withSchedule(
                         SimpleScheduleBuilder.simpleSchedule()
-                                .withIntervalInSeconds(450).repeatForever())
+                                .withIntervalInSeconds(2500).repeatForever())
+                .build();
+
+        Trigger trigger_news = TriggerBuilder
+                .newTrigger()
+                .withIdentity("triggernews", "group3")
+                .withSchedule(
+                        SimpleScheduleBuilder.simpleSchedule()
+                                .withIntervalInSeconds(2500).repeatForever())
                 .build();
 
 
@@ -57,8 +69,9 @@ public class StartupListener implements AbstractResourceModelListener {
             // schedule it
             Scheduler scheduler = new StdSchedulerFactory().getScheduler();
             scheduler.start();
-            //scheduler.scheduleJob(sources_job, trigger_sources);
+            scheduler.scheduleJob(sources_job, trigger_sources);
             scheduler.scheduleJob(events_job, trigger_events);
+            scheduler.scheduleJob(news_job, trigger_news);
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
