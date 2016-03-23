@@ -2,6 +2,7 @@ package applets.etsmtl.ca.news.db;
 
 import applets.etsmtl.ca.news.model.Nouvelle;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,18 +17,18 @@ public class NouvellesDAO extends DAO<Nouvelle> {
     @Override
     public Nouvelle find(String id) {
         try {
-                ResultSet result = this.connection
-                                .createStatement(
-                                        ResultSet.TYPE_SCROLL_INSENSITIVE,
-                                        ResultSet.CONCUR_READ_ONLY
-                                        ).executeQuery(
-                                            "SELECT * FROM nouvelles WHERE id = '" +id+"'"
-                                        );
-                if(result.first()) {
-                        return getDataFromResult(result);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            String findById = "SELECT * FROM nouvelles WHERE id = ?";
+            PreparedStatement st = this.connection.prepareStatement(findById,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+            st.setString(1, id);
+            ResultSet result = st.executeQuery();
+            if(result.first()) {
+                Nouvelle nouvelle = getDataFromResult(result);
+                result.close();
+                st.close();
+                return nouvelle;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return null;
@@ -36,15 +37,15 @@ public class NouvellesDAO extends DAO<Nouvelle> {
     @Override
     public boolean isExisting(String id) {
         try {
-            ResultSet result = this.connection
-                    .createStatement(
-                            ResultSet.TYPE_SCROLL_INSENSITIVE,
-                            ResultSet.CONCUR_READ_ONLY
-                    ).executeQuery(
-                            "SELECT id FROM nouvelles WHERE id = '" +id+"'"
-                    );
-            if(result.first())
+            String findById = "SELECT id FROM nouvelles WHERE id = ?";
+            PreparedStatement st = this.connection.prepareStatement(findById,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+            st.setString(1, id);
+            ResultSet result = st.executeQuery();
+            if(result.first()) {
+                result.close();
+                st.close();
                 return true;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -56,12 +57,13 @@ public class NouvellesDAO extends DAO<Nouvelle> {
     public List<Nouvelle> findAll() {
         List<Nouvelle> nouvelles = new ArrayList<Nouvelle>();
         try {
+            String findAll = "SELECT * FROM nouvelles ORDER BY date DESC LIMIT " + FIND_ALL_NOUVELLES_MAX_SIZE + ";";
             ResultSet result = this.connection
                     .createStatement(
                             ResultSet.TYPE_SCROLL_INSENSITIVE,
                             ResultSet.CONCUR_READ_ONLY
                     ).executeQuery(
-                            "SELECT * FROM nouvelles ORDER BY date DESC LIMIT 10;"
+                            findAll
                     );
             while(result.next()) {
                 nouvelles.add(getDataFromResult(result));
@@ -81,16 +83,15 @@ public class NouvellesDAO extends DAO<Nouvelle> {
     public List<Nouvelle> findAllForSource(String sourceID) {
         List<Nouvelle> nouvelles = new ArrayList<Nouvelle>();
         try {
-            ResultSet result = this.connection
-                    .createStatement(
-                            ResultSet.TYPE_SCROLL_INSENSITIVE,
-                            ResultSet.CONCUR_READ_ONLY
-                    ).executeQuery(
-                            "SELECT * FROM nouvelles WHERE id_source = '"+sourceID+"'ORDER BY date DESC LIMIT 10;"
-                    );
+            String findAllforSource="SELECT * FROM nouvelles WHERE id_source = ? ORDER BY date DESC LIMIT " + FIND_ALL_NOUVELLES_MAX_SIZE;
+            PreparedStatement st = this.connection.prepareStatement(findAllforSource,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+            st.setString(1, sourceID);
+            ResultSet result = st.executeQuery();
             while(result.next()) {
                 nouvelles.add(getDataFromResult(result));
             }
+            result.close();
+            st.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
