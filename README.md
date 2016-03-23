@@ -5,6 +5,11 @@ Les fonctionnalités actuellement implémentées sont :
 
 * Partenaires : Pour obtenir la liste à jour de nos partenaires à partir de notre [site web](clubapplets.ca/partenaires).
 
+Requêtes actuelles dans l'API
+========
+- Afficher les partenaires : https://api3.clubapplets.ca/partners 
+- Cooptel : https://api3.clubapplets.ca/cooptel?phase=[1 à 4]&appt=[num]
+
 Outils nécessaires
 ==========
 1) Téléchargez et installez [Tomcat 9](https://tomcat.apache.org/ )
