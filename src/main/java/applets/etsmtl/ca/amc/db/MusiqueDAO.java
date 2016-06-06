@@ -14,13 +14,13 @@ import java.util.List;
  */
 public class MusiqueDAO extends DAO<Musique> {
     @Override
-    public Musique find(String key) {
+    public Musique find(int key) {
         Musique musique = new Musique();
         try {
             String selectStatement = "SELECT * FROM musique WHERE id_musique = ? ";
             PreparedStatement prepStmt = this.connection.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
-            prepStmt.setInt(1,Integer.parseInt(key));
+            prepStmt.setInt(1,key);
             ResultSet result = prepStmt.executeQuery();
 
             if(result.first()) {
@@ -32,8 +32,8 @@ public class MusiqueDAO extends DAO<Musique> {
                 musique.setNbVote(result.getInt("nombre_vote"));
                 musique.setDejaJoue(result.getInt("deja_joue"));
             }
-//            else
-//                return null;
+            else
+                return null;
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -8,21 +8,24 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import io.swagger.annotations.Api;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 
 /**
  * Created by valentin-debris on 2016-03-18.
  */
 @Path("amc-tokens")
+@Api(value="/Tokens", hidden = true)
 public class TokensResources {
 
     @POST
     @Path("newtoken/")
     @Produces(MediaType.APPLICATION_JSON)
-    public BooleanVar postNewToken(String data) {
+    public Response postNewToken(String data) {
         BooleanVar val = new BooleanVar(true);
         JsonElement rootElement = new JsonParser().parse(data);
         JsonObject rootObject = rootElement.getAsJsonObject();
@@ -30,8 +33,6 @@ public class TokensResources {
 
         TokenDAO tokenDAO = new TokenDAO();
         boolean res = tokenDAO.addToken(valueToken);
-        val.setValueBool(res);
-//        System.out.println("token : "+valueToken);
-        return val;
+        return Response.status(200).entity(res).build();
     }
 }

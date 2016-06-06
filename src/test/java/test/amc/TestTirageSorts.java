@@ -14,10 +14,6 @@ public class TestTirageSorts {
 
     private String id_event = ConstantsTest.EVENT_ID;
     private String id_tirageSort = ConstantsTest.TIRAGE_ID;
-   /* @Before
-    public void setUp(){
-        RestAssured.basePath = "http://localhost:8080";
-    }*/
 
     @Test
     public void testGetSingleTirageSort() {
@@ -25,8 +21,8 @@ public class TestTirageSorts {
                 .body(
                         "titre", equalTo("A Gagner1"),
                         "description", equalTo("Un super prix1"),
-                        "dateDebut", equalTo("2016-02-20T21:00:00-05:00"),
-                        "dateFin", equalTo("2016-02-20T22:00:00-05:00"),
+                        "dateDebut", equalTo(1455998400),
+                        "dateFin", equalTo(1456002000),
                         "prix.prix", hasItems("Une télé", "Une caméra"),
                         "prix.gagnant.nom", hasItems("Participant1 Test", "Participant2 Test")
                 ).when().get("/rest/amc-tiragesorts/id/"+id_tirageSort);
@@ -34,10 +30,8 @@ public class TestTirageSorts {
 
     @Test
     public void testGetTirageSortNotExist() {
-        expect().statusCode(200)
-                .body(
-                        "id", equalTo(0)
-                ).when().get("/rest/amc-tiragesorts/id/-1");
+        expect().statusCode(404)
+                .body(equalTo("Tirage non trouvé pour l'id -1")).when().get("/rest/amc-tiragesorts/id/-1");
     }
 
     @Test
@@ -56,8 +50,8 @@ public class TestTirageSorts {
                 .body(
                         "titre", hasItems("A Gagner1", "A Gagner2"),
                         "description", hasItems("Un super prix1", "Un super prix2"),
-                        "dateDebut", hasItems("2016-02-20T21:00:00-05:00", "2016-02-21T10:00:00-05:00"),
-                        "dateFin", hasItems("2016-02-20T22:00:00-05:00", "2016-02-21T13:00:00-05:00"),
+                        "dateDebut", hasItems(1455998400, 1458550800),
+                        "dateFin", hasItems(1456002000,1458561600),
                         "prix.prix", hasItems(alPrix1, alPrix2),
                         "prix.gagnant.nom", hasItems(alGagnants1)
                 ).when().get("/rest/amc-tiragesorts/all-event/"+id_event);

@@ -14,13 +14,13 @@ import java.util.List;
  */
 public class StreamingDAO extends DAO<Streaming> {
     @Override
-    public Streaming find(String key) {
+    public Streaming find(int key) {
         Streaming streaming = new Streaming();
         try {
             String selectStatement = "SELECT * FROM streaming WHERE id_streaming = ?";
             PreparedStatement prepStmt = this.connection.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
-            prepStmt.setInt(1,Integer.parseInt(key));
+            prepStmt.setInt(1,key);
             ResultSet result = prepStmt.executeQuery();
 
             if(result.first()) {
@@ -28,6 +28,8 @@ public class StreamingDAO extends DAO<Streaming> {
                 streaming.setNom(result.getString("nom"));
                 streaming.setLien(result.getString("lien"));
             }
+            else
+                return null;
         } catch (SQLException e) {
             e.printStackTrace();
         }

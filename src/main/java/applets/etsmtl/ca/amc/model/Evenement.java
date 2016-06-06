@@ -15,8 +15,8 @@ public class Evenement {
     private String nom;
     private String presentation;
     private String hashtag;
-    private Date dateDebut;
-    private Date dateFin;
+    private long dateDebut;
+    private long dateFin;
     private String lienEventbrite;
     private ArrayList<Equipe> equipes;
     private ArrayList<Partenaire> partenaires;
@@ -56,19 +56,19 @@ public class Evenement {
         this.hashtag = hashtag;
     }
 
-    public Date getDateDebut() {
+    public long getDateDebut() {
         return dateDebut;
     }
 
-    public void setDateDebut(Date dateDeb) {
+    public void setDateDebut(long dateDeb) {
         this.dateDebut = dateDeb;//dateDeb;
     }
 
-    public Date getDateFin() {
+    public long getDateFin() {
         return dateFin;
     }
 
-    public void setDateFin(Date dateFin) {
+    public void setDateFin(long dateFin) {
         this.dateFin = dateFin;
     }
 

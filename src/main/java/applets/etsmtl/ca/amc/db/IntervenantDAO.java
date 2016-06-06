@@ -15,13 +15,13 @@ import java.util.List;
  */
 public class IntervenantDAO extends DAO<Intervenant> {
     @Override
-    public Intervenant find(String key) {
+    public Intervenant find(int key) {
         Intervenant intervenant = new Intervenant();
         try {
             String selectStatement = "SELECT * FROM intervenant WHERE id_intervenant = ? ";
             PreparedStatement prepStmt = this.connection.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
-            prepStmt.setInt(1,Integer.parseInt(key));
+            prepStmt.setInt(1,key);
             ResultSet result = prepStmt.executeQuery();
 
             if(result.first()) {
@@ -63,7 +63,7 @@ public class IntervenantDAO extends DAO<Intervenant> {
         return alIntervenant;
     }
 
-    public List<Intervenant> findAll(String idEvent) {
+    public List<Intervenant> findAll(int idEvent) {
         ArrayList<Intervenant> alIntervenant = new ArrayList<Intervenant>();
 
         try {
@@ -71,10 +71,10 @@ public class IntervenantDAO extends DAO<Intervenant> {
                                         "JOIN intervenant_evenement pe " +
                                         "ON i.id_intervenant=pe.id_intervenant " +
                                         "WHERE pe.id_event = ? " +
-                                        "ORDER BY date_debut";
+                                        "ORDER BY date_debut ASC";
             PreparedStatement prepStmt = this.connection.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
-            prepStmt.setInt(1,Integer.parseInt(idEvent));
+            prepStmt.setInt(1,idEvent);
             ResultSet result = prepStmt.executeQuery();
 
             while (result.next()) {
@@ -86,13 +86,13 @@ public class IntervenantDAO extends DAO<Intervenant> {
 
                 intervenant.setDescription(result.getString("description"));
 
-                Timestamp ts = result.getTimestamp("date_debut");
-                Date dateDeb = new Date(ts.getTime());
-                intervenant.setDateDebut(dateDeb);
+//                Timestamp ts = result.getTimestamp("date_debut");
+//                Date dateDeb = new Date(ts.getTime());
+                intervenant.setDateDebut(result.getLong("date_debut"));
 
-                ts = result.getTimestamp("date_fin");
-                Date dateFin = new Date(ts.getTime());
-                intervenant.setDateFin(dateFin);
+//                ts = result.getLong("date_fin");
+//                Date dateFin = new Date(ts.getTime());
+                intervenant.setDateFin(result.getLong("date_fin"));
 
                 intervenant.setLieu(result.getString("lieu"));
 

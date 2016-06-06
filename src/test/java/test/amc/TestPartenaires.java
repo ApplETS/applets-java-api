@@ -16,10 +16,6 @@ public class TestPartenaires {
 
     private String id_event = ConstantsTest.EVENT_ID;
     private String id_partenaire = ConstantsTest.PARTEN_ID;
-   /* @Before
-    public void setUp(){
-        RestAssured.basePath = "http://localhost:8080";
-    }*/
 
     @Test
     public void testGetSinglePartenaire() {
@@ -31,10 +27,8 @@ public class TestPartenaires {
 
     @Test
     public void testGetPartenaireNotExist() {
-        expect().statusCode(200)
-                .body(
-                        "id", equalTo(0)
-                ).when().get("/rest/amc-partners/id/-1");
+        expect().statusCode(404)
+                .body(equalTo("Partenaire non trouvé pour l'id -1")).when().get("/rest/amc-partners/id/-1");
     }
 
     @Test

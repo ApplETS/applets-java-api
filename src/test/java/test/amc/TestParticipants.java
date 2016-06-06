@@ -31,9 +31,7 @@ public class TestParticipants {
     @Test
     public void testGetParticipantNotExist() {
         expect().statusCode(200)
-                .body(
-                        "id", equalTo(0)
-                ).when().get("/rest/amc-participants/id/-1");
+                .body(equalTo("Participant non trouvé pour l'id -1")).when().get("/rest/amc-participants/id/-1");
     }
 
     @Test

@@ -13,13 +13,13 @@ import java.util.*;
  */
 public class EvenementDAO extends DAO<Evenement> {
     @Override
-    public Evenement find(String key) {
+    public Evenement find(int key) {
         Evenement event = new Evenement();
         try {
             String selectStatement = "SELECT * FROM evenement WHERE id_event = ?";
             PreparedStatement prepStmt = this.connection.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
-            prepStmt.setInt(1,Integer.parseInt(key));
+            prepStmt.setInt(1,key);
             ResultSet result = prepStmt.executeQuery();
 
             if(result.first()) {
@@ -29,15 +29,15 @@ public class EvenementDAO extends DAO<Evenement> {
                 event.setHashtag(result.getString("hashtag"));
                 event.setLienEventbrite(result.getString("lien_eventbrite"));
 
-                Timestamp ts = result.getTimestamp("date_debut");
-                Date dateDeb = new Date(ts.getTime());
-                event.setDateDebut(dateDeb);
+//                Timestamp ts = result.getTimestamp("date_debut");
+//                Date dateDeb = new Date(ts.getTime());
+                event.setDateDebut(result.getLong("date_debut"));
 
-                ts = result.getTimestamp("date_fin");
-                Date dateFin = new Date(ts.getTime());
-                event.setDateFin(dateFin);
+//                ts = result.getTimestamp("date_fin");
+//                Date dateFin = new Date(ts.getTime());
+                event.setDateFin(result.getLong("date_fin"));
 
-                String idEvent = result.getString("id_event");
+                int idEvent = result.getInt("id_event");
                 EquipeDAO equipeDAO = new EquipeDAO();
                 event.setEquipes((ArrayList<Equipe>) equipeDAO.findAll(idEvent));
 
@@ -53,6 +53,8 @@ public class EvenementDAO extends DAO<Evenement> {
                 TirageInscritDAO tirageInscritDAO = new TirageInscritDAO();
                 event.setTirageInscrits((ArrayList<TirageInscrit>) tirageInscritDAO.findAll(idEvent));
             }
+            else
+                return null;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -79,15 +81,15 @@ public class EvenementDAO extends DAO<Evenement> {
                 event.setHashtag(result.getString("hashtag"));
                 event.setLienEventbrite(result.getString("lien_eventbrite"));
 
-                Timestamp ts = result.getTimestamp("date_debut");
-                Date dateDeb = new Date(ts.getTime());
-                event.setDateDebut(dateDeb);
+//                Timestamp ts = result.getTimestamp("date_debut");
+//                Date dateDeb = new Date(ts.getTime());
+                event.setDateDebut(result.getLong("date_debut"));
 
-                ts = result.getTimestamp("date_fin");
-                Date dateFin = new Date(ts.getTime());
-                event.setDateFin(dateFin);
+//                ts = result.getTimestamp("date_fin");
+//                Date dateFin = new Date(ts.getTime());
+                event.setDateFin(result.getLong("date_fin"));
 
-                String idEvent = result.getString("id_event");
+                int idEvent = result.getInt("id_event");
                 EquipeDAO equipeDAO = new EquipeDAO();
                 event.setEquipes((ArrayList<Equipe>)equipeDAO.findAll(idEvent));
 

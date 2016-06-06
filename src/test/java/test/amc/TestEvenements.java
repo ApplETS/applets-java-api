@@ -19,19 +19,14 @@ public class TestEvenements {
 
     private String id_event = ConstantsTest.EVENT_ID;
 
-   /* @Before
-    public void setUp(){
-        RestAssured.basePath = "http://localhost:8080";
-    }*/
-
     @Test
     public void testGetSingleEvenement() {
         expect().statusCode(200)
                 .body(
                         "nom", equalTo("Evenement1 Test"),
                         "presentation", equalTo("Presentation1 Test"),
-                        "dateDebut", equalTo("2016-02-20T17:00:00-05:00"),
-                        "dateFin", equalTo("2016-02-21T17:00:00-05:00"),
+                        "dateDebut", equalTo(1455984000),
+                        "dateFin", equalTo(1456070400),
                         "tirageSorts.description", hasItems("Un super prix1", "Un super prix2"),
                         "partenaires.nom", hasItems("Partenaire1 Test", "Partenaire2 Test"),
                         "intervenants.nom", hasItems("Interv1 Test", "Interv2 Test"),
@@ -91,9 +86,7 @@ public class TestEvenements {
 
     @Test
     public void testEventNotExist() {
-        expect().statusCode(200)
-                .body(
-                        "id", equalTo(0)
-                ).when().get("/rest/amc-events/id/-1");
+        expect().statusCode(404)
+                .body(equalTo("Évènement non trouvé pour l'id -1")).when().get("/rest/amc-events/id/-1");
     }
 }

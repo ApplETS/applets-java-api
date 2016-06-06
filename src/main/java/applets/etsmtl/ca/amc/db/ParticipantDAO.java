@@ -13,16 +13,16 @@ import java.util.List;
  */
 public class ParticipantDAO extends DAO<Participant> {
     @Override
-    public Participant find(String idParticipant) {
+    public Participant find(int idParticipant) {
         Participant participant = new Participant();
-        if(idParticipant == null)
+        if(idParticipant == 0)
             return null;
 
         try {
             String selectStatement = "SELECT * FROM participant WHERE id_participant = ?";
             PreparedStatement prepStmt = this.connection.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
-            prepStmt.setInt(1,Integer.parseInt(idParticipant));
+            prepStmt.setInt(1,idParticipant);
             ResultSet result = prepStmt.executeQuery();
 
             if(result.first()) {
@@ -32,6 +32,8 @@ public class ParticipantDAO extends DAO<Participant> {
                 participant.setCourriel(result.getString("courriel"));
                 participant.setDescription(result.getString("description"));
             }
+            else
+                return null;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -67,7 +69,7 @@ public class ParticipantDAO extends DAO<Participant> {
     }
 
     //return all the participant for an event
-    public List<Participant> findAll(String idEvent) {
+    public List<Participant> findAll(int idEvent) {
         ArrayList<Participant> alParticipant = new ArrayList<Participant>();
 
         try {
@@ -80,7 +82,7 @@ public class ParticipantDAO extends DAO<Participant> {
                                         "ORDER BY p.id_participant";
             PreparedStatement prepStmt = this.connection.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
-            prepStmt.setInt(1,Integer.parseInt(idEvent));
+            prepStmt.setInt(1,idEvent);
             ResultSet result = prepStmt.executeQuery();
 
             while (result.next()) {
@@ -100,7 +102,7 @@ public class ParticipantDAO extends DAO<Participant> {
     }
 
     //return all the participant for an equipe in a specific event
-    public List<Participant> findAll(String idEvent, String idEquipe) {
+    public List<Participant> findAll(int idEvent, int idEquipe) {
         ArrayList<Participant> alParticipant = new ArrayList<Participant>();
 
         try {
@@ -114,8 +116,8 @@ public class ParticipantDAO extends DAO<Participant> {
                                         "ORDER BY p.id_participant";
             PreparedStatement prepStmt = this.connection.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
-            prepStmt.setInt(1,Integer.parseInt(idEvent));
-            prepStmt.setInt(2,Integer.parseInt(idEquipe));
+            prepStmt.setInt(1,idEvent);
+            prepStmt.setInt(2,idEquipe);
             ResultSet result = prepStmt.executeQuery();
 
             while (result.next()) {

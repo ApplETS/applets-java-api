@@ -5,9 +5,12 @@ import applets.etsmtl.ca.amc.db.ParticipantDAO;
 import applets.etsmtl.ca.amc.db.TirageInscritDAO;
 import applets.etsmtl.ca.amc.db.TirageSortDAO;
 import applets.etsmtl.ca.amc.model.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -15,54 +18,60 @@ import java.util.ArrayList;
  * Created by valentin-debris on 2016-02-10.
  */
 @Path("amc-tiragesorts")
+@Api(value = "/Tirages au sort")
 public class TirageSortsResources {
 
     @GET
     @Path("id/{key}")
-    //Exemple : http://localhost:8080/rest/tirageSorts/id/1
     @Produces(MediaType.APPLICATION_JSON)
-    public TirageSort getTirageSort(@PathParam("key") String idTirageSort) {
+    @ApiOperation(
+            value = "Retourne un tirage au sort",
+            notes = "Retourne un tirage au sort"
+    )
+    public Response getTirageSort(@PathParam("key") int idTirageSort) {
         TirageSortDAO tirageSortDAO = new TirageSortDAO();
         TirageSort tirageSort = tirageSortDAO.find(idTirageSort);
 
-        return tirageSort;
+        if(tirageSort == null)
+            return Response.status(Response.Status.NOT_FOUND).entity("Tirage non trouvé pour l'id "+idTirageSort).build();
+        else
+            return Response.status(200).entity(tirageSort).build();
     }
 
     @GET
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
-    public ArrayList<TirageSort> getAllTirageSort() {
+    @ApiOperation(
+            value = "Retourne tous les tirages au sort",
+            notes = "Retourne tous les tirages au sort"
+    )
+    public Response getAllTirageSort() {
         TirageSortDAO tirageSortDAO = new TirageSortDAO();
         ArrayList<TirageSort> allTirageSort = (ArrayList<TirageSort>)tirageSortDAO.findAll();
 
-        return allTirageSort;
+        return Response.status(200).entity(allTirageSort).build();
     }
 
     @GET
     @Path("all-event/{key}")
     @Produces(MediaType.APPLICATION_JSON)
-    //return all the partners for an event
-    public ArrayList<TirageSort> getAllTirageSort(@PathParam("key") String idEvent) {
+    @ApiOperation(
+            value = "Retourne tous les tirages pour un évènement",
+            notes = "Retourne tous les tirages pour un évènement"
+    )
+    public Response getAllTirageSort(@PathParam("key") int idEvent) {
         TirageSortDAO tirageSortDAO = new TirageSortDAO();
         ArrayList<TirageSort> allTirageSort = (ArrayList<TirageSort>)tirageSortDAO.findAll(idEvent);
 
-        return allTirageSort;
-    }
-
-    @GET
-    @Path("db")
-    public TirageSort testDB() {
-        TirageSortDAO tirageSortDAO = new TirageSortDAO();
-        TirageSort tirageSort = tirageSortDAO.find("1");
-
-        return tirageSort;
+        return Response.status(200).entity(allTirageSort).build();
     }
 
     @POST
     @Path("inscription/bc/{key}")
     @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Inscription via un code bar")
     //looking for a participant with this barcode to add him for the draws
-    public BooleanVar inscriptionBC(@PathParam("key") String valueBarCode) {
+    public Response inscriptionBC(@PathParam("key") String valueBarCode) {
         BooleanVar value = new BooleanVar(false);
 
         EventBriteAuth eventBrite = new EventBriteAuth();
@@ -102,15 +111,15 @@ public class TirageSortsResources {
             e.printStackTrace();
         }
 
-
-        return value;
+        return Response.status(200).entity(value).build();
     }
 
     @POST
     @Path("inscription/token/{key}")
     @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Inscription via un token (de Eventbrite)")
     //looking for a participant with this barcode to add him for the draws
-    public BooleanVar inscriptionToken(@PathParam("key") String valueToken) {
+    public Response inscriptionToken(@PathParam("key") String valueToken) {
         BooleanVar value = new BooleanVar(false);
 
         EventBriteAuth eventBrite = new EventBriteAuth();
@@ -141,6 +150,6 @@ public class TirageSortsResources {
             e.printStackTrace();
         }
 
-        return value;
+        return Response.status(200).entity(value).build();
     }
 }

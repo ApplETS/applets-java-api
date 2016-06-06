@@ -39,7 +39,9 @@ dependencies {
 
 	compile 'org.quartz-scheduler:quartz:2.1.5'
 
-	compile 'log4j:log4j:1.2.16'
+    compile 'io.swagger:swagger-jersey-jaxrs:1.5.8'
+
+    compile 'log4j:log4j:1.2.16'
 
 	compile 'org.postgresql:postgresql:9.4-1206-jdbc42'
 

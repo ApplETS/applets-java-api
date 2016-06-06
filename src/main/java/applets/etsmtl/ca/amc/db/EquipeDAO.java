@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class EquipeDAO extends DAO<Equipe> {
     @Override
-    public Equipe find(String key) {
+    public Equipe find(int key) {
         Equipe equipe = new Equipe();
         try {
             ResultSet result = this.connection
@@ -59,7 +59,7 @@ public class EquipeDAO extends DAO<Equipe> {
         return alEquipe;
     }
 
-    public List<Equipe> findAll(String idEvent) {
+    public List<Equipe> findAll(int idEvent) {
         ArrayList<Equipe> alEquipe = new ArrayList<Equipe>();
 
         try {
@@ -82,7 +82,7 @@ public class EquipeDAO extends DAO<Equipe> {
                 equipe.setPrix(result.getString("gagnant"));
 
                 ParticipantDAO participantDAO = new ParticipantDAO();
-                ArrayList<Participant> allParticipants = (ArrayList<Participant>)participantDAO.findAll(idEvent, result.getString("id_equipe"));
+                ArrayList<Participant> allParticipants = (ArrayList<Participant>)participantDAO.findAll(idEvent, result.getInt("id_equipe"));
                 equipe.setParticipants(allParticipants);
 
                 alEquipe.add(equipe);

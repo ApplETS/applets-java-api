@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class TokenDAO extends DAO<Token> {
     @Override
-    public Token find(String token) {
+    public Token find(int token) {
         //Methode qui ne sert à rien
         return null;
     }
@@ -38,9 +38,9 @@ public class TokenDAO extends DAO<Token> {
                 token.setId(result.getInt("id_token"));
                 token.setValue(result.getString("valeur"));
 
-                Timestamp ts = result.getTimestamp("last_use");
-                Date dateLastUse = new Date(ts.getTime());
-                token.setLastUse(dateLastUse);
+//                Timestamp ts = result.getTimestamp("last_use");
+//                Date dateLastUse = new Date(ts.getTime());
+                token.setLastUse(result.getLong("last_use"));
 
                 alTokens.add(token);
             }

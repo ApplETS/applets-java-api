@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class TiragePrixDAO extends DAO<TiragePrix> {
     @Override
-    public TiragePrix find(String idTiragePrix) {
+    public TiragePrix find(int idTiragePrix) {
         TiragePrix tiragePrix = new TiragePrix();
         try {
             String selectStatement = "SELECT * FROM tirage_prix tp " +
@@ -23,7 +23,7 @@ public class TiragePrixDAO extends DAO<TiragePrix> {
                                     "WHERE id_tirage_prix = ?";
             PreparedStatement prepStmt = this.connection.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
-            prepStmt.setInt(1,Integer.parseInt(idTiragePrix));
+            prepStmt.setInt(1,idTiragePrix);
             ResultSet result = prepStmt.executeQuery();
 
             if(result.first()) {
@@ -32,9 +32,11 @@ public class TiragePrixDAO extends DAO<TiragePrix> {
                 tiragePrix.setImage(result.getString("image"));
 
                 ParticipantDAO participantDAO = new ParticipantDAO();
-                Participant participantGagnant = participantDAO.find(result.getString("id_participant"));
+                Participant participantGagnant = participantDAO.find(result.getInt("id_participant"));
                 tiragePrix.setGagnant(participantGagnant);
             }
+            else
+                return null;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -63,7 +65,7 @@ public class TiragePrixDAO extends DAO<TiragePrix> {
                 tiragePrix.setImage(result.getString("image"));
 
                 ParticipantDAO participantDAO = new ParticipantDAO();
-                Participant participantGagnant = participantDAO.find(result.getString("id_participant"));
+                Participant participantGagnant = participantDAO.find(result.getInt("id_participant"));
                 tiragePrix.setGagnant(participantGagnant);
 
                 alTirage.add(tiragePrix);
@@ -74,7 +76,7 @@ public class TiragePrixDAO extends DAO<TiragePrix> {
         return alTirage;
     }
 
-    public List<TiragePrix> findAll(String idTirageSort) {
+    public List<TiragePrix> findAll(int idTirageSort) {
         ArrayList<TiragePrix> alTiragePrix = new ArrayList<TiragePrix>();
 
         try {
@@ -84,7 +86,7 @@ public class TiragePrixDAO extends DAO<TiragePrix> {
                     "WHERE tp.id_tirage = ?";
             PreparedStatement prepStmt = this.connection.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
-            prepStmt.setInt(1,Integer.parseInt(idTirageSort));
+            prepStmt.setInt(1,idTirageSort);
             ResultSet result = prepStmt.executeQuery();
 
             while (result.next()) {
@@ -94,7 +96,7 @@ public class TiragePrixDAO extends DAO<TiragePrix> {
                 tiragePrix.setImage(result.getString("image"));
 
                 ParticipantDAO participantDAO = new ParticipantDAO();
-                Participant participantGagnant = participantDAO.find(result.getString("id_participant"));
+                Participant participantGagnant = participantDAO.find(result.getInt("id_participant"));
                 tiragePrix.setGagnant(participantGagnant);
 
                 alTiragePrix.add(tiragePrix);

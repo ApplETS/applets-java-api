@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class TirageInscritDAO extends DAO<TirageInscrit> {
     @Override
-    public TirageInscrit find(String idTirageInscrit) {
+    public TirageInscrit find(int idTirageInscrit) {
         TirageInscrit tirageInscrit = new TirageInscrit();
         try {
             ResultSet result = this.connection
@@ -32,9 +32,11 @@ public class TirageInscritDAO extends DAO<TirageInscrit> {
                 tirageInscrit.setId(result.getInt("id_tirage_inscrit"));
 
                 ParticipantDAO participantDAO = new ParticipantDAO();
-                Participant participantGagnant = participantDAO.find(result.getString("id_participant"));
+                Participant participantGagnant = participantDAO.find(result.getInt("id_participant"));
                 tirageInscrit.setParticipant(participantGagnant);
             }
+            else
+                return null;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -60,7 +62,7 @@ public class TirageInscritDAO extends DAO<TirageInscrit> {
                 tirageInscrit.setId(result.getInt("id_tirage_inscrit"));
 
                 ParticipantDAO participantDAO = new ParticipantDAO();
-                Participant participantGagnant = participantDAO.find(result.getString("id_participant"));
+                Participant participantGagnant = participantDAO.find(result.getInt("id_participant"));
                 tirageInscrit.setParticipant(participantGagnant);
 
                 alTirageInscrit.add(tirageInscrit);
@@ -71,7 +73,7 @@ public class TirageInscritDAO extends DAO<TirageInscrit> {
         return alTirageInscrit;
     }
 
-    public List<TirageInscrit> findAll(String idEvent) {
+    public List<TirageInscrit> findAll(int idEvent) {
         ArrayList<TirageInscrit> alTirageInscrits = new ArrayList<TirageInscrit>();
 
         try {
@@ -89,7 +91,7 @@ public class TirageInscritDAO extends DAO<TirageInscrit> {
                 tirageInscrit.setId(result.getInt("id_tirage_inscrit"));
 
                 ParticipantDAO participantDAO = new ParticipantDAO();
-                Participant participantGagnant = participantDAO.find(result.getString("id_participant"));
+                Participant participantGagnant = participantDAO.find(result.getInt("id_participant"));
                 tirageInscrit.setParticipant(participantGagnant);
 
                 alTirageInscrits.add(tirageInscrit);

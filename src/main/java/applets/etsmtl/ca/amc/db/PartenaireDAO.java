@@ -14,20 +14,21 @@ import java.util.List;
  */
 public class PartenaireDAO extends DAO<Partenaire> {
     @Override
-    public Partenaire find(String key) {
+    public Partenaire find(int key) {
         Partenaire partenaire = new Partenaire();
         try {
             String selectStatement = "SELECT * FROM partenaire WHERE id_partenaire = ? ";
             PreparedStatement prepStmt = this.connection.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
-            prepStmt.setInt(1,Integer.parseInt(key));
+            prepStmt.setInt(1,key);
             ResultSet result = prepStmt.executeQuery();
 
             if(result.first()) {
                 partenaire.setId(result.getInt("id_partenaire"));
                 partenaire.setNom(result.getString("nom"));
                 partenaire.setImage(result.getString("image"));
-            }
+            } else
+                return null;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -60,7 +61,7 @@ public class PartenaireDAO extends DAO<Partenaire> {
         return alPartenaire;
     }
 
-    public List<Partenaire> findAll(String idEvent) {
+    public List<Partenaire> findAll(int idEvent) {
         ArrayList<Partenaire> alPartenaire = new ArrayList<Partenaire>();
 
         try {
@@ -71,7 +72,7 @@ public class PartenaireDAO extends DAO<Partenaire> {
                                         "ORDER BY p.id_partenaire";
             PreparedStatement prepStmt = this.connection.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
-            prepStmt.setInt(1,Integer.parseInt(idEvent));
+            prepStmt.setInt(1,idEvent);
             ResultSet result = prepStmt.executeQuery();
 
             while (result.next()) {

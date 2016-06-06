@@ -14,10 +14,6 @@ public class TestMusiques {
 
     private String id_musique = ConstantsTest.MUSIQUE_ID;
     private String adresse_ip = ConstantsTest.ADRESSE_IP;
-   /* @Before
-    public void setUp(){
-        RestAssured.basePath = "http://localhost:8080";
-    }*/
 
     @Test
     public void testGetSingleMusique() {
@@ -25,17 +21,16 @@ public class TestMusiques {
                 .body(
                         "titre", equalTo("Musique1 Test"),
                         "dejaJoue", equalTo(0),
-                        "lien", equalTo("urlMsq1"),
-                        "nbVote", equalTo(10)
+                        "lien", equalTo("urlMsq1")
+                //        "nbVote", equalTo(10)
                 ).when().get("/rest/amc-musiques/id/"+ id_musique);
     }
 
     @Test
     public void testGetMusiqueNotExist() {
-        expect().statusCode(200)
-                .body(
-                        "id", equalTo(0)
-                ).when().get("/rest/amc-musiques/id/-1");
+        expect().statusCode(404)
+                .body(equalTo("Musique non trouvée pour l'id -1"))
+                .when().get("/rest/amc-musiques/id/-1");
     }
 
     @Test
@@ -50,7 +45,7 @@ public class TestMusiques {
         expect().statusCode(200)
                 .body(
                         "titre", hasItems("Musique1 Test", "Musique2 Test", "Musique3 Test", "Musique4 Test", "Musique5 Test"),
-                        "nbVote", hasItems(15, 22, 2, 40, 10),
+                //        "nbVote", hasItems(15, 22, 2, 40, 10),
                         "dejaJoue", hasItems(0, 1, 2)
                 ).when().get("/rest/amc-musiques/all");
     }
@@ -60,7 +55,7 @@ public class TestMusiques {
         expect().statusCode(200)
                 .body(
                         "titre", hasItems("Musique1 Test", "Musique4 Test"),
-                        "nbVote", hasItems(22, 10),
+                 //       "nbVote", hasItems(22, 10),
                         "dejaJoue", hasItems(0),
                         "votePourElle", hasItems(true, false)
                 ).when().get("/rest/amc-musiques/all-vote/"+adresse_ip);
@@ -71,7 +66,7 @@ public class TestMusiques {
         expect().statusCode(200)
                 .body(
                         "titre", hasItems("Musique2 Test", "Musique3 Test"),
-                        "nbVote", hasItems(2, 40),
+                 //       "nbVote", hasItems(2, 40),
                         "dejaJoue", hasItems(1),
                         "votePourElle", hasItems(true, false)
                 ).when().get("/rest/amc-musiques/all-elected/"+adresse_ip);
@@ -82,7 +77,7 @@ public class TestMusiques {
         expect().statusCode(200)
                 .body(
                         "titre", hasItems("Musique5 Test"),
-                        "nbVote", hasItems(15),
+                 //       "nbVote", hasItems(15),
                         "dejaJoue", hasItems(2),
                         "votePourElle", hasItems(true)
                 ).when().get("/rest/amc-musiques/all-played/"+adresse_ip);
@@ -91,9 +86,7 @@ public class TestMusiques {
     @Test
     public void testVoteForMusique() {
         expect().statusCode(200)
-                .body(
-                        "valueBool",equalTo("false")
-                )
+                .body(equalTo(false))
                 .when().post("/rest/amc-musiques/vote/musique/"+id_musique+"/adresseIP/"+adresse_ip);
     }
 }

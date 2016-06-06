@@ -18,13 +18,13 @@ import java.util.List;
  */
 public class TirageSortDAO extends DAO<TirageSort> {
     @Override
-    public TirageSort find(String idTirage) {
+    public TirageSort find(int idTirage) {
         TirageSort tirage = new TirageSort();
         try {
             String selectStatement = "SELECT * FROM tirage_sort WHERE id_tirage = ?";
             PreparedStatement prepStmt = this.connection.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
-            prepStmt.setInt(1,Integer.parseInt(idTirage));
+            prepStmt.setInt(1,idTirage);
             ResultSet result = prepStmt.executeQuery();
 
             if(result.first()) {
@@ -32,20 +32,21 @@ public class TirageSortDAO extends DAO<TirageSort> {
                 tirage.setTitre(result.getString("titre"));
                 tirage.setDescription(result.getString("description"));
 
-                Timestamp ts = result.getTimestamp("date_debut");
-                Date dateDeb = new Date(ts.getTime());
-                tirage.setDateDebut(dateDeb);
+//                Timestamp ts = result.getTimestamp("date_debut");
+//                Date dateDeb = new Date(ts.getTime());
+                tirage.setDateDebut(result.getLong("date_debut"));
 
-                ts = result.getTimestamp("date_fin");
-                Date dateFin = new Date(ts.getTime());
-                tirage.setDateFin(dateFin);
+//                ts = result.getTimestamp("date_fin");
+//                Date dateFin = new Date(ts.getTime());
+                tirage.setDateFin(result.getLong("date_fin"));
 
                 tirage.setImage(result.getString("image"));
 
                 TiragePrixDAO tiragePrixDAO = new TiragePrixDAO();
                 ArrayList<TiragePrix> alTiragePrix = (ArrayList<TiragePrix>)tiragePrixDAO.findAll(idTirage);
                 tirage.setPrix(alTiragePrix);
-            }
+            } else
+                return null;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -70,18 +71,18 @@ public class TirageSortDAO extends DAO<TirageSort> {
                 tirage.setTitre(result.getString("titre"));
                 tirage.setDescription(result.getString("description"));
 
-                Timestamp ts = result.getTimestamp("date_debut");
-                Date dateDeb = new Date(ts.getTime());
-                tirage.setDateDebut(dateDeb);
+//                Timestamp ts = result.getTimestamp("date_debut");
+//                Date dateDeb = new Date(ts.getTime());
+                tirage.setDateDebut(result.getLong("date_debut"));
 
-                ts = result.getTimestamp("date_fin");
-                Date dateFin = new Date(ts.getTime());
-                tirage.setDateFin(dateFin);
+//                ts = result.getTimestamp("date_fin");
+//                Date dateFin = new Date(ts.getTime());
+                tirage.setDateFin(result.getLong("date_fin"));
 
                 tirage.setImage(result.getString("image"));
 
                 TiragePrixDAO tiragePrixDAO = new TiragePrixDAO();
-                ArrayList<TiragePrix> alTiragePrix = (ArrayList<TiragePrix>)tiragePrixDAO.findAll(result.getString("id_tirage"));
+                ArrayList<TiragePrix> alTiragePrix = (ArrayList<TiragePrix>)tiragePrixDAO.findAll(result.getInt("id_tirage"));
                 tirage.setPrix(alTiragePrix);
 
                 alTirage.add(tirage);
@@ -92,7 +93,7 @@ public class TirageSortDAO extends DAO<TirageSort> {
         return alTirage;
     }
 
-    public List<TirageSort> findAll(String idEvent) {
+    public List<TirageSort> findAll(int idEvent) {
         ArrayList<TirageSort> alTirage = new ArrayList<TirageSort>();
 
         try {
@@ -101,7 +102,7 @@ public class TirageSortDAO extends DAO<TirageSort> {
                                     "ORDER BY ts.date_debut";
             PreparedStatement prepStmt = this.connection.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
-            prepStmt.setInt(1,Integer.parseInt(idEvent));
+            prepStmt.setInt(1,idEvent);
             ResultSet result = prepStmt.executeQuery();
 
             while (result.next()) {
@@ -110,18 +111,18 @@ public class TirageSortDAO extends DAO<TirageSort> {
                 tirage.setTitre(result.getString("titre"));
                 tirage.setDescription(result.getString("description"));
 
-                Timestamp ts = result.getTimestamp("date_debut");
-                Date dateDeb = new Date(ts.getTime());
-                tirage.setDateDebut(dateDeb);
+//                Timestamp ts = result.getTimestamp("date_debut");
+//                Date dateDeb = new Date(ts.getTime());
+                tirage.setDateDebut(result.getLong("date_debut"));
 
-                ts = result.getTimestamp("date_fin");
-                Date dateFin = new Date(ts.getTime());
-                tirage.setDateFin(dateFin);
+//                ts = result.getTimestamp("date_fin");
+//                Date dateFin = new Date(ts.getTime());
+                tirage.setDateFin(result.getLong("date_fin"));
 
                 tirage.setImage(result.getString("image"));
 
                 TiragePrixDAO tiragePrixDAO = new TiragePrixDAO();
-                ArrayList<TiragePrix> alTiragePrix = (ArrayList<TiragePrix>)tiragePrixDAO.findAll(result.getString("id_tirage"));
+                ArrayList<TiragePrix> alTiragePrix = (ArrayList<TiragePrix>)tiragePrixDAO.findAll(result.getInt("id_tirage"));
                 tirage.setPrix(alTiragePrix);
 
                 alTirage.add(tirage);

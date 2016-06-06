@@ -11,7 +11,7 @@ public class Token {
 
     private int id;
     private String value;
-    private Date lastUse;
+    private long lastUse;
 
     public Token() { }
 
@@ -31,11 +31,11 @@ public class Token {
         this.value = value;
     }
 
-    public Date getLastUse() {
+    public long getLastUse() {
         return lastUse;
     }
 
-    public void setLastUse(Date lastUse) {
+    public void setLastUse(long lastUse) {
         this.lastUse = lastUse;
     }
 }

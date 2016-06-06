@@ -14,8 +14,8 @@ public class TirageSort {
     private String titre;
     private String description;
     private String image;
-    private Date dateDebut;
-    private Date dateFin;
+    private long dateDebut;
+    private long dateFin;
     private ArrayList<TirageInscrit> inscrits;
     private ArrayList<TiragePrix> prix;
 
@@ -56,19 +56,19 @@ public class TirageSort {
         this.description = description;
     }
 
-    public Date getDateDebut() {
+    public long getDateDebut() {
         return dateDebut;
     }
 
-    public void setDateDebut(Date dateDebut) {
+    public void setDateDebut(long dateDebut) {
         this.dateDebut = dateDebut;
     }
 
-    public Date getDateFin() {
+    public long getDateFin() {
         return dateFin;
     }
 
-    public void setDateFin(Date dateFin) {
+    public void setDateFin(long dateFin) {
         this.dateFin = dateFin;
     }
 

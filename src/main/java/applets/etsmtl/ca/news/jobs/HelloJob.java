@@ -10,6 +10,6 @@ import org.quartz.JobExecutionException;
 public class HelloJob implements Job {
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
-        System.out.println("Executing Hello Job");
+        //System.out.println("Executing Hello Job");
     }
 }

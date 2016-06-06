@@ -16,8 +16,8 @@ public class Intervenant {
     private String biographie;
     private String description; //description de son intervention pour l'event
     private String lieu; //lieu de son intervention
-    private Date dateDebut;
-    private Date dateFin;
+    private long dateDebut;
+    private long dateFin;
 
     public Intervenant() {}
 
@@ -69,19 +69,19 @@ public class Intervenant {
         this.lieu = lieu;
     }
 
-    public Date getDateDebut() {
+    public long getDateDebut() {
         return dateDebut;
     }
 
-    public void setDateDebut(Date dateDebut) {
+    public void setDateDebut(long dateDebut) {
         this.dateDebut = dateDebut;
     }
 
-    public Date getDateFin() {
+    public long getDateFin() {
         return dateFin;
     }
 
-    public void setDateFin(Date dateFin) {
+    public void setDateFin(long dateFin) {
         this.dateFin = dateFin;
     }
 }
