@@ -9,6 +9,10 @@ Requêtes actuelles dans l'API
 ========
 - Afficher les partenaires : https://api3.clubapplets.ca/partners 
 - Cooptel : https://api3.clubapplets.ca/cooptel?phase=[1 à 4]&appt=[num]
+- Event sources : https://api3.clubapplets.ca/events/sources
+- Events : https://api3.clubapplets.ca/events/list/[nomsource]
+- Nouvelle sources : https://api3.clubapplets.ca/news/sources
+- Nouvelles : https://api3.clubapplets.ca/news/list/[nomsource]
 
 Outils nécessaires
 ==========
