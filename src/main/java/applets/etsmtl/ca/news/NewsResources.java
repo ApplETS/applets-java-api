@@ -36,14 +36,6 @@ public class NewsResources {
     }
 
     @GET
-    @Path("db")
-    public Source testDB() {
-        SourceDAO sourceDAO = new SourceDAO();
-        Source source = sourceDAO.find("ets");
-        return source;
-    }
-
-    @GET
     @Path("sources")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public List<Source> getSources() {

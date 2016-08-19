@@ -2,6 +2,7 @@ package applets.etsmtl.ca.news.db;
 
 import applets.etsmtl.ca.news.model.Event;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -92,6 +93,33 @@ public class EventDAO extends DAO<Event> {
             String findAllforSource = "SELECT * FROM evenements WHERE id_source = ? ORDER BY debut DESC LIMIT " + FIND_ALL_EVENEMENTS_MAX_SIZE;
             PreparedStatement st = this.connection.prepareStatement(findAllforSource,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
             st.setString(1, sourceID);
+            ResultSet result = st.executeQuery();
+            while(result.next()) {
+                events.add(getDataFromResult(result));
+            }
+            result.close();
+            st.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(events);
+        return events;
+    }
+
+    /**
+     * Cherche les prochains événements pour une source donnée.
+     * @param sourceID le ID de la source.
+     * @return La liste des événements pour cette source
+     */
+    public List<Event> findFollowingEvents(String sourceID) {
+        // TODO review limit
+        // TODO check if date must be checked on find() to filter passed events
+        List<Event> events = new ArrayList<Event>();
+        try {
+            String findAllforSource = "SELECT * FROM evenements WHERE id_source = ? AND fin >= ? ORDER BY debut";
+            PreparedStatement st = this.connection.prepareStatement(findAllforSource,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+            st.setString(1, sourceID);
+            st.setDate(2, new Date(new java.util.Date().getTime())); // Now
             ResultSet result = st.executeQuery();
             while(result.next()) {
                 events.add(getDataFromResult(result));

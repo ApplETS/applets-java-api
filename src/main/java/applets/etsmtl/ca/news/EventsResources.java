@@ -29,17 +29,9 @@ public class EventsResources {
         SourceDAO sourceDAO = new SourceDAO();
         Source source = sourceDAO.find(id);
 
-        events.addAll(eventDAO.findAllForSource(id));
+        events.addAll(eventDAO.findFollowingEvents(id));
 
         return events;
-    }
-
-    @GET
-    @Path("db")
-    public Source testDB() {
-        SourceDAO sourceDAO = new SourceDAO();
-        Source source = sourceDAO.find("ets");
-        return source;
     }
 
     @GET
