@@ -91,7 +91,7 @@ public class SourceDAO extends DAO<Source> {
     public List<Source> findByType(String type){
         List<Source> sources = new ArrayList<Source>();
         try {
-            String findByType = "SELECT * FROM sources WHERE type = ?";
+            String findByType = "SELECT * FROM sources WHERE type = ?::type_source";
             PreparedStatement st = this.connection.prepareStatement(findByType,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
             st.setString(1, type);
             ResultSet result = st.executeQuery();
