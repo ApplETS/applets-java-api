@@ -58,4 +58,5 @@ Les variables d'environnement à définir sont :
 * POSTGRESQL_DB_NAME
 * POSTGRESQL_HOST
 * POSTGRESQL_PORT
+* [FACEBOOK_ACCESS_TOKEN](https://developers.facebook.com/tools/accesstoken/)
 

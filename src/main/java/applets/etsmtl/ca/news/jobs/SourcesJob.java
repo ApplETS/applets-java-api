@@ -45,7 +45,7 @@ public class SourcesJob implements Job {
             JSONObject typeSourceNews = new JSONObject(sources_content);
 
             // ADD parse token facebook
-            String accesstoken_facebook = "";
+            String accesstoken_facebook = System.getenv("FACEBOOK_ACCESS_TOKEN");
 
             // Load RSS sources key value in the map
             JSONArray rss_list_sources = (JSONArray) typeSourceNews.getJSONArray("rss");

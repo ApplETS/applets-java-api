@@ -30,7 +30,7 @@ public class NewsJob implements Job {
             List<Source> list_sources_twitter = sourceDao.findByType("twitter");
 
             // ADD parse token facebook
-            String accesstoken_facebook = "";
+            String accesstoken_facebook = System.getenv("FACEBOOK_ACCESS_TOKEN");
 
             for(Source source : list_sources_facebook) {
                 String key = source.getKey();

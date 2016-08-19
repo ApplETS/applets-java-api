@@ -27,7 +27,7 @@ public class EventsJob implements Job {
             List<Source> list_sources = sourceDao.findByType("facebook");
 
             // ADD parse token facebook
-            String accesstoken_facebook = "";
+            String accesstoken_facebook = System.getenv("FACEBOOK_ACCESS_TOKEN");
 
             for(Source source : list_sources) {
                 String key = source.getKey();
