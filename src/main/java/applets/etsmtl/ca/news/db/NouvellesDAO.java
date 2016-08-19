@@ -99,6 +99,34 @@ public class NouvellesDAO extends DAO<Nouvelle> {
         return nouvelles;
     }
 
+   public void add(Nouvelle nouvelle)
+   {
+     try {
+       String req_insert_nouvelle = "INSERT INTO nouvelles (id, titre, message, link, date, url_picture, id_source) VALUES (?,?,?,?,?,?,?)";
+
+       PreparedStatement preparedStatement = ConnectionSingleton.getInstance().prepareStatement(req_insert_nouvelle);
+
+       preparedStatement.setString(1, nouvelle.getId());
+       preparedStatement.setString(2, nouvelle.getTitre());
+       preparedStatement.setString(3, nouvelle.getMessage());
+       preparedStatement.setString(4, nouvelle.getLink());
+
+       if (nouvelle.getDate() != null) {
+         preparedStatement.setTimestamp(5, new java.sql.Timestamp(nouvelle.getDate().getTime()));
+       } else {
+         preparedStatement.setTimestamp(5, null);
+       }
+       preparedStatement.setString(6, nouvelle.getUrlPicture());
+       preparedStatement.setString(7, nouvelle.getId_source());
+
+       preparedStatement.executeUpdate();
+     } catch (SQLException e) {
+       e.printStackTrace();
+     } catch (NullPointerException e) {
+       e.printStackTrace();
+     }
+   }
+
     @Override
     protected Nouvelle getDataFromResult(ResultSet result) throws SQLException {
         Nouvelle nouvelle = new Nouvelle();
