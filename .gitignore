@@ -41,3 +41,6 @@ project/plugins/project/
 
 # Scala-IDE specific
 .scala_dependencies
+
+#war file
+docker-dir/web/applets-java-api.war
