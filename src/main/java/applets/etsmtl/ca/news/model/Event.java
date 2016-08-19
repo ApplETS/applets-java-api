@@ -1,10 +1,12 @@
 package applets.etsmtl.ca.news.model;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
 /**
  * Created by Marcantvez on 09/03/16.
  */
+@XmlRootElement
 public class Event implements Comparable{
     private String id;
     private String nom;
