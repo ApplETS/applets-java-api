@@ -48,7 +48,7 @@ public class EventsResources {
     public List<Source> getSources() {
 
         SourceDAO sourceDAO = new SourceDAO();
-        List<Source> sources = sourceDAO.findAll();
+        List<Source> sources = sourceDAO.findByType("facebook");
         return sources;
     }
 }
