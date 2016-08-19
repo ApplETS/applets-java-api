@@ -4,6 +4,7 @@ import applets.etsmtl.ca.news.db.EventDAO;
 import applets.etsmtl.ca.news.db.NouvellesDAO;
 import applets.etsmtl.ca.news.db.SourceDAO;
 import applets.etsmtl.ca.news.model.Event;
+import applets.etsmtl.ca.news.model.Nouvelle;
 import applets.etsmtl.ca.news.model.Source;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -96,9 +97,54 @@ public class FacebookNewsFetcher implements IFetchNewsStrategy {
 
     }
 
-    @Override
     public void fetchNouvelles() {
-        // https://graph.facebook.com/v2.5/" + this.value + "feed?access_token=
+        String url_news = "https://graph.facebook.com/v2.5/" + this.value + "/feed?fields=message,link,created_time,name,picture&access_token=" + this.token;
+        try {
+            String data_news = getDataFromUrl(url_news);
+
+            JSONObject Jobjet_data_news = new JSONObject(data_news);
+
+            JSONArray Jarray_data_news = Jobjet_data_news.getJSONArray("data");
+
+            for (int i = 0; i < Jarray_data_news.length(); i++) {
+                JSONObject Jobjet_news = Jarray_data_news.getJSONObject(i);
+
+                String id = Jobjet_news.getString("id");
+
+                if (!this.nouvelleDao.isExisting(id)) {
+                    String message = Jobjet_news.optString("message");
+                    String link = Jobjet_news.optString("link");
+                    String date = Jobjet_news.optString("created_time");
+
+                    String name = Jobjet_news.optString("name");
+                    if ((name == null) || ((name != null) && (name.isEmpty()))) {
+                        name = message.substring(0, Math.min(15, message.length()));
+                    }
+
+                    String picture = Jobjet_news.optString("picture");
+
+
+                    Nouvelle nouvelle = new Nouvelle();
+
+                    nouvelle.setId(id);
+                    nouvelle.setTitre(name);
+                    nouvelle.setMessage(message);
+                    nouvelle.setLink(link);
+                    nouvelle.setDate(parseDate(date));
+                    nouvelle.setUrlPicture(picture);
+
+                    nouvelle.setId_source(this.key);
+
+                    this.nouvelleDao.add(nouvelle);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 
 
