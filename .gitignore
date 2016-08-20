@@ -15,6 +15,7 @@ local.properties
 *.ipr
 *.iws
 .idea/
+classes/
 
 # Build related
 bin/**
