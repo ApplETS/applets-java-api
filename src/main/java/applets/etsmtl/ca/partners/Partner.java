@@ -1,15 +1,9 @@
 package applets.etsmtl.ca.partners;
 
-import org.codehaus.jackson.map.annotate.JsonCachable;
-
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
-/**
- * Created by gnut3ll4 on 04/12/15.
- */
 @XmlRootElement
-@JsonCachable
 public class Partner implements Serializable {
 
     public Partner() {

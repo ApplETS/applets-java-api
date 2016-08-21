@@ -1,25 +1,20 @@
 package applets.etsmtl.ca;
 
+import javax.ws.rs.ApplicationPath;
 
 import applets.etsmtl.ca.news.jobs.EventsJob;
 import applets.etsmtl.ca.news.jobs.NewsJob;
 import applets.etsmtl.ca.news.jobs.SourcesJob;
-import com.sun.jersey.api.model.AbstractResourceModelContext;
-import com.sun.jersey.api.model.AbstractResourceModelListener;
+import org.glassfish.jersey.server.ResourceConfig;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
-import javax.ws.rs.ext.Provider;
+@ApplicationPath("/")
+public class MyApplication extends ResourceConfig {
 
-/**
- * Created by gnut3ll4 on 24/01/16.
- */
-@Provider
-public class StartupListener implements AbstractResourceModelListener {
-
-    @Override
-    public void onLoaded(AbstractResourceModelContext modelContext) {
-        System.out.println("STARTUP");
+    public MyApplication() {
+        String packages = this.getClass().getPackage().getName();
+        packages(packages);
 
         JobDetail sources_job = JobBuilder.newJob(SourcesJob.class)
                 .withIdentity("sourcesjob", "group1").build();
@@ -77,5 +72,7 @@ public class StartupListener implements AbstractResourceModelListener {
         }
 
 
+
     }
+
 }

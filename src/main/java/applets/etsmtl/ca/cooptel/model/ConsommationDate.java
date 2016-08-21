@@ -1,6 +1,5 @@
 package applets.etsmtl.ca.cooptel.model;
 
-import org.codehaus.jackson.map.annotate.JsonCachable;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
@@ -10,7 +9,6 @@ import java.io.Serializable;
  */
 
 @XmlRootElement
-@JsonCachable
 public class ConsommationDate implements Serializable {
 
     String idChambre;

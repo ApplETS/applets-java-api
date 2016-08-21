@@ -1,6 +1,5 @@
 package applets.etsmtl.ca.cooptel.model;
 
-import org.codehaus.jackson.map.annotate.JsonCachable;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
@@ -11,7 +10,6 @@ import java.util.List;
  */
 
 @XmlRootElement
-@JsonCachable
 public class ConsommationGlobal implements Serializable {
     float restant;
 
