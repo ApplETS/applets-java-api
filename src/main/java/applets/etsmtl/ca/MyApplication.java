@@ -13,8 +13,9 @@ import org.quartz.impl.StdSchedulerFactory;
 public class MyApplication extends ResourceConfig {
 
     public MyApplication() {
+        register(new MyApplicationBinder());
         String packages = this.getClass().getPackage().getName();
-        packages(packages);
+        packages(true, packages);
 
         JobDetail sources_job = JobBuilder.newJob(SourcesJob.class)
                 .withIdentity("sourcesjob", "group1").build();

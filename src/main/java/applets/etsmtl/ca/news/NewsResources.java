@@ -9,6 +9,7 @@ import applets.etsmtl.ca.news.db.SourceDAO;
 import applets.etsmtl.ca.news.model.Nouvelle;
 import applets.etsmtl.ca.news.model.Source;
 
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -20,14 +21,23 @@ import java.util.List;
 @Path("news")
 public class NewsResources {
 
+    private final NouvellesDAO nouvellesDAO;
+    private final SourceDAO sourceDAO;
+
+    @Inject
+    public NewsResources(NouvellesDAO nouvellesDAO, SourceDAO sourceDAO)
+    {
+        this.nouvellesDAO = nouvellesDAO;
+        this.sourceDAO = sourceDAO;
+    }
+
+
     @GET
     @Path("list/{key}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public List<Nouvelle> getNouvelles(@PathParam("key") String key) {
         List<Nouvelle> nouvelles = new ArrayList<Nouvelle>();
 
-        NouvellesDAO nouvellesDAO = new NouvellesDAO();
-        SourceDAO sourceDAO = new SourceDAO();
         Source source = sourceDAO.find(key);
 
         nouvelles.addAll(nouvellesDAO.findAllForSource(source.getKey()));
