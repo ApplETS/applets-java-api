@@ -26,11 +26,13 @@ dependencies {
 
     compile 'org.postgresql:postgresql:9.4-1206-jdbc42'
 
+	testCompile 'junit:junit:4.12'
+    testCompile 'org.glassfish.jersey.test-framework:project:2.23.2'
+    testCompile 'org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:2.23.2'
+
+    testCompile 'org.mockito:mockito-all:1.10.19'
 
 
-//	compile 'junit:junit:4.12'
-//    compile 'org.glassfish.jersey.test-framework:project:2.23.2'
-//    compile 'org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:2.23.2'
 //    compile 'org.glassfish.jersey.media:jersey-media-moxy:2.23.2'
 
 }
