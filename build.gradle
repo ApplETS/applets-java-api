@@ -5,6 +5,20 @@ repositories {
     mavenCentral()
 }
 
+sourceSets {
+    test {
+        java {
+            srcDirs = ["src/test/java/applets/etsmtl/ca"]
+        }
+    }
+}
+test {
+    afterTest { desc, result ->
+        println "Executing test ${desc.name} [${desc.className}] with result: ${result.resultType}"
+    }
+}
+
+
 dependencies {
     compile 'javax.ws.rs:javax.ws.rs-api:2.0.1'
 
