@@ -98,7 +98,7 @@ public class FacebookNewsFetcher implements IFetchNewsStrategy {
     }
 
     public void fetchNouvelles() {
-        String url_news = "https://graph.facebook.com/v2.5/" + this.value + "/feed?fields=message,link,created_time,name,picture&access_token=" + this.token;
+        String url_news = "https://graph.facebook.com/v2.5/" + this.value + "/posts?fields=message,link,created_time,name,picture&access_token=" + this.token;
         try {
             String data_news = getDataFromUrl(url_news);
 
