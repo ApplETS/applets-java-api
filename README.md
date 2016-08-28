@@ -58,4 +58,18 @@ Les variables d'environnement à définir sont :
 * POSTGRESQL_DB_NAME
 * POSTGRESQL_HOST
 * POSTGRESQL_PORT
+* [FACEBOOK_ACCESS_TOKEN](https://developers.facebook.com/tools/accesstoken/)
 
+Déploiement rapide
+==========
+
+Il est possible de déployer le projet en une ligne de commande grâce à l'utilisation de Docker. Cette fonctionnalité permet de déployer automatiquement le serveur web et la base de données déjà peuplée d'événements/nouvelles de l'ÉTS.
+
+Renseignez dans un premier temps les variables d'environnement dans le fichier docker-dir/docker-compose.yml, placez-vous à la racine du projet, puis utilisez la commande suivante :
+```bash
+./auto_run.sh
+```
+Cela peut prendre un peu de temps la première fois.
+Connectez-vous ensuite par navigateur à l'adresse : http://{VOTRE_HOST}:8080/applets-java-api/rest/partners
+
+Il existe également un [plugin intellij pour docker](https://plugins.jetbrains.com/plugin/7724?pr=mps) que vous pouvez télécharger directement depuis le serveur d'applications intégré. Ce plugin requiert docker-machine.

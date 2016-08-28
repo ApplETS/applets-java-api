@@ -5,8 +5,6 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Ehcache;
-import org.codehaus.jackson.map.annotate.JsonCachable;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,7 +15,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,7 +25,7 @@ import java.util.regex.Pattern;
 @Path("partners")
 public class PartnersResource {
 
-    String PARTNERS_URL = "http://www.clubapplets.ca/partenaires";
+    String PARTNERS_URL = "https://clubapplets.ca/partenaires/";
     String COL_MD_REGEX = "^col-sm-([0-9])$";
 
 
@@ -47,7 +44,7 @@ public class PartnersResource {
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
-                .url("https://www.clubapplets.ca/partenaires/")
+                .url("https://clubapplets.ca/partenaires/")
                 .get()
                 .build();
 

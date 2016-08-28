@@ -1,0 +1,22 @@
+version: '2'
+services:
+  db:
+    build: db
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+  web:
+    build: web
+    command: catalina.sh run
+    ports:
+      - 8080:8080
+      - 8000:8000
+    environment:
+      - POSTGRESQL_HOST=db
+      - POSTGRESQL_PORT=5432
+      - POSTGRESQL_DB_NAME=applets_api_db
+      - POSTGRESQL_USER=postgres
+      - POSTGRESQL_PASS=postgres
+      - FACEBOOK_ACCESS_TOKEN= **YOURS**
+    links:
+      - db

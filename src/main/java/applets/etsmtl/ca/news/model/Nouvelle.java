@@ -7,9 +7,10 @@ import java.util.Date;
  * Created by gnut3ll4 on 22/01/16.
  */
 @XmlRootElement
-public class Nouvelle {
+public class Nouvelle implements Comparable{
 
     private String id;
+    private String id_source;
     private String titre;
     private String message;
     private String link;
@@ -17,6 +18,14 @@ public class Nouvelle {
     private String urlPicture;
 
     public Nouvelle() {
+    }
+
+    public String getId_source() {
+        return id_source;
+    }
+
+    public void setId_source(String id_source) {
+        this.id_source = id_source;
     }
 
     public String getTitre() {
@@ -65,5 +74,15 @@ public class Nouvelle {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+
+    public int compareTo(Nouvelle o) {
+        return this.date.compareTo(o.getDate());
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return this.date.compareTo(((Nouvelle)o).getDate());
     }
 }

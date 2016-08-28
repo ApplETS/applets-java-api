@@ -13,6 +13,8 @@ public class Source {
     private String urlImage;
     private String key;
 
+    private String value;
+
     public Source() {
     }
 
@@ -47,4 +49,8 @@ public class Source {
     public void setKey(String key) {
         this.key = key;
     }
+
+    public String getValue() { return value; }
+
+    public void setValue(String value) { this.value = value; }
 }
