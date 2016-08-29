@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
 public class CooptelResource {
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces({MediaType.APPLICATION_JSON})
     public ConsommationGlobal getInternetStats(@QueryParam("phase") String phase, @QueryParam("appt") String appt) {
 
         String username, password;

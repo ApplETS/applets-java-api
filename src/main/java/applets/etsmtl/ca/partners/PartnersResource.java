@@ -30,7 +30,7 @@ public class PartnersResource {
 
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces({MediaType.APPLICATION_JSON})
     public ArrayList<Partner> getPartners() {
 
         CacheManager cacheManager = CacheManager.getInstance();

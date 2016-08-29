@@ -21,7 +21,7 @@ public class EventsResources {
 
     @GET
     @Path("list/{id}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces({MediaType.APPLICATION_JSON})
     public List<Event> getEvents(@PathParam("id") String id) {
         List<Event> events = new ArrayList<Event>();
 
@@ -36,7 +36,7 @@ public class EventsResources {
 
     @GET
     @Path("sources")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces({MediaType.APPLICATION_JSON})
     public List<Source> getSources() {
 
         SourceDAO sourceDAO = new SourceDAO();

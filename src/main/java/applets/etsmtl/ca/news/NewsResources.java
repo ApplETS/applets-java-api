@@ -34,7 +34,7 @@ public class NewsResources {
 
     @GET
     @Path("list/{key}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces({MediaType.APPLICATION_JSON})
     public List<Nouvelle> getNouvelles(@PathParam("key") String key) {
         List<Nouvelle> nouvelles = new ArrayList<Nouvelle>();
 
@@ -47,7 +47,7 @@ public class NewsResources {
 
     @GET
     @Path("sources")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces({MediaType.APPLICATION_JSON})
     public List<Source> getSources() {
         SourceDAO sourceDAO = new SourceDAO();
         List<Source> sources = sourceDAO.findAll();
