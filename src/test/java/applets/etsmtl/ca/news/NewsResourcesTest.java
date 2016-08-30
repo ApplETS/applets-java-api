@@ -60,6 +60,26 @@ public class NewsResourcesTest extends JerseyTest {
         Assert.assertTrue(response.size() == list.size());
     }
 
+    @Test
+    public void testGetSources() {
+        ArrayList<Source> sources = new ArrayList<>();
+
+        Source source1 = new Source();
+        source1.setName("source1");
+
+        sources.add(source1);
+        sources.add(source1);
+
+        when(sourceDAO.findAll()).thenReturn(sources);
+
+        List<Source> response = target("/news/sources").request().get(new GenericType<List<Source>>() {
+        });
+
+        Assert.assertTrue("source1".equals(response.get(0).getName()));
+        Assert.assertTrue(response.size() == sources.size());
+
+    }
+
 
 }
 
