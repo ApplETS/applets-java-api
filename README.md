@@ -4,6 +4,13 @@ Vue d'ensemble
 ========
 Nous utilisons cette API pour centraliser la distribution d'informations vers les clients mobiles.
 
+Liens rapides :
+  * [Requêtes actuelles dans l'API](#requêtes-actuelles-dans-lapi)
+  * [Outils nécessaires](#outils-nécessaires)
+  * [Configuration](#configuration)
+  * [Déploiement rapide](#déploiement-rapide)
+
+
 Requêtes actuelles dans l'API
 ========
 - Afficher les partenaires : https://api3.clubapplets.ca/partners 
