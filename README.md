@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/ApplETS/applets-java-api.svg?branch=master)](https://travis-ci.org/ApplETS/applets-java-api) [![Coverage Status](https://coveralls.io/repos/github/ApplETS/applets-java-api/badge.svg?branch=master)](https://coveralls.io/github/ApplETS/applets-java-api?branch=master)
 
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/ba698d57365064fe6007)
+
 Vue d'ensemble
 ========
 Nous utilisons cette API pour centraliser la distribution d'informations vers les clients mobiles.
@@ -9,6 +11,7 @@ Liens rapides :
   * [Outils nécessaires](#outils-nécessaires)
   * [Configuration](#configuration)
   * [Déploiement rapide](#déploiement-rapide)
+  * [Schéma de la base de données](#schéma-de-la-base-de-données)
 
 
 Requêtes actuelles dans l'API
@@ -79,3 +82,9 @@ Cela peut prendre un peu de temps la première fois.
 Connectez-vous ensuite par navigateur à l'adresse : http://{VOTRE_HOST}:8080/applets-java-api/rest/partners
 
 Il existe également un [plugin intellij pour docker](https://plugins.jetbrains.com/plugin/7724?pr=mps) que vous pouvez télécharger directement depuis le serveur d'applications intégré. Ce plugin requiert docker-machine.
+
+Schéma de la base de données
+==========
+
+![Schéma de la base de données](http://i.imgur.com/y1qUU34.png)
+
