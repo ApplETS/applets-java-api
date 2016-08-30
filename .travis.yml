@@ -10,5 +10,8 @@ cache:
 jdk:
   - oraclejdk8
 
+after_success:
+  - ./gradlew cobertura coveralls
+
 script:
-  - ./gradlew coberturaReport
+  - ./gradlew test
