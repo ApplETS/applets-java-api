@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/gnut3ll4/applets-java-api.svg?branch=master)](https://travis-ci.org/gnut3ll4/applets-java-api) [![Coverage Status](https://coveralls.io/repos/github/gnut3ll4/applets-java-api/badge.svg)](https://coveralls.io/github/gnut3ll4/applets-java-api)
+[![Build Status](https://travis-ci.org/gnut3ll4/applets-java-api.svg?branch=master)](https://travis-ci.org/gnut3ll4/applets-java-api) [![Coverage Status](https://coveralls.io/repos/github/gnut3ll4/applets-java-api/badge.svg?branch=master)](https://coveralls.io/github/gnut3ll4/applets-java-api?branch=master)
 
 Vue d'ensemble
 ========
