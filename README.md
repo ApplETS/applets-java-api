@@ -1,9 +1,8 @@
+[![Build Status](https://travis-ci.org/gnut3ll4/applets-java-api.svg?branch=master)](https://travis-ci.org/gnut3ll4/applets-java-api)
+
 Vue d'ensemble
 ========
 Nous utilisons cette API pour centraliser la distribution d'informations vers les clients mobiles.
-Les fonctionnalités actuellement implémentées sont :
-
-* Partenaires : Pour obtenir la liste à jour de nos partenaires à partir de notre [site web](clubapplets.ca/partenaires).
 
 Requêtes actuelles dans l'API
 ========
