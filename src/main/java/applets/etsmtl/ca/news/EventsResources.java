@@ -5,6 +5,7 @@ import applets.etsmtl.ca.news.db.SourceDAO;
 import applets.etsmtl.ca.news.model.Event;
 import applets.etsmtl.ca.news.model.Source;
 
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -19,14 +20,21 @@ import java.util.List;
 @Path("events")
 public class EventsResources {
 
+    private final EventDAO eventDAO;
+    private final SourceDAO sourceDAO;
+
+    @Inject
+    public EventsResources(EventDAO eventDAO, SourceDAO sourceDAO) {
+        this.eventDAO = eventDAO;
+        this.sourceDAO = sourceDAO;
+    }
+
     @GET
     @Path("list/{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public List<Event> getEvents(@PathParam("id") String id) {
         List<Event> events = new ArrayList<Event>();
 
-        EventDAO eventDAO = new EventDAO();
-        SourceDAO sourceDAO = new SourceDAO();
         Source source = sourceDAO.find(id);
 
         events.addAll(eventDAO.findFollowingEvents(id));
@@ -39,7 +47,6 @@ public class EventsResources {
     @Produces({MediaType.APPLICATION_JSON})
     public List<Source> getSources() {
 
-        SourceDAO sourceDAO = new SourceDAO();
         List<Source> sources = sourceDAO.findByType("facebook");
         return sources;
     }
