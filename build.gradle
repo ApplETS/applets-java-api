@@ -53,9 +53,8 @@ dependencies {
     testCompile 'org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:2.23.2'
 
     testCompile 'org.mockito:mockito-all:1.10.19'
-
+    testCompile 'com.squareup.okhttp3:mockwebserver:3.4.1'
     testRuntime "org.slf4j:slf4j-api:1.7.10"
-//    compile 'org.glassfish.jersey.media:jersey-media-moxy:2.23.2'
 
 }
 
