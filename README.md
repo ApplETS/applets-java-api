@@ -22,6 +22,7 @@ Requêtes actuelles dans l'API
 - Events : https://api3.clubapplets.ca/events/list/[nomsource]
 - Nouvelle sources : https://api3.clubapplets.ca/news/sources
 - Nouvelles : https://api3.clubapplets.ca/news/list/[nomsource]
+- Version des apps : https://api3.clubapplets.ca/app_version/[ios ou android]
 
 Outils nécessaires
 ==========
