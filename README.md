@@ -75,6 +75,25 @@ Déploiement rapide
 
 Il est possible de déployer le projet en une ligne de commande grâce à l'utilisation de Docker. Cette fonctionnalité permet de déployer automatiquement le serveur web et la base de données déjà peuplée d'événements/nouvelles de l'ÉTS.
 
+### Déployer uniquement la base de données pour tester
+
+Exécutez le script __setup_db_standalone.sh__ à la racine du projet.
+
+La base de données est alors démarrée et peuplée de données de test.
+
+Renseignez ensuite les variables d'environnement suivantes dans votre IDE : 
+```
+POSTGRESQL_USER = postgres
+POSTGRESQL_PASS = postgres
+POSTGRESQL_DB_NAME = applets_api_db
+POSTGRESQL_HOST = 0.0.0.0
+POSTGRESQL_PORT = 5432
+```
+(Dans IntelliJ : Run, Edit configurations, onglet Startup/Connection, Environment Variables )
+
+
+### Déployer toute la solution
+
 Renseignez dans un premier temps les variables d'environnement dans le fichier docker-dir/docker-compose.yml, placez-vous à la racine du projet, puis utilisez la commande suivante :
 ```bash
 ./auto_run.sh
