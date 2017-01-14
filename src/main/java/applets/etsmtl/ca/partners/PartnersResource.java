@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 @Path("partners")
 public class PartnersResource {
 
-    String PARTNERS_URL = "https://clubapplets.ca/partenaires/";
+    public static String PARTNERS_URL = "https://clubapplets.ca/partenaires/";
     String COL_MD_REGEX = "^col-sm-([0-9])$";
 
 
@@ -44,7 +44,7 @@ public class PartnersResource {
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
-                .url("https://clubapplets.ca/partenaires/")
+                .url(PARTNERS_URL)
                 .get()
                 .build();
 

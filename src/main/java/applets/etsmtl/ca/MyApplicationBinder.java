@@ -1,5 +1,6 @@
 package applets.etsmtl.ca;
 
+import applets.etsmtl.ca.news.db.EventDAO;
 import applets.etsmtl.ca.news.db.NouvellesDAO;
 import applets.etsmtl.ca.news.db.SourceDAO;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
@@ -13,6 +14,7 @@ public class MyApplicationBinder extends AbstractBinder {
     protected void configure() {
         bind(NouvellesDAO.class).to(NouvellesDAO.class);
         bind(SourceDAO.class).to(SourceDAO.class);
+        bind(EventDAO.class).to(EventDAO.class);
 
     }
 }

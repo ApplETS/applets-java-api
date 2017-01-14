@@ -49,7 +49,6 @@ public class NewsResources {
     @Path("sources")
     @Produces({MediaType.APPLICATION_JSON})
     public List<Source> getSources() {
-        SourceDAO sourceDAO = new SourceDAO();
         List<Source> sources = sourceDAO.findAll();
         return sources;
     }
