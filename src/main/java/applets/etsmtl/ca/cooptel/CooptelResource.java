@@ -63,7 +63,7 @@ public class CooptelResource {
         Elements tables = doc.select("table[border=1]");
 
         Pattern detailsPattern = Pattern.compile("<td>(.*)<\\/td><td>(.*)<\\/td><td align=\"RIGHT\">(.*)<\\/td><td align=\"RIGHT\">(.*)<\\/td>");
-        Pattern totalPattern = Pattern.compile("<td>Quota permis pour la p&eacute;riode<\\/td>.*<td align=\"RIGHT\">(.*)<\\/td>.*<\\/tr>");
+        Pattern totalPattern = Pattern.compile("<td>Quota permis pour la p&eacute;riode \\(Mo\\)<\\/td>.*<td align=\"RIGHT\">(.*)<\\/td>");
         Matcher m = null;
 
         ArrayList<ConsommationDate> consommationDates = new ArrayList<ConsommationDate>();
@@ -88,14 +88,9 @@ public class CooptelResource {
 
         ConsommationGlobal global = new ConsommationGlobal();
 
-        String s = tables.get(1)
-                .children()
-                .html()
-                .replace("\n", "");
-
         m = totalPattern.matcher(
-                tables.get(1)
-                        .children()
+                tables.get(1).select("tbody > tr")
+                        .first()
                         .html()
                         .replace("\n", ""));
 
