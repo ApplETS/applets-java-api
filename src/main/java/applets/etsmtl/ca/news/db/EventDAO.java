@@ -10,9 +10,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by marcantvez on 24/01/16.
- */
 public class EventDAO extends DAO<Event> {
 
     @Override

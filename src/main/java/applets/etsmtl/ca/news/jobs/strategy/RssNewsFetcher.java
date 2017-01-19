@@ -13,9 +13,6 @@ import com.sun.syndication.io.XmlReader;
 import java.io.IOException;
 import java.net.URL;
 
-/**
- * Created by nicolas on 26/01/16.
- */
 public class RssNewsFetcher implements IFetchNewsStrategy {
 
     private String key;

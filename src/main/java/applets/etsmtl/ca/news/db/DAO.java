@@ -5,9 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-/**
- * Created by gnut3ll4 on 24/01/16.
- */
 public abstract class DAO<T> {
 
     public Connection connection = ConnectionSingleton.getInstance();

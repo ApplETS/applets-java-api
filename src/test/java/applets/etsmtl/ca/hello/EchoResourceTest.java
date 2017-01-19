@@ -7,9 +7,6 @@ import org.junit.Test;
 
 import javax.ws.rs.core.Application;
 
-/**
- * Created by gnut3ll4 on 8/20/16.
- */
 public class EchoResourceTest extends JerseyTest {
 
     @Override

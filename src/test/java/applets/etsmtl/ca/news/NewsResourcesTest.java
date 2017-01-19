@@ -19,9 +19,6 @@ import java.util.List;
 
 import static org.mockito.Mockito.when;
 
-/**
- * Created by gnut3ll4 on 8/21/16.
- */
 public class NewsResourcesTest extends JerseyTest {
 
     @Mock

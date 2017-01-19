@@ -19,9 +19,6 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by nicolas on 24/01/16.
- */
 public class SourcesJob implements Job {
 
     static String readFile(String path, Charset encoding)

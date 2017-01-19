@@ -11,9 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by nicolas on 24/01/16.
- */
 public class EventsJob implements Job {
 
     @Override

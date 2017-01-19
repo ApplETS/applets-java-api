@@ -14,9 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by gnut3ll4 on 24/01/16.
- */
 public class NewsJob implements Job {
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {

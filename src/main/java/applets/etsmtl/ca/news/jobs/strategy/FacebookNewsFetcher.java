@@ -25,9 +25,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- * Created by nicolas on 26/01/16.
- */
 public class FacebookNewsFetcher implements IFetchNewsStrategy {
 
     private String key;

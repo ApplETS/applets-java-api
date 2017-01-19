@@ -1,9 +1,5 @@
 package applets.etsmtl.ca.news;
 
-/**
- * Created by gnut3ll4 on 22/01/16.
- */
-
 import applets.etsmtl.ca.news.db.NouvellesDAO;
 import applets.etsmtl.ca.news.db.SourceDAO;
 import applets.etsmtl.ca.news.model.Nouvelle;

@@ -8,9 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by gnut3ll4 on 24/01/16.
- */
 public class SourceDAO extends DAO<Source> {
 
     @Override
