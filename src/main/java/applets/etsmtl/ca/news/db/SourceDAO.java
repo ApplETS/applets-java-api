@@ -88,6 +88,27 @@ public class SourceDAO extends DAO<Source> {
         }
     }
 
+    public void update(Source source) {
+        try {
+
+            String req_insert_source = "" +
+                    "UPDATE sources " +
+                    "SET name = ?, type = ?::type_source, url_image = ?, value = ? " +
+                    "WHERE key = ?";
+            PreparedStatement preparedStatement = ConnectionSingleton.getInstance().prepareStatement(req_insert_source);
+
+            preparedStatement.setString(5, source.getKey());
+            preparedStatement.setString(1, source.getName());
+            preparedStatement.setString(2, source.getType());
+            preparedStatement.setString(3, source.getUrlImage());
+            preparedStatement.setString(4, source.getValue());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public List<Source> findByType(String type){
         List<Source> sources = new ArrayList<Source>();
         try {
@@ -116,6 +137,7 @@ public class SourceDAO extends DAO<Source> {
         source.setValue(result.getString("value"));
         return source;
     }
+
 
 
 }

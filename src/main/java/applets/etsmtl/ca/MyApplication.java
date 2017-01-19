@@ -31,7 +31,7 @@ public class MyApplication extends ResourceConfig {
                 .withIdentity("triggersources", "group1")
                 .withSchedule(
                         SimpleScheduleBuilder.simpleSchedule()
-                                .withIntervalInSeconds(5000).repeatForever())
+                                .withIntervalInSeconds(60*60*10).repeatForever())
                 .build();
 
         Trigger trigger_events = TriggerBuilder
@@ -39,7 +39,7 @@ public class MyApplication extends ResourceConfig {
                 .withIdentity("triggerevents", "group2")
                 .withSchedule(
                         SimpleScheduleBuilder.simpleSchedule()
-                                .withIntervalInSeconds(2500).repeatForever())
+                                .withIntervalInSeconds(60*60*2).repeatForever())
                 .build();
 
         Trigger trigger_news = TriggerBuilder
@@ -47,7 +47,7 @@ public class MyApplication extends ResourceConfig {
                 .withIdentity("triggernews", "group3")
                 .withSchedule(
                         SimpleScheduleBuilder.simpleSchedule()
-                                .withIntervalInSeconds(2500).repeatForever())
+                                .withIntervalInSeconds(60*60).repeatForever())
                 .build();
 
 

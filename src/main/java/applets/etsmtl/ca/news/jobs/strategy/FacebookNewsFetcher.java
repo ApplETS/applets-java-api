@@ -6,6 +6,12 @@ import applets.etsmtl.ca.news.db.SourceDAO;
 import applets.etsmtl.ca.news.model.Event;
 import applets.etsmtl.ca.news.model.Nouvelle;
 import applets.etsmtl.ca.news.model.Source;
+import com.restfb.DefaultFacebookClient;
+import com.restfb.FacebookClient;
+import com.restfb.Parameter;
+import com.restfb.Version;
+import com.restfb.json.JsonArray;
+import com.restfb.json.JsonObject;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -51,195 +57,185 @@ public class FacebookNewsFetcher implements IFetchNewsStrategy {
      * Fetching sources
      */
 
-    private String getDataFromUrl(String url) throws IOException {
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
-
-        Response response = this.okhttpcli.newCall(request).execute();
-
-        return response.body().string();
-    }
-
     @Override
     public void fetchSources() {
-        String url_source = "https://graph.facebook.com/v2.5/" + this.value + "?access_token=" + this.token;
-        String url_picture_source = "https://graph.facebook.com/v2.5/" + this.value + "/picture?access_token=" + this.token + "&redirect=false";
 
-        if(!this.sourceDao.isExisting(this.key)) {
+        FacebookClient facebookClient =
+                new DefaultFacebookClient(this.token, Version.VERSION_2_8);
 
-            try {
+        JsonObject jsonSource = facebookClient.fetchObject(this.value, JsonObject.class,
+                Parameter.with("fields", "" +
+                        "picture, " +
+                        "id, " +
+                        "name"));
 
-                String data_name = getDataFromUrl(url_source);
-                String data_picture = getDataFromUrl(url_picture_source);
+        String name = jsonSource.getString("name");
+        String imageURL = jsonSource.getJsonObject("picture").getJsonObject("data").getString("url");
 
-                JSONObject Jobjet_data = new JSONObject(data_name);
-                JSONObject Jobjet_picture = new JSONObject(data_picture);
+        Source source = new Source();
 
-                String name = Jobjet_data.getString("name");
-                String imageURL = Jobjet_picture.getJSONObject("data").getString("url");
+        source.setType("facebook");
 
-                Source source = new Source();
+        source.setKey(this.key);
+        source.setName(name);
+        source.setValue(this.value);
+        source.setUrlImage(imageURL);
+        if (this.sourceDao.isExisting(this.key)) {
 
-                source.setType("facebook");
-
-                source.setKey(this.key);
-                source.setName(name);
-                source.setValue(this.value);
-                source.setUrlImage(imageURL);
-
-                this.sourceDao.add(source);
-            }
-
-            catch(JSONException e) { System.out.println(e); }
-            catch(IOException e) { System.out.println(e); }
+            this.sourceDao.update(source);
+        } else {
+            this.sourceDao.add(source);
         }
 
     }
 
     public void fetchNouvelles() {
-        String url_news = "https://graph.facebook.com/v2.5/" + this.value + "/posts?fields=message,link,created_time,name,picture&access_token=" + this.token;
-        try {
-            String data_news = getDataFromUrl(url_news);
 
-            JSONObject Jobjet_data_news = new JSONObject(data_news);
+        FacebookClient facebookClient =
+                new DefaultFacebookClient(this.token, Version.VERSION_2_8);
 
-            JSONArray Jarray_data_news = Jobjet_data_news.getJSONArray("data");
+        JsonObject jsonNewsData =
+                facebookClient.fetchObject(this.value + "/posts",
+                        JsonObject.class, Parameter.with("fields", "" +
+                                "message, " +
+                                "link, " +
+                                "created_time, " +
+                                "name, " +
+                                "picture"));
 
-            for (int i = 0; i < Jarray_data_news.length(); i++) {
-                JSONObject Jobjet_news = Jarray_data_news.getJSONObject(i);
+        JsonArray jsonNewsArray = jsonNewsData.getJsonArray("data");
 
-                String id = Jobjet_news.getString("id");
+        for (int i = 0; i < jsonNewsArray.length(); i++) {
+            JsonObject jsonSingleNews = jsonNewsArray.getJsonObject(i);
 
-                if (!this.nouvelleDao.isExisting(id)) {
-                    String message = Jobjet_news.optString("message");
-                    String link = Jobjet_news.optString("link");
-                    String date = Jobjet_news.optString("created_time");
+            String id = jsonSingleNews.getString("id");
 
-                    String name = Jobjet_news.optString("name");
-                    if ((name == null) || ((name != null) && (name.isEmpty()))) {
-                        name = message.substring(0, Math.min(15, message.length()));
-                    }
+            String message = jsonSingleNews.optString("message");
+            String link = jsonSingleNews.optString("link");
+            String date = jsonSingleNews.optString("created_time");
 
-                    String picture = Jobjet_news.optString("picture");
-
-
-                    Nouvelle nouvelle = new Nouvelle();
-
-                    nouvelle.setId(id);
-                    nouvelle.setTitre(name);
-                    nouvelle.setMessage(message);
-                    nouvelle.setLink(link);
-                    nouvelle.setDate(parseDate(date));
-                    nouvelle.setUrlPicture(picture);
-
-                    nouvelle.setId_source(this.key);
-
-                    this.nouvelleDao.add(nouvelle);
-                }
+            String name = jsonSingleNews.optString("name");
+            if ((name == null) || ((name != null) && (name.isEmpty()))) {
+                name = message.substring(0, Math.min(15, message.length()));
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+
+            String picture = jsonSingleNews.optString("picture");
+
+            Nouvelle nouvelle = new Nouvelle();
+
+            nouvelle.setId(id);
+            nouvelle.setTitre(name);
+            nouvelle.setMessage(message);
+            nouvelle.setLink(link);
+            nouvelle.setDate(parseDate(date));
+            nouvelle.setUrlPicture(picture);
+
+            nouvelle.setId_source(this.key);
+
+            if (this.nouvelleDao.isExisting(id)) {
+                this.nouvelleDao.update(nouvelle);
+            } else {
+                this.nouvelleDao.add(nouvelle);
+            }
         }
     }
 
 
     public void fetchEvenements() {
-        String url_event = "https://graph.facebook.com/v2.5/" + this.value + "/events?fields=cover{source},name,place,description,start_time,end_time,id&access_token=" + this.token;
 
-        try {
-            String data_event = getDataFromUrl(url_event);
+        FacebookClient facebookClient =
+                new DefaultFacebookClient(this.token, Version.VERSION_2_8);
 
-            JSONObject Jobjet_data_event = new JSONObject(data_event);
+        JsonObject jsonEventData =
+                facebookClient.fetchObject(this.value + "/events",
+                        JsonObject.class, Parameter.with("fields", "" +
+                                "cover{source}, " +
+                                "name, " +
+                                "place, " +
+                                "description, " +
+                                "start_time, " +
+                                "end_time, " +
+                                "id "));
 
-            JSONArray Jarray_data_event = Jobjet_data_event.getJSONArray("data");
+        JsonArray jsonEventsArray = jsonEventData.getJsonArray("data");
 
-            for(int i = 0; i < Jarray_data_event.length(); i++) {
-                JSONObject Jobjet_event = Jarray_data_event.getJSONObject(i);
+        for (int i = 0; i < jsonEventsArray.length(); i++) {
+            JsonObject jsonEvent = jsonEventsArray.getJsonObject(i);
 
-                String id = Jobjet_event.getString("id");
+            String id = jsonEvent.getString("id");
 
-                if(!this.eventDao.isExisting(id)) {
+            String cover = null;
+            if (jsonEvent.has("cover"))
+                cover = jsonEvent.getJsonObject("cover").getString("source");
 
-                    String cover = null;
-                    if(Jobjet_event.has("cover"))
-                        cover = Jobjet_event.getJSONObject("cover").getString("source");
+            String name = jsonEvent.getString("name");
 
-                    String name = Jobjet_event.getString("name");
+            String location_name = null;
+            String location_city = null;
+            String location_country = null;
+            String location_latitude = null;
+            String location_longitude = null;
+            String location_state = null;
+            String location_street = null;
+            String location_zip = null;
+            if (jsonEvent.has("place")) {
+                location_name = jsonEvent.getJsonObject("place").getString("name");
 
-                    String location_name = null;
-                    String location_city = null;
-                    String location_country = null;
-                    String location_latitude = null;
-                    String location_longitude = null;
-                    String location_state = null;
-                    String location_street = null;
-                    String location_zip = null;
-                    if(Jobjet_event.has("place")) {
-                        location_name = Jobjet_event.getJSONObject("place").getString("name");
+                if (jsonEvent.getJsonObject("place").has("location")) {
+                    JsonObject jsonLocationEvent = jsonEvent.getJsonObject("place").getJsonObject("location");
 
-                        if (Jobjet_event.getJSONObject("place").has("location")) {
-                            location_city = Jobjet_event.getJSONObject("place").getJSONObject("location").optString("city");
-                            location_country = Jobjet_event.getJSONObject("place").getJSONObject("location").optString("country");
-                            location_latitude = Jobjet_event.getJSONObject("place").getJSONObject("location").optString("latitude");
-                            location_longitude = Jobjet_event.getJSONObject("place").getJSONObject("location").optString("longitude");
-                            location_state = Jobjet_event.getJSONObject("place").getJSONObject("location").optString("state");
-                            location_street = Jobjet_event.getJSONObject("place").getJSONObject("location").optString("street");
-                            location_zip = Jobjet_event.getJSONObject("place").getJSONObject("location").optString("zip");
-                        }
-                    }
-
-                    String description = Jobjet_event.optString("description");
-                    String start_date = Jobjet_event.optString("start_time");
-                    String end_date = Jobjet_event.optString("end_time");
-
-                    // ****************************************
-                    // ADD EVENT
-
-                    Event event = new Event();
-
-                    event.setId(id);
-                    event.setNom(name);
-                    event.setDebut(parseDate(start_date));
-                    event.setFin(parseDate(end_date));
-                    event.setNom_lieu(location_name);
-                    event.setVille(location_city);
-                    event.setEtat(location_state);
-                    event.setPays(location_country);
-                    event.setAdresse(location_street);
-                    event.setCode_postal(location_zip);
-
-                    if(location_longitude != null)
-                        event.setLongitude(Float.valueOf(location_longitude));
-                    else
-                        event.setLongitude(0);
-
-                    if(location_latitude != null)
-                        event.setLatitude(Float.valueOf(location_latitude));
-                    else
-                        event.setLatitude(0);
-
-                    event.setDescription(description);
-                    event.setImage(cover);
-                    event.setId_source(this.key);
-
-                    this.eventDao.add(event);
+                    location_city = jsonLocationEvent.optString("city");
+                    location_country = jsonLocationEvent.optString("country");
+                    location_latitude = jsonLocationEvent.optString("latitude");
+                    location_longitude = jsonLocationEvent.optString("longitude");
+                    location_state = jsonLocationEvent.optString("state");
+                    location_street = jsonLocationEvent.optString("street");
+                    location_zip = jsonLocationEvent.optString("zip");
                 }
             }
 
+            String description = jsonEvent.optString("description");
+            String startDate = jsonEvent.optString("start_time");
+            String endDate = jsonEvent.optString("end_time");
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+            // ****************************************
+            // ADD EVENT
+
+            Event event = new Event();
+
+            event.setId(id);
+            event.setNom(name);
+            event.setDebut(parseDate(startDate));
+            event.setFin(parseDate(endDate));
+            event.setNom_lieu(location_name);
+            event.setVille(location_city);
+            event.setEtat(location_state);
+            event.setPays(location_country);
+            event.setAdresse(location_street);
+            event.setCode_postal(location_zip);
+
+            if (location_longitude != null)
+                event.setLongitude(Float.valueOf(location_longitude));
+            else
+                event.setLongitude(0);
+
+            if (location_latitude != null)
+                event.setLatitude(Float.valueOf(location_latitude));
+            else
+                event.setLatitude(0);
+
+            event.setDescription(description);
+            event.setImage(cover);
+            event.setId_source(this.key);
+
+
+            if (this.eventDao.isExisting(id)) {
+                this.eventDao.update(event);
+            } else {
+                this.eventDao.add(event);
+
+            }
         }
-
 
     }
 
@@ -252,7 +248,8 @@ public class FacebookNewsFetcher implements IFetchNewsStrategy {
 
         try {
             date = sdf.parse(str);
-        } catch(ParseException e) {
+        } catch (ParseException e) {
+            //todo fix that ugly catch
         }
         return date;
     }
