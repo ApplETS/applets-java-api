@@ -35,7 +35,6 @@ public class FacebookNewsFetcher implements IFetchNewsStrategy {
     private SourceDAO sourceDao;
     private NouvellesDAO nouvelleDao;
     private EventDAO eventDao;
-    private OkHttpClient okhttpcli;
 
     public FacebookNewsFetcher(String key, String value, String token) {
         this.key = key;
@@ -46,8 +45,6 @@ public class FacebookNewsFetcher implements IFetchNewsStrategy {
         this.sourceDao = new SourceDAO();
         this.nouvelleDao = new NouvellesDAO();
         this.eventDao = new EventDAO();
-
-        this.okhttpcli = new OkHttpClient();
     }
 
     /*******************************************
@@ -67,7 +64,9 @@ public class FacebookNewsFetcher implements IFetchNewsStrategy {
                         "name"));
 
         String name = jsonSource.getString("name");
-        String imageURL = jsonSource.getJsonObject("picture").getJsonObject("data").getString("url");
+        String imageURL = jsonSource.getJsonObject("picture")
+                .getJsonObject("data")
+                .getString("url");
 
         Source source = new Source();
 
@@ -112,7 +111,7 @@ public class FacebookNewsFetcher implements IFetchNewsStrategy {
             String date = jsonSingleNews.optString("created_time");
 
             String name = jsonSingleNews.optString("name");
-            if ((name == null) || ((name != null) && (name.isEmpty()))) {
+            if (name == null || name.isEmpty()) {
                 name = message.substring(0, Math.min(15, message.length()));
             }
 
@@ -167,27 +166,27 @@ public class FacebookNewsFetcher implements IFetchNewsStrategy {
 
             String name = jsonEvent.getString("name");
 
-            String location_name = null;
-            String location_city = null;
-            String location_country = null;
-            String location_latitude = null;
-            String location_longitude = null;
-            String location_state = null;
-            String location_street = null;
-            String location_zip = null;
+            String locationName = null;
+            String locationCity = null;
+            String locationCountry = null;
+            String locationLatitude = null;
+            String locationLongitude = null;
+            String locationState = null;
+            String locationStreet = null;
+            String locationZip = null;
             if (jsonEvent.has("place")) {
-                location_name = jsonEvent.getJsonObject("place").getString("name");
+                locationName = jsonEvent.getJsonObject("place").getString("name");
 
                 if (jsonEvent.getJsonObject("place").has("location")) {
                     JsonObject jsonLocationEvent = jsonEvent.getJsonObject("place").getJsonObject("location");
 
-                    location_city = jsonLocationEvent.optString("city");
-                    location_country = jsonLocationEvent.optString("country");
-                    location_latitude = jsonLocationEvent.optString("latitude");
-                    location_longitude = jsonLocationEvent.optString("longitude");
-                    location_state = jsonLocationEvent.optString("state");
-                    location_street = jsonLocationEvent.optString("street");
-                    location_zip = jsonLocationEvent.optString("zip");
+                    locationCity = jsonLocationEvent.optString("city");
+                    locationCountry = jsonLocationEvent.optString("country");
+                    locationLatitude = jsonLocationEvent.optString("latitude");
+                    locationLongitude = jsonLocationEvent.optString("longitude");
+                    locationState = jsonLocationEvent.optString("state");
+                    locationStreet = jsonLocationEvent.optString("street");
+                    locationZip = jsonLocationEvent.optString("zip");
                 }
             }
 
@@ -204,20 +203,20 @@ public class FacebookNewsFetcher implements IFetchNewsStrategy {
             event.setNom(name);
             event.setDebut(parseDate(startDate));
             event.setFin(parseDate(endDate));
-            event.setNom_lieu(location_name);
-            event.setVille(location_city);
-            event.setEtat(location_state);
-            event.setPays(location_country);
-            event.setAdresse(location_street);
-            event.setCode_postal(location_zip);
+            event.setNom_lieu(locationName);
+            event.setVille(locationCity);
+            event.setEtat(locationState);
+            event.setPays(locationCountry);
+            event.setAdresse(locationStreet);
+            event.setCode_postal(locationZip);
 
-            if (location_longitude != null)
-                event.setLongitude(Float.valueOf(location_longitude));
+            if (locationLongitude != null)
+                event.setLongitude(Float.valueOf(locationLongitude));
             else
                 event.setLongitude(0);
 
-            if (location_latitude != null)
-                event.setLatitude(Float.valueOf(location_latitude));
+            if (locationLatitude != null)
+                event.setLatitude(Float.valueOf(locationLatitude));
             else
                 event.setLatitude(0);
 
@@ -225,18 +224,14 @@ public class FacebookNewsFetcher implements IFetchNewsStrategy {
             event.setImage(cover);
             event.setId_source(this.key);
 
-
             if (this.eventDao.isExisting(id)) {
                 this.eventDao.update(event);
             } else {
                 this.eventDao.add(event);
-
             }
         }
 
     }
-
-    private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss+SSSS";
 
     private static Date parseDate(String str) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ENGLISH);

@@ -21,23 +21,24 @@ public class EventsJob implements Job {
         try {
             SourceDAO sourceDao = new SourceDAO();
 
-            List<Source> list_sources = sourceDao.findByType("facebook");
+            List<Source> listSources = sourceDao.findByType("facebook");
 
             // ADD parse token facebook
-            String accesstoken_facebook = System.getenv("FACEBOOK_ACCESS_TOKEN");
+            String facebookAccessToken = System.getenv("FACEBOOK_ACCESS_TOKEN");
 
-            for(Source source : list_sources) {
+            for (Source source : listSources) {
                 String key = source.getKey();
                 String value = source.getValue();
 
-                mapFetchers.put(key, new FacebookNewsFetcher(key, value, accesstoken_facebook));
+                mapFetchers.put(key, new FacebookNewsFetcher(key, value, facebookAccessToken));
             }
 
             for (Map.Entry<String, FacebookNewsFetcher> entry : mapFetchers.entrySet())
                 entry.getValue().fetchEvenements();
 
+        } catch (Exception e) {
+            System.out.println(e);
         }
-        catch(Exception e) { System.out.println(e); }
 
     }
 }
