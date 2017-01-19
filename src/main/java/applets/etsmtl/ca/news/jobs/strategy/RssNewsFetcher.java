@@ -13,23 +13,20 @@ import com.sun.syndication.io.XmlReader;
 import java.io.IOException;
 import java.net.URL;
 
-/**
- * Created by nicolas on 26/01/16.
- */
 public class RssNewsFetcher implements IFetchNewsStrategy {
 
     private String key;
     private String value;
 
     private SourceDAO sourceDao;
-    private OkHttpClient okhttpcli;
+    private OkHttpClient okHttpClient;
 
     public RssNewsFetcher(String key, String value) {
         this.key = key;
         this.value = value;
 
         this.sourceDao = new SourceDAO();
-        this.okhttpcli = new OkHttpClient();
+        this.okHttpClient = new OkHttpClient();
     }
 
     /*******************************************
@@ -41,7 +38,7 @@ public class RssNewsFetcher implements IFetchNewsStrategy {
                 .url(url)
                 .build();
 
-        Response response = this.okhttpcli.newCall(request).execute();
+        Response response = this.okHttpClient.newCall(request).execute();
 
         return response.body().string();
     }
@@ -49,10 +46,8 @@ public class RssNewsFetcher implements IFetchNewsStrategy {
     @Override
     public void fetchSources() {
 
-        if(!this.sourceDao.isExisting(this.key)) {
+        if (!this.sourceDao.isExisting(this.key)) {
             try {
-
-                String data = getDataFromUrl(this.value);
 
                 SyndFeedInput input = new SyndFeedInput();
                 SyndFeed feed = input.build(new XmlReader(new URL(this.value)));
@@ -70,9 +65,7 @@ public class RssNewsFetcher implements IFetchNewsStrategy {
 
                 this.sourceDao.add(source);
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (FeedException e) {
+            } catch (IOException | FeedException e) {
                 e.printStackTrace();
             }
         }

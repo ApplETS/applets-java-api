@@ -2,9 +2,6 @@ package applets.etsmtl.ca.news.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- * Created by gnut3ll4 on 22/01/16.
- */
 @XmlRootElement
 public class Source {
 

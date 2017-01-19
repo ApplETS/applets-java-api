@@ -14,9 +14,6 @@ import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Marcantvez on 09/03/16.
- */
 @Path("events")
 public class EventsResources {
 

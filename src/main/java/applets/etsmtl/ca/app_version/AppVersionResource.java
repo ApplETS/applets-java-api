@@ -18,9 +18,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import java.io.IOException;
 
-/**
- * Created by gnut3ll4 on 07/12/15.
- */
 @Path("app_version")
 public class AppVersionResource {
 

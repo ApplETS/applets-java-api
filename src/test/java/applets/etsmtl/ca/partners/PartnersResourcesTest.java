@@ -1,6 +1,5 @@
 package partners;
 
-import applets.etsmtl.ca.news.model.Event;
 import applets.etsmtl.ca.partners.Partner;
 import applets.etsmtl.ca.partners.PartnersResource;
 import okhttp3.mockwebserver.MockResponse;
@@ -19,9 +18,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-/**
- * Created by gnut3ll4 on 8/21/16.
- */
 public class PartnersResourcesTest extends JerseyTest {
 
     @Override
