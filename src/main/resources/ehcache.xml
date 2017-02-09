@@ -29,6 +29,11 @@
            timeToIdleSeconds="0" timeToLiveSeconds="3000"
            memoryStoreEvictionPolicy="LRU" statistics="true"/>
 
+    <cache name="calendar" eternal="false"
+           maxElementsInMemory="1000" overflowToDisk="true" diskPersistent="true"
+           timeToIdleSeconds="0" timeToLiveSeconds="86400"
+           memoryStoreEvictionPolicy="LRU" statistics="true"/>
+
 
     <!--<cache name="partners"-->
            <!--maxEntriesLocalHeap="10000"-->
