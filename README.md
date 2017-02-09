@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/ApplETS/applets-java-api.svg?branch=master)](https://travis-ci.org/ApplETS/applets-java-api) [![Coverage Status](https://coveralls.io/repos/github/ApplETS/applets-java-api/badge.svg?branch=master)](https://coveralls.io/github/ApplETS/applets-java-api?branch=master)
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/ba698d57365064fe6007)
+
 
 Vue d'ensemble
 ========
@@ -16,13 +16,9 @@ Liens rapides :
 
 Requêtes actuelles dans l'API
 ========
-- Afficher les partenaires : https://api3.clubapplets.ca/partners 
-- Cooptel : https://api3.clubapplets.ca/cooptel?phase=[1 à 4]&appt=[num]
-- Event sources : https://api3.clubapplets.ca/events/sources
-- Events : https://api3.clubapplets.ca/events/list/[nomsource]
-- Nouvelle sources : https://api3.clubapplets.ca/news/sources
-- Nouvelles : https://api3.clubapplets.ca/news/list/[nomsource]
-- Version des apps : https://api3.clubapplets.ca/app_version/[ios ou android]
+Disponibles dans la collection Postman suivante :
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/8bb16d836b6212da7c4f)
+
 
 Outils nécessaires
 ==========

@@ -3,9 +3,6 @@ package applets.etsmtl.ca.news.model;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
-/**
- * Created by gnut3ll4 on 22/01/16.
- */
 @XmlRootElement
 public class Nouvelle implements Comparable{
 

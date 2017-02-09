@@ -10,9 +10,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by marcantvez on 24/01/16.
- */
 public class EventDAO extends DAO<Event> {
 
     @Override
@@ -169,6 +166,48 @@ public class EventDAO extends DAO<Event> {
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void update(Event event) {
+        try {
+
+            String req_insert_event = "" +
+                    "UPDATE evenements " +
+                    "SET nom = ?, debut = ?, fin = ?, nom_lieu = ?, ville = ?, etat = ?, pays = ?, " +
+                    "adresse = ?, code_postal = ?, longitude = ?, latitude = ?, description = ?, " +
+                    "image = ?, id_source = ? " +
+                    "WHERE id = ?";
+            PreparedStatement preparedStatement = ConnectionSingleton.getInstance().prepareStatement(req_insert_event);
+
+            preparedStatement.setString(15, event.getId());
+            preparedStatement.setString(1, event.getNom());
+
+            if(event.getDebut() != null)
+                preparedStatement.setTimestamp(2, new java.sql.Timestamp(event.getDebut().getTime()));
+            else
+                preparedStatement.setTimestamp(2, null);
+
+            if(event.getFin() != null)
+                preparedStatement.setTimestamp(3, new java.sql.Timestamp(event.getFin().getTime()));
+            else
+                preparedStatement.setTimestamp(3, null);
+
+            preparedStatement.setString(4, event.getNom_lieu());
+            preparedStatement.setString(5, event.getVille());
+            preparedStatement.setString(6, event.getEtat());
+            preparedStatement.setString(7, event.getPays());
+            preparedStatement.setString(8, event.getAdresse());
+            preparedStatement.setString(9, event.getCode_postal());
+            preparedStatement.setFloat(10, event.getLongitude());
+            preparedStatement.setFloat(11, event.getLatitude());
+            preparedStatement.setString(12, event.getDescription());
+            preparedStatement.setString(13, event.getImage());
+            preparedStatement.setString(14, event.getId_source());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException | NullPointerException e) {
             e.printStackTrace();
         }
     }

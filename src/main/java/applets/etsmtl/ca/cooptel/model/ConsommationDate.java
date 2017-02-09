@@ -4,10 +4,6 @@ package applets.etsmtl.ca.cooptel.model;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
-/**
- * Created by gnut3ll4 on 08/03/16.
- */
-
 @XmlRootElement
 public class ConsommationDate implements Serializable {
 

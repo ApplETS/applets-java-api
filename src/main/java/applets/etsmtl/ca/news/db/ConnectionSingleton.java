@@ -4,9 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-/**
- * Created by gnut3ll4 on 24/01/16.
- */
 public class ConnectionSingleton {
 
     //Environment variables

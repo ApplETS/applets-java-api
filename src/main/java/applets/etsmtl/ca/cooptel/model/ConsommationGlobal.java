@@ -5,10 +5,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created by gnut3ll4 on 08/03/16.
- */
-
 @XmlRootElement
 public class ConsommationGlobal implements Serializable {
     float restant;

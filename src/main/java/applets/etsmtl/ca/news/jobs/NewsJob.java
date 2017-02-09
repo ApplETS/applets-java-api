@@ -14,9 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by gnut3ll4 on 24/01/16.
- */
 public class NewsJob implements Job {
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
@@ -25,28 +22,28 @@ public class NewsJob implements Job {
         try {
             SourceDAO sourceDao = new SourceDAO();
 
-            List<Source> list_sources_facebook = sourceDao.findByType("facebook");
-            List<Source> list_sources_rss = sourceDao.findByType("rss");
-            List<Source> list_sources_twitter = sourceDao.findByType("twitter");
+            List<Source> listSourcesFacebook = sourceDao.findByType("facebook");
+            List<Source> listSourcesRss = sourceDao.findByType("rss");
+            List<Source> listSourcesTwitter = sourceDao.findByType("twitter");
 
             // ADD parse token facebook
-            String accesstoken_facebook = System.getenv("FACEBOOK_ACCESS_TOKEN");
+            String facebookAccessToken = System.getenv("FACEBOOK_ACCESS_TOKEN");
 
-            for(Source source : list_sources_facebook) {
+            for(Source source : listSourcesFacebook) {
                 String key = source.getKey();
                 String value = source.getValue();
 
-                mapFetchers.put(key, new FacebookNewsFetcher(key, value, accesstoken_facebook));
+                mapFetchers.put(key, new FacebookNewsFetcher(key, value, facebookAccessToken));
             }
 
-            for(Source source : list_sources_rss) {
+            for(Source source : listSourcesRss) {
                 String key = source.getKey();
                 String value = source.getValue();
 
-                mapFetchers.put(key, new RssNewsFetcher(value, accesstoken_facebook));
+                mapFetchers.put(key, new RssNewsFetcher(value, facebookAccessToken));
             }
 
-            for(Source source : list_sources_twitter) {
+            for(Source source : listSourcesTwitter) {
                 String key = source.getKey();
                 String value = source.getValue();
 

@@ -45,10 +45,13 @@ dependencies {
 
 	compile 'log4j:log4j:1.2.17'
 
+    compile 'com.restfb:restfb:1.35.0'
 
     compile 'org.postgresql:postgresql:9.4-1206-jdbc42'
+    compile 'org.mnode.ical4j:ical4j:2.0.0'
 
-	testCompile 'junit:junit:4.12'
+
+    testCompile 'junit:junit:4.12'
     testCompile 'org.glassfish.jersey.test-framework:project:2.23.2'
     testCompile 'org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:2.23.2'
 
