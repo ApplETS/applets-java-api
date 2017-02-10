@@ -54,9 +54,16 @@ public class CalendarResource {
             Date endDate = dateUrlParser.parse(endDateParam);
 
             calendarEvents = getCalendarEvents().stream()
-                    .filter(calendarEvent ->
-                            calendarEvent.getStartDate().after(startDate) &&
-                                    calendarEvent.getStartDate().before(endDate))
+                    .filter(calendarEvent -> (
+                                    (
+                                            calendarEvent.getStartDate().after(startDate) &&
+                                                    calendarEvent.getStartDate().before(endDate)
+                                    ) || (
+                                            calendarEvent.getStartDate().before(startDate) &&
+                                                    calendarEvent.getEndDate().after(startDate)
+                                    )
+                            )
+                    )
                     .collect(Collectors.toList());
 
         } catch (ParseException e) {
