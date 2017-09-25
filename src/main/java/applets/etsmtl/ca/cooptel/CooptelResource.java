@@ -30,7 +30,11 @@ public class CooptelResource {
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public ConsommationGlobal getInternetStats(@QueryParam("phase") String phase, @QueryParam("appt") String appt) {
+    public ConsommationGlobal getInternetStats(
+            @QueryParam("phase") String phase,
+            @QueryParam("appt") String appt,
+            @QueryParam("chambre") String chambre
+    ) {
 
         String username, password;
 
@@ -41,7 +45,7 @@ public class CooptelResource {
 
         OkHttpClient client = new OkHttpClient();
 
-        username = "ets-res" + phase + "-" + appt;
+        username = "ets-res" + phase + "-" + appt + "-" + chambre;
         password = "ets" + appt;
         String basicAuth = Base64.getEncoder().encodeToString(
                 (username + ":" + password).getBytes(StandardCharsets.UTF_8));
